@@ -1,0 +1,5 @@
+.case-inventory-output/
+.codegraph/
+.docs/
+.outputs/
+project-profile.json
