@@ -93,7 +93,7 @@ function filterReservationsByMemberTags(reservations, selectedMemberTagNames = [
   }
 
   return reservations.filter((reservation) => {
-    const reservationTags = [...(reservation.ownerTags || []), ...(reservation.petTags || [])];
+    const reservationTags = reservation.petTags || [];
     return selectedMemberTagNames.every((memberTagName) => reservationTags.includes(memberTagName));
   });
 }

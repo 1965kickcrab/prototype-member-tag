@@ -49,7 +49,7 @@ export function getFilteredMembers(memberHomeState, searchFields) {
 
   if (selectedMemberTagNames.length > 0) {
     filteredMembers = filteredMembers.filter((member) => {
-      const memberTagNames = [...(member.petTags || []), ...(member.ownerTags || [])];
+      const memberTagNames = member.petTags || [];
       return selectedMemberTagNames.every((memberTagName) => memberTagNames.includes(memberTagName));
     });
   }

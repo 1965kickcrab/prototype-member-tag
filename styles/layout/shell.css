@@ -7,18 +7,19 @@
   background: var(--color-page);
 }
 
-.member-header,
+.header,
 .registration-header {
   grid-column: 1 / -1;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  height: 48px;
   border-bottom: 1px solid var(--color-border-light);
   padding: 0 var(--space-5);
   background: var(--color-surface);
 }
 
-.member-header h1,
+.header h1,
 .registration-header h1 {
   display: none;
 }
@@ -29,8 +30,26 @@
 }
 
 .header-utility {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
   color: var(--color-text-muted);
   font-size: 13px;
+}
+
+.header-utility-button {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  padding: 0;
+  cursor: pointer;
+}
+
+.header-utility-button:hover,
+.header-utility-button:focus {
+  color: var(--color-primary);
+  outline: none;
 }
 
 .business-navigation {
@@ -150,17 +169,6 @@
 .school-home-web-shell {
   min-height: 100vh;
   background: var(--color-page-subtle);
-}
-
-.hotel-web-header,
-.school-web-header {
-  height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 16px 0 20px;
-  border-bottom: 1px solid var(--color-border-subtle);
-  background: var(--color-surface);
 }
 
 .hotel-brand,

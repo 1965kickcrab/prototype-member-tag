@@ -1,5 +1,5 @@
 ﻿import { createEmptyStateElement } from "../../shared/components/empty-state.js";
-import { createBusinessNavigation } from "../../shared/components/navigation.js";
+import { createBusinessNavigation, createDefaultAppBottomNavigation } from "../../shared/components/navigation.js";
 import { createReservationSearchFilter } from "../../shared/components/reservation-search-filter.js";
 import { createElement } from "../../shared/utils/dom.js";
 import {
@@ -87,28 +87,46 @@ function createHotelHomeAppShell(hotelHomeState) {
   shell.append(createAppHeader(hotelHomeState));
   shell.append(createCalendarSection(hotelHomeState, "app"));
   shell.append(createAppReservationSection(hotelHomeState));
+  shell.append(createAppBottomNavigation());
 
   return shell;
 }
 
+function createAppBottomNavigation() {
+  return createDefaultAppBottomNavigation({
+    className: "mobile-bottom-nav hotel-mobile-bottom-nav",
+    dataset: { area: "bottomNavigation", platform: "app" },
+    selectedLabel: "일정",
+  });
+}
+
 function createWebHeader() {
   const header = createElement("header", {
-    className: "hotel-web-header",
+    className: "header",
     dataset: { area: "header" },
   });
 
-  const brand = createElement("div", { className: "hotel-brand" });
-  brand.append(createElement("img", { className: "hotel-brand-logo", src: "../assets/logoImg.svg", alt: "다이얼독 로고" }));
-  brand.append(createElement("img", { className: "hotel-brand-text", src: "../assets/logoText.svg", alt: "다이얼독 비즈" }));
-
-  const utility = createElement("div", { className: "hotel-header-utility" });
-  [SETTING_ICON_PATH, ALARM_ICON_PATH, PROFILE_ICON_PATH].forEach((iconPath, index) => {
-    utility.append(createHeaderIconButton(iconPath, ["설정", "알림", "계정"][index]));
-  });
-
-  header.append(brand);
-  header.append(utility);
+  header.append(createElement("strong", { className: "brand-name", textContent: "다이얼독 비즈" }));
+  header.append(createElement("h1", { textContent: "호텔링" }));
+  header.append(createHeaderUtility());
   return header;
+}
+
+function createHeaderUtility() {
+  const utility = createElement("span", { className: "header-utility" });
+  const settingsButton = createElement("button", {
+    className: "header-utility-button",
+    type: "button",
+    textContent: "설정",
+    dataset: { action: "openSettings" },
+  });
+  settingsButton.addEventListener("click", () => {
+    window.location.href = "./settings/member/tag-management.html";
+  });
+  utility.append(settingsButton);
+  utility.append(createElement("span", { textContent: "알림" }));
+  utility.append(createElement("span", { textContent: "계정" }));
+  return utility;
 }
 
 function createAppHeader(hotelHomeState) {
@@ -730,7 +748,7 @@ function getFilteredReservationSearchResults(hotelHomeState) {
       if (!hotelHomeState.selectedMemberTagNames?.length) {
         return true;
       }
-      const reservationTags = [...(reservation.ownerTags || []), ...(reservation.petTags || [])];
+      const reservationTags = reservation.petTags || [];
       return hotelHomeState.selectedMemberTagNames.every((memberTagName) => reservationTags.includes(memberTagName));
     })
     .sort((leftReservation, rightReservation) => String(leftReservation.date || "").localeCompare(String(rightReservation.date || "")));

@@ -1,7 +1,15 @@
-﻿import { buildTagSuggestions, normalizeMemberTagName, sanitizeTagList } from "../services/member-tag-service.js";
+import {
+  buildTagSuggestions,
+  hasMemberTagName,
+  MAX_MEMBER_TAG_CATALOG_SIZE,
+  MAX_MEMBER_TAGS_PER_MEMBER,
+  normalizeMemberTagName,
+  sanitizeTagList,
+  sortMemberTagNames,
+} from "../services/member-tag-service.js";
 import { createEmptyStateElement } from "./empty-state.js";
-import { sortMemberTagNames } from "../services/member-tag-service.js";
 import { createHeaderIconButton } from "./header-icon-button.js";
+import { createToast, TOAST_AUTO_DISMISS_MS } from "./toast.js";
 import { createElement } from "../utils/dom.js";
 
 export function initTagInput({ container, initialTags = [], getCatalog, onChange, showRemoveControls = true }) {
@@ -10,6 +18,8 @@ export function initTagInput({ container, initialTags = [], getCatalog, onChange
   let isSuggestionOpen = false;
   let isComposing = false;
   let isMobileSearchOpen = false;
+  let toastMessage = "";
+  let toastDismissTimer = null;
   const inputId = `member-tag-input-${Math.random().toString(36).slice(2)}`;
 
   function notifyChange() {
@@ -24,23 +34,53 @@ export function initTagInput({ container, initialTags = [], getCatalog, onChange
 
   function addTag(memberTagName, options = {}) {
     const { keepSearchOpen = false } = options;
+    const shouldKeepMobileSearchOpen = keepSearchOpen && isMobileSearchOpen;
     const trimmedTagName = String(memberTagName || "").trim().replace(/\s+/g, " ");
     const selectedTagSet = new Set(selectedTags.map(normalizeMemberTagName));
+    const catalog = getCatalog ? getCatalog() : [];
 
     if (!trimmedTagName || selectedTagSet.has(normalizeMemberTagName(trimmedTagName))) {
       query = "";
-      isMobileSearchOpen = keepSearchOpen;
+      isMobileSearchOpen = shouldKeepMobileSearchOpen;
       isSuggestionOpen = keepSearchOpen;
-      render({ shouldFocusSearchInput: keepSearchOpen });
+      render({ shouldFocusSearchInput: shouldKeepMobileSearchOpen, shouldFocusInput: keepSearchOpen && !shouldKeepMobileSearchOpen });
+      return;
+    }
+
+    if (selectedTags.length >= MAX_MEMBER_TAGS_PER_MEMBER) {
+      showTagLimitToast("한 회원당 최대 10개까지만 태그를 붙일 수 있습니다.", { keepSearchOpen });
+      return;
+    }
+
+    if (!hasMemberTagName(catalog, trimmedTagName) && sanitizeTagList(catalog).length >= MAX_MEMBER_TAG_CATALOG_SIZE) {
+      showTagLimitToast("태그는 최대 50개까지 등록할 수 있습니다.", { keepSearchOpen });
       return;
     }
 
     selectedTags = sanitizeTagList([...selectedTags, trimmedTagName]);
     query = "";
     isSuggestionOpen = keepSearchOpen;
-    isMobileSearchOpen = keepSearchOpen;
-    render({ shouldFocusSearchInput: keepSearchOpen });
+    isMobileSearchOpen = shouldKeepMobileSearchOpen;
+    render({ shouldFocusSearchInput: shouldKeepMobileSearchOpen, shouldFocusInput: keepSearchOpen && !shouldKeepMobileSearchOpen });
     notifyChange();
+  }
+
+  function showTagLimitToast(message, options = {}) {
+    const { keepSearchOpen = false } = options;
+    const shouldKeepMobileSearchOpen = keepSearchOpen && isMobileSearchOpen;
+    toastMessage = message;
+    isMobileSearchOpen = shouldKeepMobileSearchOpen || isMobileSearchOpen;
+    isSuggestionOpen = keepSearchOpen || isSuggestionOpen;
+    render({ shouldFocusSearchInput: shouldKeepMobileSearchOpen, shouldFocusInput: keepSearchOpen && !shouldKeepMobileSearchOpen });
+    scheduleToastDismiss();
+  }
+
+  function scheduleToastDismiss() {
+    window.clearTimeout(toastDismissTimer);
+    toastDismissTimer = window.setTimeout(() => {
+      toastMessage = "";
+      render({ shouldFocusSearchInput: isMobileSearchOpen, shouldFocusInput: !isMobileSearchOpen });
+    }, TOAST_AUTO_DISMISS_MS);
   }
 
   function removeTag(memberTagName) {
@@ -63,6 +103,7 @@ export function initTagInput({ container, initialTags = [], getCatalog, onChange
 
   function toggleTag(memberTagName, options = {}) {
     const { keepSearchOpen = false } = options;
+    const shouldKeepMobileSearchOpen = keepSearchOpen && isMobileSearchOpen;
     const isSelected = selectedTags.some((selectedTagName) => {
       return normalizeMemberTagName(selectedTagName) === normalizeMemberTagName(memberTagName);
     });
@@ -71,9 +112,9 @@ export function initTagInput({ container, initialTags = [], getCatalog, onChange
       selectedTags = selectedTags.filter((selectedTagName) => {
         return normalizeMemberTagName(selectedTagName) !== normalizeMemberTagName(memberTagName);
       });
-      isMobileSearchOpen = keepSearchOpen;
+      isMobileSearchOpen = shouldKeepMobileSearchOpen;
       isSuggestionOpen = keepSearchOpen;
-      render({ shouldFocusSearchInput: keepSearchOpen });
+      render({ shouldFocusSearchInput: shouldKeepMobileSearchOpen, shouldFocusInput: keepSearchOpen && !shouldKeepMobileSearchOpen });
       notifyChange();
       return;
     }
@@ -97,8 +138,16 @@ export function initTagInput({ container, initialTags = [], getCatalog, onChange
     container.className = "member-tag-input";
     container.dataset.area = "memberTagInput";
 
-    const chips = createElement("div", { className: "member-tag-input-chips", dataset: { state: selectedTags.length ? "list" : "empty" } });
-    appendSelectedTagChips(chips);
+    if (selectedTags.length) {
+      const selectedList = createElement("div", {
+        className: showRemoveControls ? "member-tag-selected-list" : "member-tag-selected-list is-read-view",
+        dataset: { area: "selectedMemberTags", state: "list", presentation: showRemoveControls ? "editable" : "readView" },
+      });
+      appendSelectedTagChips(selectedList, { showRemove: showRemoveControls });
+      container.append(selectedList);
+    }
+
+    const chips = createElement("div", { className: "member-tag-input-chips", dataset: { state: "input" } });
 
     const input = createElement("input", {
       className: "member-tag-input-field",
@@ -111,7 +160,6 @@ export function initTagInput({ container, initialTags = [], getCatalog, onChange
     input.name = "memberTag";
     bindTagInputEvents(input, { searchInputSelector: ".member-tag-input-field" });
     chips.append(input);
-    appendClearTagsButton(chips, { keepSearchOpen: false });
     container.append(chips);
 
     if (!isMobileSearchOpen) {
@@ -120,6 +168,10 @@ export function initTagInput({ container, initialTags = [], getCatalog, onChange
 
     if (isMobileSearchOpen) {
       container.append(createMobileTagSearchScreen());
+    }
+
+    if (toastMessage) {
+      container.append(createToast(toastMessage));
     }
 
     if (shouldFocusInput) {
@@ -209,7 +261,7 @@ export function initTagInput({ container, initialTags = [], getCatalog, onChange
         });
         option.addEventListener("mousedown", (event) => {
           event.preventDefault();
-          addTag(memberTagName);
+          addTag(memberTagName, { keepSearchOpen: true });
         });
         menu.append(option);
       });
@@ -223,7 +275,7 @@ export function initTagInput({ container, initialTags = [], getCatalog, onChange
         });
         createButton.addEventListener("mousedown", (event) => {
           event.preventDefault();
-          addTag(query);
+          addTag(query, { keepSearchOpen: true });
         });
         menu.append(createButton);
       }
@@ -264,12 +316,24 @@ export function initTagInput({ container, initialTags = [], getCatalog, onChange
   }
 
   function createMobileTagSearchControl() {
-    const control = createElement("div", {
-      className: "member-tag-search-control member-tag-search-filter-control",
-      dataset: { state: selectedTags.length ? "selected" : "empty" },
+    const wrapper = createElement("div", {
+      className: "member-tag-search-stack",
+      dataset: { area: "memberTagSearchControl", state: selectedTags.length ? "selected" : "empty" },
     });
 
-    appendSelectedTagSummaryChips(control);
+    if (selectedTags.length) {
+      const selectedList = createElement("div", {
+        className: "member-tag-selected-list is-read-view",
+        dataset: { area: "selectedMemberTags", state: "list", presentation: "readView" },
+      });
+      appendSelectedTagChips(selectedList, { showRemove: false });
+      wrapper.append(selectedList);
+    }
+
+    const control = createElement("div", {
+      className: "member-tag-search-control member-tag-search-filter-control",
+      dataset: { state: "input" },
+    });
 
     const searchInput = createElement("input", {
       className: "member-tag-search-input",
@@ -280,33 +344,20 @@ export function initTagInput({ container, initialTags = [], getCatalog, onChange
     });
     bindTagInputEvents(searchInput, { searchInputSelector: ".member-tag-search-input" });
     control.append(searchInput);
-    appendClearTagsButton(control, { keepSearchOpen: true });
-    return control;
+    wrapper.append(control);
+    return wrapper;
   }
-
-  function appendClearTagsButton(parent, options) {
-    if (!showRemoveControls || !selectedTags.length) {
-      return;
-    }
-
-    const button = createElement("button", {
-      className: "member-tag-clear-button",
-      type: "button",
+  /*
       textContent: "×",
-      ariaLabel: "선택한 태그 전체 해제",
-      dataset: { action: "clearMemberTags" },
-    });
-    button.addEventListener("click", () => {
-      clearTags(options);
-    });
-    parent.append(button);
-  }
+      ariaLabel: "",
 
-  function appendSelectedTagChips(parent) {
+  */
+  function appendSelectedTagChips(parent, options = {}) {
+    const shouldShowRemove = options.showRemove !== false;
     selectedTags.forEach((memberTagName) => {
       const chip = createElement("span", { className: "member-tag-input-chip", dataset: { entity: "memberTag", entityId: memberTagName } });
       chip.append(createElement("span", { textContent: memberTagName }));
-      if (!showRemoveControls) {
+      if (!shouldShowRemove) {
         parent.append(chip);
         return;
       }
@@ -377,7 +428,7 @@ export function initTagInput({ container, initialTags = [], getCatalog, onChange
     list.dataset.query = query.trim();
 
     searchResults.forEach((memberTagName) => {
-      list.append(createTagCheckboxOption(memberTagName, {
+      list.append(createTagOption(memberTagName, {
         isSelected: isSelectedTag(memberTagName),
         action: "toggleMemberTag",
         onChange: () => {
@@ -387,7 +438,7 @@ export function initTagInput({ container, initialTags = [], getCatalog, onChange
     });
 
     if (hasQuery && !isSelectedTag(query) && !searchResults.some((memberTagName) => normalizeMemberTagName(memberTagName) === normalizeMemberTagName(query))) {
-      list.append(createTagCheckboxOption(`"${query.trim()}" 추가`, {
+      list.append(createTagOption(`"${query.trim()}" 추가`, {
         isSelected: false,
         action: "createMemberTag",
         entityId: query.trim(),
@@ -436,22 +487,18 @@ export function initTagInput({ container, initialTags = [], getCatalog, onChange
     });
   }
 
-  function createTagCheckboxOption(labelText, options) {
+  function createTagOption(labelText, options) {
     const entityId = options.entityId || labelText;
-    const option = createElement("label", {
-      className: "member-tag-checkbox-option",
+    const option = createElement("button", {
+      className: "member-tag-option",
+      type: "button",
       dataset: {
         action: options.action,
         entityId,
         state: options.isSelected ? "selected" : "idle",
       },
     });
-    const checkbox = createElement("input", {
-      type: "checkbox",
-    });
-    checkbox.checked = options.isSelected;
-    checkbox.addEventListener("change", options.onChange);
-    option.append(checkbox);
+    option.addEventListener("click", options.onChange);
     option.append(createElement("span", { textContent: labelText }));
     return option;
   }

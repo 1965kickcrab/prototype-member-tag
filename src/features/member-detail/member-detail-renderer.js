@@ -67,15 +67,32 @@ function createWebMemberDetailScreen(memberDetailState) {
 
 function createHeader() {
   const header = createElement("header", {
-    className: "member-header",
+    className: "header",
     dataset: { area: "header" },
   });
 
   header.append(createElement("strong", { className: "brand-name", textContent: "다이얼독 비즈" }));
   header.append(createElement("h1", { textContent: "회원" }));
-  header.append(createElement("span", { className: "header-utility", textContent: "설정  알림  계정" }));
+  header.append(createHeaderUtility());
 
   return header;
+}
+
+function createHeaderUtility() {
+  const utility = createElement("span", { className: "header-utility" });
+  const settingsButton = createElement("button", {
+    className: "header-utility-button",
+    type: "button",
+    textContent: "설정",
+    dataset: { action: "openSettings" },
+  });
+  settingsButton.addEventListener("click", () => {
+    window.location.href = "./settings/member/tag-management.html";
+  });
+  utility.append(settingsButton);
+  utility.append(createElement("span", { textContent: "알림" }));
+  utility.append(createElement("span", { textContent: "계정" }));
+  return utility;
 }
 
 function createNavigation() {
@@ -306,7 +323,6 @@ function createWebGuardianInfoSection(memberDetailState, member) {
     area: "guardianInfo",
     actionText: "수정",
     actionName: "openOwnerDetail",
-    headerTags: member.ownerTags,
   });
   section.append(createInfoList([
     ["보호자", formatText(member.guardianName)],
@@ -437,10 +453,6 @@ function createAppDetailInfoBody(member) {
     ["몸무게", formatMemberWeight(member.weight)],
     ["성별", formatMemberGender(member.gender, member.neuteredStatus)],
   ], "member-detail-app-info-list"));
-  const ownerTagSection = createMemberTagDisplaySection("태그", member.ownerTags);
-  if (ownerTagSection) {
-    body.append(ownerTagSection);
-  }
   return body;
 }
 
@@ -730,7 +742,6 @@ function createOwnerDetailModal(memberDetailState) {
   form.append(createOwnerReadonlyField("보호자", memberDetailState.ownerDetailDraft.guardianName));
   form.append(createOwnerReadonlyField("연락처", formatPhoneNumber(memberDetailState.ownerDetailDraft.phoneNumber)));
   form.append(createOwnerAddressField(memberDetailState));
-  form.append(createOwnerTagField(memberDetailState));
 
   const submitButton = createElement("button", {
     className: "large-disabled-button pet-detail-web-submit-button",
@@ -796,22 +807,6 @@ function createOwnerAddressField(memberDetailState) {
   wrapper.append(searchRow);
   wrapper.append(detailAddressInput);
   field.append(wrapper);
-  return field;
-}
-
-function createOwnerTagField(memberDetailState) {
-  const field = createElement("section", { className: "pet-detail-field", dataset: { field: "ownerTags" } });
-  field.append(createElement("span", { className: "pet-detail-label", textContent: "태그" }));
-  const container = createElement("div", { dataset: { area: "ownerTagInput" } });
-  initTagInput({
-    container,
-    initialTags: memberDetailState.ownerDetailDraft.ownerTags,
-    getCatalog: () => memberDetailState.memberTagCatalog || [],
-    onChange: (nextTags) => {
-      memberDetailState.ownerDetailDraft.ownerTags = nextTags;
-    },
-  });
-  field.append(container);
   return field;
 }
 
@@ -1126,8 +1121,7 @@ function submitPetDetailDraft(memberDetailState) {
 function submitOwnerDetailDraft(memberDetailState) {
   memberDetailState.selectedMember.address = memberDetailState.ownerDetailDraft.address || "";
   memberDetailState.selectedMember.addressDetail = memberDetailState.ownerDetailDraft.addressDetail || "";
-  memberDetailState.selectedMember.ownerTags = sanitizeTagList(memberDetailState.ownerDetailDraft.ownerTags);
-  memberDetailState.memberTagCatalog = mergeMemberTagCatalog(memberDetailState.selectedMember.ownerTags);
+  memberDetailState.selectedMember.ownerTags = [];
   memberDetailState.members = saveRegisteredMembers([memberDetailState.selectedMember]);
   memberDetailState.isOwnerDetailModalOpen = false;
   memberDetailState.toastMessage = "정보를 수정했습니다.";

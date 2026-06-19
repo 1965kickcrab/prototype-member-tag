@@ -104,7 +104,7 @@ export function createDefaultAppBottomNavigation(options = {}) {
       { label: "일정", selected: selectedLabel === "일정", href: "./index.html" },
       { label: "알림장", selected: selectedLabel === "알림장" },
       { label: "회원", selected: selectedLabel === "회원", href: "./member-home.html" },
-      { label: "더보기", selected: selectedLabel === "더보기" },
+      { label: "더보기", selected: selectedLabel === "더보기", href: "./app-more.html" },
     ],
   });
 }

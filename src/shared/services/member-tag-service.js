@@ -1,3 +1,6 @@
+export const MAX_MEMBER_TAGS_PER_MEMBER = 10;
+export const MAX_MEMBER_TAG_CATALOG_SIZE = 50;
+
 export function normalizeMemberTagName(memberTagName) {
   return String(memberTagName || "").trim().replace(/\s+/g, " ").toLowerCase();
 }
@@ -53,7 +56,14 @@ export function hasDuplicateMemberTagDraftName(drafts) {
 }
 
 export function mergeTagCatalog(currentTags, incomingTags) {
-  return sortMemberTagNames([...(currentTags || []), ...(incomingTags || [])]);
+  return sortMemberTagNames([...(currentTags || []), ...(incomingTags || [])]).slice(0, MAX_MEMBER_TAG_CATALOG_SIZE);
+}
+
+export function hasMemberTagName(memberTags, memberTagName) {
+  const normalizedTagName = normalizeMemberTagName(memberTagName);
+  return sanitizeTagList(memberTags).some((currentTagName) => {
+    return normalizeMemberTagName(currentTagName) === normalizedTagName;
+  });
 }
 
 function compareMemberTagNames(leftTagName, rightTagName) {
@@ -240,5 +250,5 @@ export function applyCatalogDrafts(catalog, drafts) {
     })
     .map((draft) => draft.nextTag || draft.sourceTag);
 
-  return sortMemberTagNames([...editedTags, ...newTags]);
+  return sortMemberTagNames([...editedTags, ...newTags]).slice(0, MAX_MEMBER_TAG_CATALOG_SIZE);
 }

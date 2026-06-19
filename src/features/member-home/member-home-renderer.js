@@ -17,9 +17,11 @@ const MENU_FOLD_ICON_PATH = "../assets/menuFold.svg";
 const MENU_FOLD_OPEN_ICON_PATH = "../assets/menuFold_fold.svg";
 const DEFAULT_DOG_PROFILE_IMAGE = "../assets/defaultProfile_dog.svg";
 const CHEVRON_RIGHT_ICON_PATH = "../assets/iconChevronRight.svg";
+const CHEVRON_LEFT_ICON_PATH = "../assets/iconChevronLeft.svg";
 const CAMERA_ICON_PATH = "../assets/iconCamera.svg";
 const SETTING_ICON_PATH = "../assets/menuIcon_setting.svg";
 const MEMBER_TAG_DUPLICATE_MESSAGE = "이미 존재하는 태그입니다.";
+const MEMBER_TAG_MAX_CATALOG_MESSAGE = "태그는 최대 50개까지 등록할 수 있습니다.";
 let toastDismissTimer = null;
 
 export function renderMemberHome(rootElement, memberHomeState) {
@@ -83,16 +85,33 @@ function createMemberHomeShell(memberHomeState) {
 
 function createHeader(memberHomeState) {
   const header = createElement("header", {
-    className: "member-header",
+    className: "header",
     dataset: { area: "header" },
   });
 
   header.append(createElement("strong", { className: "brand-name", textContent: "다이얼독 비즈" }));
   header.append(createElement("h1", { textContent: "회원" }));
   header.append(createCreateMemberButton("icon-button header-add-button", "+", memberHomeState));
-  header.append(createElement("span", { className: "header-utility", textContent: "설정  알림  계정" }));
+  header.append(createHeaderUtility());
 
   return header;
+}
+
+function createHeaderUtility() {
+  const utility = createElement("span", { className: "header-utility" });
+  const settingsButton = createElement("button", {
+    className: "header-utility-button",
+    type: "button",
+    textContent: "설정",
+    dataset: { action: "openSettings" },
+  });
+  settingsButton.addEventListener("click", () => {
+    window.location.href = "./settings/member/tag-management.html";
+  });
+  utility.append(settingsButton);
+  utility.append(createElement("span", { textContent: "알림" }));
+  utility.append(createElement("span", { textContent: "계정" }));
+  return utility;
 }
 
 function createNavigation() {
@@ -215,7 +234,7 @@ function createGuardianLookupModal(memberHomeState) {
   header.append(createCloseRegistrationButton(memberHomeState, "modal-close-button", "✕", "보호자 조회 닫기"));
 
   const body = createElement("div", { className: "registration-form" });
-  body.append(createRegistrationNotice("등록 전 기존 다이얼독 회원인지 조회합니다.\n보호자의 성함과 전화번호를 확인해 정확하게 입력해 주세요."));
+  body.append(createRegistrationNotice("등록 전, 다이얼독에 가입한 회원인지 조회합니다.\n보호자의 성함과 전화번호는 아이디로 사용되니 정확하게 입력해 주세요."));
   body.append(createFormField("보호자 성함", "이름 입력", true, {
     value: memberHomeState.guardianLookup.guardianName,
     hasError: Boolean(memberHomeState.guardianLookup.error),
@@ -731,7 +750,7 @@ function createWebMemoSection(memberHomeState, member) {
 }
 
 function createWebGuardianInfoSection(member) {
-  const section = createDetailInfoCard("보호자 정보", { area: "guardianInfo", actionText: "수정", headerTags: member.ownerTags });
+  const section = createDetailInfoCard("보호자 정보", { area: "guardianInfo", actionText: "수정" });
   section.append(createInfoList([
     ["보호자", formatText(member.guardianName)],
     ["연락처", formatText(formatPhoneNumber(member.phoneNumber))],
@@ -1616,13 +1635,7 @@ function createManageMemberTagsButton(memberHomeState) {
     dataset: { action: "openMemberTagManagement" },
   });
   button.addEventListener("click", () => {
-    memberHomeState.isMemberTagManagementOpen = true;
-    memberHomeState.isTagMenuOpen = false;
-    memberHomeState.memberTagManagementQuery = "";
-    memberHomeState.openMemberTagMenuTagName = "";
-    memberHomeState.activeMemberTagSheetTagName = "";
-    memberHomeState.memberTagSheetDraftName = "";
-    renderMemberHome(document.querySelector("#app"), memberHomeState);
+    window.location.href = "./settings/member/tag-management.html";
   });
   return button;
 }
@@ -1690,14 +1703,7 @@ function createTagSettingsButton(memberHomeState) {
       return;
     }
 
-    memberHomeState.isMemberTagManagementOpen = true;
-    memberHomeState.isTagMenuOpen = false;
-    memberHomeState.tagFilterQuery = "";
-    memberHomeState.memberTagManagementQuery = "";
-    memberHomeState.openMemberTagMenuTagName = "";
-    memberHomeState.activeMemberTagSheetTagName = "";
-    memberHomeState.memberTagSheetDraftName = "";
-    renderMemberHome(document.querySelector("#app"), memberHomeState);
+    window.location.href = "./settings/member/tag-management.html";
   });
   return button;
 }
@@ -1757,14 +1763,19 @@ function createTagMultiSelectMenu(memberHomeState) {
 
 function createTagSearchControl(memberHomeState, options = {}) {
   let isComposing = false;
-  const control = createElement("div", {
-    className: options.className || "member-tag-search-control",
-    dataset: { state: memberHomeState.selectedMemberTagNames.length ? "selected" : "empty" },
+  const wrapper = createElement("div", {
+    className: "member-tag-search-stack",
+    dataset: { area: "memberTagFilterSearchControl", state: memberHomeState.selectedMemberTagNames.length ? "selected" : "empty" },
   });
 
   if (memberHomeState.selectedMemberTagNames.length) {
-    control.append(createSelectedTagChipList(memberHomeState));
+    wrapper.append(createSelectedTagChipList(memberHomeState));
   }
+
+  const control = createElement("div", {
+    className: options.className || "member-tag-search-control",
+    dataset: { state: "input" },
+  });
 
   const input = createElement("input", {
     className: options.inputClassName || "member-tag-search-input",
@@ -1802,30 +1813,26 @@ function createTagSearchControl(memberHomeState, options = {}) {
     focusTagSearchInput(options.refocusSelector);
   });
   control.append(input);
+  wrapper.append(control);
 
-  if (!memberHomeState.tagFilterQuery && (!memberHomeState.selectedMemberTagNames.length || options.clearMode !== "selection")) {
-    return control;
+  if (options.clearMode === "selection" || !memberHomeState.tagFilterQuery) {
+    return wrapper;
   }
 
   const clearButton = createElement("button", {
     className: "member-tag-clear-button",
     type: "button",
     textContent: "×",
-    ariaLabel: options.clearMode === "selection" ? "선택한 태그 전체 해제" : "태그 검색어 지우기",
-    dataset: { action: options.clearMode === "selection" ? "clearSelectedMemberTags" : "clearMemberTagQuery" },
+    ariaLabel: "태그 검색어 지우기",
+    dataset: { action: "clearMemberTagQuery" },
   });
   clearButton.addEventListener("click", () => {
-    if (options.clearMode === "selection") {
-      memberHomeState.selectedMemberTagNames = [];
-      memberHomeState.currentPage = 1;
-    }
-
     memberHomeState.tagFilterQuery = "";
     renderMemberHome(document.querySelector("#app"), memberHomeState);
   });
   control.append(clearButton);
 
-  return control;
+  return wrapper;
 }
 
 function syncMemberTagFilterDataList(memberHomeState, control) {
@@ -1966,8 +1973,9 @@ function focusMemberSearchInput() {
 
 function createTagOptionButton(memberHomeState, memberTagName) {
   const isSelected = memberHomeState.selectedMemberTagNames.includes(memberTagName);
-  const option = createElement("label", {
-    className: "member-tag-checkbox-option",
+  const option = createElement("button", {
+    className: "member-tag-option",
+    type: "button",
     dataset: {
       action: "toggleMemberTagFilter",
       entity: "memberTag",
@@ -1975,16 +1983,11 @@ function createTagOptionButton(memberHomeState, memberTagName) {
       state: isSelected ? "selected" : "idle",
     },
   });
-  const checkbox = createElement("input", {
-    type: "checkbox",
-  });
-  checkbox.checked = isSelected;
-  checkbox.addEventListener("change", () => {
+  option.addEventListener("click", () => {
     toggleSelectedMemberTag(memberHomeState, memberTagName);
     memberHomeState.currentPage = 1;
     renderMemberHome(document.querySelector("#app"), memberHomeState);
   });
-  option.append(checkbox);
   option.append(createElement("span", { textContent: memberTagName }));
 
   return option;
@@ -2146,12 +2149,17 @@ function createMemberPageMoveButton(memberHomeState, direction, pagination) {
   const button = createElement("button", {
     className: "member-page-button member-page-move-button",
     type: "button",
-    textContent: isPrev ? "이전" : "다음",
+    ariaLabel: isPrev ? "이전 페이지" : "다음 페이지",
     dataset: {
       action: isPrev ? "prevMemberPage" : "nextMemberPage",
       state: disabled ? "disabled" : "idle",
     },
   });
+  button.append(createElement("img", {
+    className: "member-page-move-icon",
+    src: isPrev ? CHEVRON_LEFT_ICON_PATH : CHEVRON_RIGHT_ICON_PATH,
+    alt: "",
+  }));
   button.disabled = disabled;
   button.addEventListener("click", () => {
     if (disabled) {
@@ -2230,26 +2238,8 @@ function createMemberIdentity(member) {
 
   const title = createElement("strong", { textContent: `${formatText(member.petName)} (${formatText(member.breed)})` });
   identity.append(title);
-  const tagsCell = createMemberTagsCell(member);
-  if (tagsCell) {
-    identity.append(tagsCell);
-  }
 
   return identity;
-}
-
-function createMemberTagsCell(member) {
-  const memberTags = sanitizeTagList(member.petTags || []);
-
-  if (memberTags.length === 0) {
-    return null;
-  }
-
-  const tagsCell = createElement("span", {
-    className: "member-cell member-tags-cell",
-    dataset: { area: "memberTags" },
-  });
-  return renderMemberTagChips(tagsCell, memberTags, { maxVisible: 3 });
 }
 
 function createReservationAvailabilityCell(member) {
@@ -2648,7 +2638,11 @@ function commitMemberHomeTagRename(memberHomeState, sourceTag, nextTagName, opti
 
 function applyMemberHomeTagMutation(memberHomeState, result, options = {}) {
   if (!result.ok) {
-    memberHomeState.toastMessage = result.reason === "duplicate" ? MEMBER_TAG_DUPLICATE_MESSAGE : "";
+    memberHomeState.toastMessage = result.reason === "duplicate"
+      ? MEMBER_TAG_DUPLICATE_MESSAGE
+      : result.reason === "maxCatalog"
+        ? MEMBER_TAG_MAX_CATALOG_MESSAGE
+        : "";
     renderMemberHome(document.querySelector("#app"), memberHomeState);
     return;
   }

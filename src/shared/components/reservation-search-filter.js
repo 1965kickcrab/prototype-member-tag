@@ -291,14 +291,19 @@ function createReservationTagMenu(state, options, menuOptions = {}) {
 
 function createTagSearchControl(state, options) {
   let isComposing = false;
-  const control = createElement("div", {
-    className: options.tagSearchControlClassName || "member-tag-search-control tag-menu-search-control",
-    dataset: { state: state.selectedMemberTagNames?.length ? "selected" : "empty" },
+  const wrapper = createElement("div", {
+    className: "member-tag-search-stack",
+    dataset: { area: "reservationTagSearchControl", state: state.selectedMemberTagNames?.length ? "selected" : "empty" },
   });
 
   if (state.selectedMemberTagNames?.length) {
-    control.append(createSelectedTagChipList(state, options));
+    wrapper.append(createSelectedTagChipList(state, options));
   }
+
+  const control = createElement("div", {
+    className: options.tagSearchControlClassName || "member-tag-search-control tag-menu-search-control",
+    dataset: { state: "input" },
+  });
 
   const input = createElement("input", {
     className: "member-tag-search-input",
@@ -331,26 +336,16 @@ function createTagSearchControl(state, options) {
   });
   control.append(input);
 
-  if (!state.selectedMemberTagNames?.length) {
-    return control;
-  }
+  wrapper.append(control);
+  return wrapper;
+}
+  /*
 
-  const clearButton = createElement("button", {
-    className: "member-tag-clear-button",
-    type: "button",
     textContent: "×",
-    ariaLabel: "선택한 태그 전체 해제",
-    dataset: { action: "clearSelectedReservationTags" },
-  });
-  clearButton.addEventListener("click", () => {
-    state.selectedMemberTagNames = [];
-    options.rerender(state);
-    focusReservationTagSearchInput(options);
-  });
-  control.append(clearButton);
-  return control;
+    ariaLabel: "",
 }
 
+*/
 function syncReservationTagDataList(control, state, options) {
   const list = control.closest("[data-area='reservationTagMenu']")?.querySelector(".member-tag-data-list")
     || control.closest(".tag-bottom-sheet")?.querySelector("[data-area='reservationTagMenu'] .member-tag-data-list");
@@ -381,21 +376,17 @@ function syncReservationTagDataList(control, state, options) {
 
 function createReservationTagOption(state, options, memberTagName) {
   const isSelected = state.selectedMemberTagNames.includes(memberTagName);
-  const option = createElement("label", {
-    className: "member-tag-checkbox-option",
+  const option = createElement("button", {
+    className: "member-tag-option",
+    type: "button",
     dataset: { action: "toggleReservationTag", entityId: memberTagName, state: isSelected ? "selected" : "idle" },
   });
-  const checkbox = createElement("input", {
-    type: "checkbox",
-  });
-  checkbox.checked = isSelected;
-  checkbox.addEventListener("change", () => {
+  option.addEventListener("click", () => {
     state.selectedMemberTagNames = isSelected
       ? state.selectedMemberTagNames.filter((selectedTagName) => selectedTagName !== memberTagName)
       : [...state.selectedMemberTagNames, memberTagName];
     options.rerender(state);
   });
-  option.append(checkbox);
   option.append(createElement("span", { textContent: memberTagName }));
   return option;
 }

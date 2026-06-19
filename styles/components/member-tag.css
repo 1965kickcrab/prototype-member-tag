@@ -112,7 +112,7 @@
   gap: var(--space-2);
 }
 
-.member-tag-input-chips,
+.member-tag-selected-list,
 .member-tag-chip-list {
   display: flex;
   flex-wrap: wrap;
@@ -128,6 +128,14 @@
   border-radius: var(--radius-2);
   padding: var(--space-2);
   background: var(--color-surface);
+}
+
+.member-tag-selected-list {
+  min-height: 28px;
+}
+
+.member-tag-selected-list.is-read-view .member-tag-chip-remove {
+  display: none;
 }
 
 .member-tag-input-chip,
@@ -151,11 +159,6 @@
   color: var(--color-text-muted);
   line-height: 1;
   padding: 0;
-}
-
-.member-tag-input-chips .member-tag-chip-remove,
-.member-tag-input-chips .member-tag-clear-button {
-  display: none;
 }
 
 .member-tag-input-field {
@@ -288,10 +291,15 @@
   line-height: 1.4;
 }
 
+.member-tag-search-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
 .member-tag-search-control {
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
   gap: var(--space-2);
   min-height: 44px;
   border: 1px solid var(--color-border);
@@ -346,7 +354,7 @@
   font-size: 14px;
 }
 
-.member-tag-checkbox-option {
+.member-tag-option {
   min-height: 40px;
   display: flex;
   align-items: center;
@@ -360,22 +368,14 @@
   cursor: pointer;
 }
 
-.member-tag-checkbox-option input {
-  width: 16px;
-  height: 16px;
-  flex: 0 0 auto;
-  appearance: auto;
-  accent-color: var(--color-primary);
-}
-
-.member-tag-checkbox-option span {
+.member-tag-option span {
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.member-tag-checkbox-option[data-state="selected"] {
+.member-tag-option[data-state="selected"] {
   border-color: var(--color-primary);
   color: var(--color-primary);
   font-weight: 700;
@@ -447,6 +447,28 @@
   text-align: center;
 }
 
+.member-tag-management-back-button {
+  display: inline-grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: var(--radius-2);
+  background: transparent;
+  color: var(--color-text);
+}
+
+.member-tag-management-back-button:focus,
+.member-tag-management-back-button:hover {
+  background: var(--color-primary-soft);
+  outline: none;
+}
+
+.member-tag-management-back-icon {
+  width: 24px;
+  height: 24px;
+}
+
 .member-tag-management-page-body {
   min-height: 0;
   display: grid;
@@ -508,6 +530,27 @@
   min-height: 44px;
 }
 
+.member-tag-management-card-row {
+  width: 100%;
+  min-height: 48px;
+  justify-content: space-between;
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-3);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+  text-align: left;
+  padding: 0 var(--space-4);
+  cursor: pointer;
+}
+
+.member-tag-management-card-row:hover,
+.member-tag-management-card-row:focus {
+  border-color: var(--color-border);
+  background: var(--color-page-subtle);
+  outline: none;
+}
+
 .member-tag-management-input {
   flex: 1;
   min-width: 0;
@@ -517,6 +560,22 @@
   padding: 0 var(--space-3);
 }
 
+.member-tag-management-input:disabled {
+  background: var(--color-page-subtle);
+  color: var(--color-text-muted);
+}
+
+.member-tag-management-delete-button {
+  min-width: 64px;
+  height: 36px;
+  flex: 0 0 auto;
+  color: #ed6060;
+}
+
+.member-tag-management-delete-button.is-restore {
+  color: var(--color-primary);
+}
+
 .member-tag-management-name {
   flex: 1;
   min-width: 0;
@@ -524,6 +583,17 @@
   color: var(--color-text);
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.member-tag-management-row-icon {
+  width: 24px;
+  flex: 0 0 24px;
+  opacity: 0.48;
+  color: var(--color-text);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
 }
 
 .member-tag-more-button {
@@ -743,7 +813,7 @@
   overflow: hidden;
 }
 
-.tag-bottom-sheet .member-tag-checkbox-option {
+.tag-bottom-sheet .member-tag-option {
   width: 100%;
   min-height: 40px;
   text-align: left;

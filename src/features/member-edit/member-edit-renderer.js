@@ -390,7 +390,6 @@ function submitAddPet(memberEditState) {
 
 function persistMember(memberEditState, toastMessage) {
   memberEditState.memberTagCatalog = mergeMemberTagCatalog([
-    ...(memberEditState.selectedMember.ownerTags || []),
     ...memberEditState.selectedMember.pets.flatMap((pet) => pet.petTags || []),
   ]);
   memberEditState.members = saveRegisteredMembers([memberEditState.selectedMember]);
@@ -440,7 +439,6 @@ function createGuardianEditContent(memberEditState) {
   form.append(createReadonlyGuardianField("보호자 이름", memberEditState.guardianDraft.guardianName, true));
   form.append(createReadonlyGuardianField("전화번호", formatPhoneNumber(memberEditState.guardianDraft.phoneNumber), true));
   form.append(createGuardianAddressField(memberEditState));
-  form.append(createGuardianTagField(memberEditState));
   content.append(form);
   return content;
 }
@@ -502,7 +500,7 @@ function createGuardianAddressField(memberEditState) {
 function createGuardianTagField(memberEditState) {
   const field = createElement("section", { className: "registration-field", dataset: { field: "ownerTags" } });
   field.append(createElement("span", { className: "registration-label", textContent: "태그" }));
-  const container = createElement("div", { dataset: { area: "ownerTagInput" } });
+  const container = createElement("div", { dataset: { area: "unusedOwnerTagInput" } });
   initTagInput({
     container,
     initialTags: memberEditState.guardianDraft.ownerTags,
@@ -532,8 +530,7 @@ function createGuardianSubmitButton(memberEditState) {
 function submitGuardianEdit(memberEditState) {
   memberEditState.selectedMember.address = memberEditState.guardianDraft.address || "";
   memberEditState.selectedMember.addressDetail = memberEditState.guardianDraft.addressDetail || "";
-  memberEditState.selectedMember.ownerTags = sanitizeTagList(memberEditState.guardianDraft.ownerTags);
-  memberEditState.memberTagCatalog = mergeMemberTagCatalog(memberEditState.selectedMember.ownerTags);
+  memberEditState.selectedMember.ownerTags = [];
   memberEditState.members = saveRegisteredMembers([memberEditState.selectedMember]);
   memberEditState.activeScreen = "memberEdit";
   memberEditState.toastMessage = "정보를 수정했습니다.";

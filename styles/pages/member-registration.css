@@ -476,6 +476,7 @@
 }
 
 .modal-close-button {
+  position: absolute;
   width: 32px;
   height: 32px;
   font-size: 30px;

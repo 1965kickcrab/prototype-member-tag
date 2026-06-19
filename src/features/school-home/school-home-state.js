@@ -82,7 +82,7 @@ export function getFilteredReservationsByDate(schoolHomeState, selectedDate = sc
 
   if (schoolHomeState.selectedMemberTagNames?.length) {
     reservations = reservations.filter((reservation) => {
-      const reservationTags = [...(reservation.ownerTags || []), ...(reservation.petTags || [])];
+      const reservationTags = reservation.petTags || [];
       return schoolHomeState.selectedMemberTagNames.every((memberTagName) => reservationTags.includes(memberTagName));
     });
   }
