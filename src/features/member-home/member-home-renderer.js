@@ -5,7 +5,14 @@ import { createBusinessNavigation, createDefaultAppBottomNavigation } from "../.
 import { createToast, TOAST_AUTO_DISMISS_MS } from "../../shared/components/toast.js";
 import { ACTION_BUTTON_STATE } from "../../shared/constants/ui-state.js";
 import { normalizeMemberTagName, sanitizeTagList, sortMemberTagNames } from "../../shared/services/member-tag-service.js";
-import { createMemberTag, deleteMemberTag, getMemberPetRows, renameMemberTag } from "../../shared/storage/member-storage.js";
+import {
+  createMemberTag,
+  deleteMemberTag,
+  deleteStoredMember,
+  getMemberPetRows,
+  renameMemberTag,
+  saveStoredMembers,
+} from "../../shared/storage/member-storage.js";
 import { createElement } from "../../shared/utils/dom.js";
 import { formatText } from "../../shared/utils/format.js";
 import { formatMemberBirthDate, formatMemberGender, formatMemberWeight, getAgeOutputText, normalizeBirthDateParts } from "../../shared/utils/member-date.js";
@@ -19,7 +26,6 @@ const DEFAULT_DOG_PROFILE_IMAGE = "../assets/defaultProfile_dog.svg";
 const CHEVRON_RIGHT_ICON_PATH = "../assets/iconChevronRight.svg";
 const CHEVRON_LEFT_ICON_PATH = "../assets/iconChevronLeft.svg";
 const CAMERA_ICON_PATH = "../assets/iconCamera.svg";
-const SETTING_ICON_PATH = "../assets/menuIcon_setting.svg";
 const MEMBER_TAG_DUPLICATE_MESSAGE = "이미 존재하는 태그입니다.";
 const MEMBER_TAG_MAX_CATALOG_MESSAGE = "태그는 최대 50개까지 등록할 수 있습니다.";
 let toastDismissTimer = null;
@@ -529,13 +535,34 @@ function createMemberProfileFlowScreen({ memberHomeState, screenName, title, pri
   content.append(createPetSummarySection(selectedMember, screenName));
 
   screen.append(content);
-  screen.append(createElement("button", { className: "large-disabled-button profile-flow-primary-button", type: "button", textContent: primaryActionText }));
+  screen.append(createProfileFlowActions(memberHomeState, primaryActionText));
 
   if (memberHomeState.toastMessage) {
     screen.append(createToast(memberHomeState.toastMessage));
   }
 
   return screen;
+}
+
+function createProfileFlowActions(memberHomeState, primaryActionText) {
+  const actions = createElement("div", { className: "profile-flow-actions" });
+  const deleteButton = createElement("button", {
+    className: "profile-flow-delete-button",
+    type: "button",
+    textContent: "회원 삭제",
+    dataset: { action: "deleteMember" },
+  });
+  deleteButton.addEventListener("click", () => {
+    deleteSelectedMember(memberHomeState);
+  });
+
+  actions.append(deleteButton);
+  actions.append(createElement("button", {
+    className: "large-disabled-button profile-flow-primary-button",
+    type: "button",
+    textContent: primaryActionText,
+  }));
+  return actions;
 }
 
 function createWebMemberDetailScreen(memberHomeState) {
@@ -1271,6 +1298,25 @@ function createPetDetailRadioGroup(memberHomeState, labelText, fieldName, option
 }
 
 function createPetDetailWebSubmit(memberHomeState) {
+  const actions = createElement("div", {
+    className: canDeleteSelectedPet(memberHomeState)
+      ? "pet-detail-web-actions has-delete"
+      : "pet-detail-web-actions",
+  });
+
+  if (canDeleteSelectedPet(memberHomeState)) {
+    const deleteButton = createElement("button", {
+      className: "pet-detail-delete-button",
+      type: "button",
+      textContent: "반려견 삭제",
+      dataset: { action: "deletePet" },
+    });
+    deleteButton.addEventListener("click", () => {
+      deleteSelectedPet(memberHomeState);
+    });
+    actions.append(deleteButton);
+  }
+
   const button = createElement("button", {
     className: "large-disabled-button pet-detail-web-submit-button",
     type: "button",
@@ -1281,19 +1327,29 @@ function createPetDetailWebSubmit(memberHomeState) {
   button.addEventListener("click", () => {
     submitPetDetailDraft(memberHomeState, false);
   });
-  return button;
+  actions.append(button);
+  return actions;
 }
 
 function createPetDetailBottomSheetActions(memberHomeState) {
-  const actions = createElement("div", { className: "pet-detail-bottom-sheet-actions" });
-  const deleteButton = createElement("button", {
-    className: "pet-detail-delete-button",
-    type: "button",
-    textContent: "삭제",
+  const actions = createElement("div", {
+    className: canDeleteSelectedPet(memberHomeState)
+      ? "pet-detail-bottom-sheet-actions has-delete"
+      : "pet-detail-bottom-sheet-actions",
   });
-  deleteButton.addEventListener("click", () => {
-    clearPetDetail(memberHomeState);
-  });
+
+  if (canDeleteSelectedPet(memberHomeState)) {
+    const deleteButton = createElement("button", {
+      className: "pet-detail-delete-button",
+      type: "button",
+      textContent: "삭제",
+      dataset: { action: "deletePet" },
+    });
+    deleteButton.addEventListener("click", () => {
+      deleteSelectedPet(memberHomeState);
+    });
+    actions.append(deleteButton);
+  }
 
   const submitButton = createElement("button", {
     className: "large-disabled-button bottom-sheet-submit-button",
@@ -1306,7 +1362,6 @@ function createPetDetailBottomSheetActions(memberHomeState) {
     submitPetDetailDraft(memberHomeState, true);
   });
 
-  actions.append(deleteButton);
   actions.append(submitButton);
   return actions;
 }
@@ -1329,29 +1384,14 @@ function submitPetDetailDraft(memberHomeState, isBottomSheet) {
     return;
   }
 
-  applyPetDetailDraft(memberHomeState.selectedMember, memberHomeState.petDetailDraft);
-  memberHomeState.isPetDetailModalOpen = false;
-  memberHomeState.isPetDetailBottomSheetOpen = false;
-  memberHomeState.toastMessage = "정보를 수정했습니다.";
-  renderMemberHome(document.querySelector("#app"), memberHomeState);
-}
+  const sourceMember = getSelectedSourceMember(memberHomeState);
+  const sourcePet = getSelectedSourcePet(memberHomeState, sourceMember);
+  if (!sourceMember || !sourcePet) {
+    return;
+  }
 
-function clearPetDetail(memberHomeState) {
-  applyPetDetailDraft(memberHomeState.selectedMember, {
-    petName: "",
-    breed: "",
-    birthDate: "",
-    animalRegistrationNumber: "",
-    coatColor: "",
-    weight: "",
-    gender: "",
-    neuteredStatus: "",
-    memo: "",
-  });
-  memberHomeState.petDetailDraft = createPetDetailDraft(memberHomeState.selectedMember);
-  memberHomeState.isPetDetailBottomSheetOpen = false;
-  memberHomeState.toastMessage = "반려견 정보를 삭제했습니다.";
-  renderMemberHome(document.querySelector("#app"), memberHomeState);
+  applyPetDetailDraft(sourcePet, memberHomeState.petDetailDraft);
+  persistSelectedSourceMember(memberHomeState, sourceMember, sourcePet.id, "정보를 수정했습니다.");
 }
 
 function applyPetDetailDraft(member, draft) {
@@ -1365,6 +1405,66 @@ function applyPetDetailDraft(member, draft) {
   member.gender = draft.gender || "";
   member.neuteredStatus = draft.neuteredStatus || "";
   member.memo = draft.memo || "";
+}
+
+function deleteSelectedMember(memberHomeState) {
+  const memberId = memberHomeState.selectedMember?.memberId || memberHomeState.selectedMember?.id || "";
+  if (!memberId) {
+    return;
+  }
+
+  memberHomeState.members = deleteStoredMember(memberId);
+  memberHomeState.selectedMember = null;
+  memberHomeState.activeScreen = "memberHome";
+  memberHomeState.toastMessage = "회원을 삭제했습니다.";
+  renderMemberHome(document.querySelector("#app"), memberHomeState);
+}
+
+function deleteSelectedPet(memberHomeState) {
+  const sourceMember = getSelectedSourceMember(memberHomeState);
+  const sourcePet = getSelectedSourcePet(memberHomeState, sourceMember);
+
+  if (!sourceMember || !sourcePet || !canDeleteSelectedPet(memberHomeState)) {
+    return;
+  }
+
+  sourceMember.pets = sourceMember.pets.filter((pet) => pet.id !== sourcePet.id);
+  const nextSelectedPet = sourceMember.pets[0];
+  persistSelectedSourceMember(memberHomeState, sourceMember, nextSelectedPet?.id || "", "반려견을 삭제했습니다.");
+}
+
+function persistSelectedSourceMember(memberHomeState, sourceMember, selectedPetId, toastMessage) {
+  memberHomeState.members = saveStoredMembers((memberHomeState.members || []).map((member) => {
+    return member.id === sourceMember.id ? sourceMember : member;
+  }));
+  const nextRows = getMemberPetRows(memberHomeState.members);
+  memberHomeState.selectedMember = nextRows.find((member) => {
+    return member.memberId === sourceMember.id && member.petId === selectedPetId;
+  }) || nextRows.find((member) => member.memberId === sourceMember.id) || null;
+  memberHomeState.petDetailDraft = createPetDetailDraft(memberHomeState.selectedMember);
+  memberHomeState.isPetDetailModalOpen = false;
+  memberHomeState.isPetDetailBottomSheetOpen = false;
+  memberHomeState.toastMessage = toastMessage;
+  renderMemberHome(document.querySelector("#app"), memberHomeState);
+}
+
+function canDeleteSelectedPet(memberHomeState) {
+  return getSelectedSourcePets(memberHomeState).length >= 2;
+}
+
+function getSelectedSourceMember(memberHomeState) {
+  const selectedMember = memberHomeState.selectedMember || {};
+  const memberId = selectedMember.memberId || selectedMember.id || "";
+  return (memberHomeState.members || []).find((member) => member.id === memberId) || null;
+}
+
+function getSelectedSourcePet(memberHomeState, sourceMember = getSelectedSourceMember(memberHomeState)) {
+  const selectedPetId = memberHomeState.selectedMember?.petId || "";
+  return getSelectedSourcePets(memberHomeState, sourceMember).find((pet) => pet.id === selectedPetId) || null;
+}
+
+function getSelectedSourcePets(memberHomeState, sourceMember = getSelectedSourceMember(memberHomeState)) {
+  return Array.isArray(sourceMember?.pets) ? sourceMember.pets : [];
 }
 
 function createMemberProfileImage(className) {
@@ -1573,7 +1673,6 @@ function createWebFilterPanel(memberHomeState) {
   });
   fields.append(createWebFilterTagField(memberHomeState));
   panel.append(fields);
-  panel.append(createManageMemberTagsButton(memberHomeState));
   panel.append(createResetFilterButton(memberHomeState));
 
   return panel;
@@ -1627,19 +1726,6 @@ function createWebFilterTagField(memberHomeState) {
   return field;
 }
 
-function createManageMemberTagsButton(memberHomeState) {
-  const button = createElement("button", {
-    className: "member-tag-manage-button",
-    type: "button",
-    textContent: "태그 관리",
-    dataset: { action: "openMemberTagManagement" },
-  });
-  button.addEventListener("click", () => {
-    window.location.href = "./settings/member/tag-management.html";
-  });
-  return button;
-}
-
 function createMobileTagFilterButton(memberHomeState) {
   const button = createElement("button", {
     className: "mobile-tag-filter-button",
@@ -1666,7 +1752,7 @@ function createMobileTagBottomSheet(memberHomeState) {
   });
   const sheet = createElement("div", { className: "tag-bottom-sheet" });
   const header = createElement("div", { className: "tag-bottom-sheet-header" });
-  header.append(createTagSettingsButton(memberHomeState));
+  header.append(createTagBottomSheetResetButton(memberHomeState));
   header.append(createElement("h3", { textContent: "태그" }));
 
   const closeButton = createElement("button", {
@@ -1689,21 +1775,17 @@ function createMobileTagBottomSheet(memberHomeState) {
   return overlay;
 }
 
-function createTagSettingsButton(memberHomeState) {
+function createTagBottomSheetResetButton(memberHomeState) {
   const button = createElement("button", {
-    className: "tag-settings-button",
+    className: "reset-filter-button",
     type: "button",
-    ariaLabel: "태그 관리",
-    dataset: { action: "openMemberTagManagement" },
+    textContent: "초기화",
+    dataset: { action: "resetMemberTagSelection" },
   });
-  button.append(createElement("img", { className: "button-icon tag-settings-icon", src: SETTING_ICON_PATH, alt: "" }));
   button.addEventListener("click", () => {
-    if (isMobileLayout()) {
-      window.location.href = "./member-tag-management.html";
-      return;
-    }
-
-    window.location.href = "./settings/member/tag-management.html";
+    memberHomeState.selectedMemberTagNames = [];
+    memberHomeState.currentPage = 1;
+    renderMemberHome(document.querySelector("#app"), memberHomeState);
   });
   return button;
 }
@@ -1748,7 +1830,7 @@ function createTagMultiSelectMenu(memberHomeState) {
   }
 
   if (visibleMemberTags.length === 0) {
-    list.append(createTagEmptyState("조회 결과가 없습니다"));
+    list.append(createTagEmptyState("조건과 일치하는 결과가 없습니다"));
     menu.append(list);
     return menu;
   }
@@ -1781,7 +1863,7 @@ function createTagSearchControl(memberHomeState, options = {}) {
     className: options.inputClassName || "member-tag-search-input",
     type: "text",
     value: memberHomeState.tagFilterQuery || "",
-    placeholder: "태그 검색",
+    placeholder: "태그 입력 또는 조회",
     dataset: { field: "memberTagSearch" },
   });
   input.addEventListener("compositionstart", () => {
@@ -1862,7 +1944,7 @@ function populateMemberTagFilterDataList(list, memberHomeState) {
   }
 
   if (visibleMemberTags.length === 0) {
-    list.append(createTagEmptyState("조회 결과가 없습니다"));
+    list.append(createTagEmptyState("조건과 일치하는 결과가 없습니다"));
     return;
   }
 
@@ -2299,8 +2381,8 @@ function openMemberDetail(memberHomeState, member) {
 
 function createMemberEmptyState(listState) {
   return createEmptyStateElement({
-    title: listState === "searchEmpty" ? "검색 결과가 없습니다" : "",
-    description: listState === "searchEmpty" ? "다른 검색어로 다시 검색해 주세요." : "등록된 회원이 없습니다",
+    title: listState === "searchEmpty" ? "조건과 일치하는 결과가 없습니다." : "",
+    description: listState === "searchEmpty" ? "" : "등록된 회원이 없습니다",
   });
 }
 
@@ -2350,7 +2432,7 @@ function createMemberTagManagementSearch(memberHomeState) {
     className: "member-tag-management-search-input",
     type: "search",
     value: memberHomeState.memberTagManagementQuery || "",
-    placeholder: "태그 검색",
+    placeholder: "태그 입력 또는 조회",
     dataset: { field: "memberTagSearch" },
   });
   input.addEventListener("compositionstart", () => {
@@ -2425,7 +2507,7 @@ function createMemberTagManagementList(memberHomeState) {
   }
 
   if (!visibleMemberTags.length && !canCreateTag) {
-    list.append(createElement("p", { className: "empty-inline", textContent: "조회 결과가 없습니다" }));
+    list.append(createElement("p", { className: "empty-inline", textContent: "조건과 일치하는 결과가 없습니다" }));
     return list;
   }
 

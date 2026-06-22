@@ -77,7 +77,7 @@ function createAppHeader() {
     className: "member-tag-management-back-button",
     type: "button",
     ariaLabel: "뒤로가기",
-    dataset: { action: "backToMemberHome" },
+    dataset: { action: "backToAppMore" },
   });
   backButton.append(createElement("img", {
     className: "member-tag-management-back-icon",
@@ -85,7 +85,7 @@ function createAppHeader() {
     alt: "",
   }));
   backButton.addEventListener("click", () => {
-    window.location.href = "./member-home.html";
+    window.location.href = "./app-more.html";
   });
   header.append(backButton);
   header.append(createElement("h1", { textContent: "태그 관리" }));
@@ -314,7 +314,7 @@ function createSearch(state) {
     className: "member-tag-management-search-input",
     type: "search",
     value: state.memberTagManagementQuery || "",
-    placeholder: "태그 검색",
+    placeholder: "태그 입력 또는 조회",
     dataset: { field: "memberTagSearch" },
   });
   input.addEventListener("compositionstart", () => {
@@ -390,7 +390,7 @@ function createMemberTagList(state) {
   }
 
   if (!visibleMemberTags.length && !canCreateTag) {
-    list.append(createEmptyStateElement({ title: "조회 결과가 없습니다" }));
+    list.append(createEmptyStateElement({ title: "조건과 일치하는 결과가 없습니다" }));
     return list;
   }
 

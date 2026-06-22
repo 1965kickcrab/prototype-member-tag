@@ -12,7 +12,16 @@ import { createHeaderIconButton } from "./header-icon-button.js";
 import { createToast, TOAST_AUTO_DISMISS_MS } from "./toast.js";
 import { createElement } from "../utils/dom.js";
 
-export function initTagInput({ container, initialTags = [], getCatalog, onChange, showRemoveControls = true }) {
+const CHEVRON_RIGHT_ICON_PATH = "../assets/iconChevronRight.svg";
+
+export function initTagInput({
+  container,
+  initialTags = [],
+  getCatalog,
+  onChange,
+  showRemoveControls = true,
+  useSelectedListTrigger = false,
+}) {
   let selectedTags = sanitizeTagList(initialTags);
   let query = "";
   let isSuggestionOpen = false;
@@ -138,13 +147,51 @@ export function initTagInput({ container, initialTags = [], getCatalog, onChange
     container.className = "member-tag-input";
     container.dataset.area = "memberTagInput";
 
-    if (selectedTags.length) {
-      const selectedList = createElement("div", {
-        className: showRemoveControls ? "member-tag-selected-list" : "member-tag-selected-list is-read-view",
-        dataset: { area: "selectedMemberTags", state: "list", presentation: showRemoveControls ? "editable" : "readView" },
+    if (selectedTags.length || useSelectedListTrigger) {
+      const selectedListDataset = {
+        area: "selectedMemberTags",
+        state: selectedTags.length ? "list" : "empty",
+        presentation: showRemoveControls ? "editable" : "readView",
+      };
+      if (useSelectedListTrigger) {
+        selectedListDataset.action = "openMemberTagSearch";
+      }
+      const selectedList = createElement(useSelectedListTrigger ? "button" : "div", {
+        className: getSelectedListClassName(),
+        type: useSelectedListTrigger ? "button" : undefined,
+        dataset: selectedListDataset,
       });
-      appendSelectedTagChips(selectedList, { showRemove: showRemoveControls });
+      if (selectedTags.length) {
+        appendSelectedTagChips(selectedList, { showRemove: showRemoveControls && !useSelectedListTrigger });
+      } else if (useSelectedListTrigger) {
+        selectedList.append(createElement("span", { className: "member-tag-selected-placeholder", textContent: "태그" }));
+      }
+      if (useSelectedListTrigger) {
+        selectedList.append(createElement("img", {
+          className: "member-tag-selected-chevron",
+          src: CHEVRON_RIGHT_ICON_PATH,
+          alt: "",
+        }));
+        selectedList.addEventListener("click", () => {
+          isMobileSearchOpen = true;
+          isSuggestionOpen = true;
+          render({ shouldFocusSearchInput: true });
+        });
+      }
       container.append(selectedList);
+    }
+
+    if (useSelectedListTrigger) {
+      if (isMobileSearchOpen) {
+        container.append(createMobileTagSearchScreen());
+      }
+      if (toastMessage) {
+        container.append(createToast(toastMessage));
+      }
+      if (shouldFocusSearchInput) {
+        focusInputAtEnd(".member-tag-search-input");
+      }
+      return;
     }
 
     const chips = createElement("div", { className: "member-tag-input-chips", dataset: { state: "input" } });
@@ -181,6 +228,17 @@ export function initTagInput({ container, initialTags = [], getCatalog, onChange
     if (shouldFocusSearchInput) {
       focusInputAtEnd(".member-tag-search-input");
     }
+  }
+
+  function getSelectedListClassName() {
+    const classNames = ["member-tag-selected-list"];
+    if (!showRemoveControls || useSelectedListTrigger) {
+      classNames.push("is-read-view");
+    }
+    if (useSelectedListTrigger) {
+      classNames.push("is-trigger");
+    }
+    return classNames.join(" ");
   }
 
   function bindTagInputEvents(input, options = {}) {
@@ -323,10 +381,10 @@ export function initTagInput({ container, initialTags = [], getCatalog, onChange
 
     if (selectedTags.length) {
       const selectedList = createElement("div", {
-        className: "member-tag-selected-list is-read-view",
-        dataset: { area: "selectedMemberTags", state: "list", presentation: "readView" },
+        className: "member-tag-selected-list",
+        dataset: { area: "selectedMemberTags", state: "list", presentation: "editable" },
       });
-      appendSelectedTagChips(selectedList, { showRemove: false });
+      appendSelectedTagChips(selectedList, { chipClassName: "member-tag-removable-chip" });
       wrapper.append(selectedList);
     }
 
@@ -354,8 +412,9 @@ export function initTagInput({ container, initialTags = [], getCatalog, onChange
   */
   function appendSelectedTagChips(parent, options = {}) {
     const shouldShowRemove = options.showRemove !== false;
+    const chipClassName = options.chipClassName || (shouldShowRemove ? "member-tag-removable-chip" : "member-tag-input-chip");
     selectedTags.forEach((memberTagName) => {
-      const chip = createElement("span", { className: "member-tag-input-chip", dataset: { entity: "memberTag", entityId: memberTagName } });
+      const chip = createElement("span", { className: chipClassName, dataset: { entity: "memberTag", entityId: memberTagName } });
       chip.append(createElement("span", { textContent: memberTagName }));
       if (!shouldShowRemove) {
         parent.append(chip);
@@ -379,7 +438,7 @@ export function initTagInput({ container, initialTags = [], getCatalog, onChange
   function appendSelectedTagSummaryChips(parent) {
     selectedTags.forEach((memberTagName) => {
       const chip = createElement("span", {
-        className: "member-tag-input-chip",
+        className: showRemoveControls ? "member-tag-removable-chip" : "member-tag-input-chip",
         dataset: { entity: "memberTag", entityId: memberTagName },
       });
       chip.append(createElement("span", { textContent: memberTagName }));
@@ -449,7 +508,7 @@ export function initTagInput({ container, initialTags = [], getCatalog, onChange
     }
 
     if (!list.childElementCount) {
-      list.append(createTagEmptyState(hasQuery ? "조회 결과가 없습니다" : "등록된 태그가 없습니다"));
+      list.append(createTagEmptyState(hasQuery ? "조건과 일치하는 결과가 없습니다" : "등록된 태그가 없습니다"));
     }
   }
 

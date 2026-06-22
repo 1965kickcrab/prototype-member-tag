@@ -699,6 +699,32 @@
   margin-bottom: var(--space-5);
 }
 
+.profile-flow-actions {
+  width: calc(100% - 32px);
+  height: 52px;
+  justify-self: center;
+  display: grid;
+  grid-template-columns: 112px minmax(0, 1fr);
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-5);
+}
+
+.profile-flow-actions .profile-flow-primary-button {
+  width: 100%;
+  margin-bottom: 0;
+}
+
+.profile-flow-delete-button {
+  height: 52px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-3);
+  background: var(--color-surface);
+  color: var(--color-warning);
+  font: inherit;
+  font-weight: 700;
+}
+
 .summary-line {
   color: var(--color-text);
 }
@@ -1485,8 +1511,10 @@
   font-weight: 700;
 }
 
-.pet-detail-web-submit-button {
-  width: 300px;
+.pet-detail-web-actions {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-3);
 }
 
 .pet-detail-bottom-sheet {
@@ -1504,13 +1532,22 @@
 
 .pet-detail-bottom-sheet-actions {
   display: grid;
-  grid-template-columns: 112px 1fr;
   gap: var(--space-3);
   padding: 0 var(--space-4);
 }
 
+.pet-detail-bottom-sheet-actions.has-delete {
+  grid-template-columns: 112px 1fr;
+}
+
+.pet-detail-bottom-sheet-actions .bottom-sheet-submit-button {
+  width: 100%;
+  height: 52px;
+}
+
 .pet-detail-delete-button {
   height: 52px;
+  width: 120px;
   border: 1px solid var(--color-border);
   border-radius: 8px;
   background: var(--color-surface);
@@ -1545,6 +1582,14 @@
     grid-column: 2;
   }
 
+  .member-profile-flow .profile-flow-actions {
+    grid-column: 2;
+  }
+
+  .member-profile-flow .profile-flow-actions .profile-flow-primary-button {
+    grid-column: auto;
+  }
+
   .member-detail-app-screen {
     display: none;
   }
@@ -1573,6 +1618,10 @@
     height: 52px;
     justify-self: center;
     margin-bottom: 0;
+  }
+
+  .member-profile-flow .profile-flow-actions .profile-flow-primary-button {
+    width: 100%;
   }
 
   .member-detail-shell {

@@ -106,7 +106,7 @@
 
 .large-disabled-button {
   width: min(300px, 100%);
-  height: 42px;
+  height: 52px;
   align-self: center;
   border: 0;
   border-radius: var(--radius-3);

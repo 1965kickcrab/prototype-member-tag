@@ -104,7 +104,7 @@ function createReservationSearchMenu(state, options) {
   });
 
   if (!visibleMembers.length) {
-    menu.append(createTagEmptyState("조회 결과가 없습니다"));
+    menu.append(createTagEmptyState("조건과 일치하는 결과가 없습니다"));
     return menu;
   }
 
@@ -282,7 +282,7 @@ function createReservationTagMenu(state, options, menuOptions = {}) {
   });
 
   if (!list.childNodes.length) {
-    list.append(createTagEmptyState("조회 결과가 없습니다"));
+    list.append(createTagEmptyState("조건과 일치하는 결과가 없습니다"));
   }
 
   menu.append(list);
@@ -309,7 +309,7 @@ function createTagSearchControl(state, options) {
     className: "member-tag-search-input",
     type: "text",
     value: state.tagFilterQuery || "",
-    placeholder: "태그 검색",
+    placeholder: "태그 입력 또는 조회",
   });
   input.addEventListener("compositionstart", () => {
     isComposing = true;
@@ -370,7 +370,7 @@ function syncReservationTagDataList(control, state, options) {
   });
 
   if (!list.childNodes.length) {
-    list.append(createTagEmptyState("조회 결과가 없습니다"));
+    list.append(createTagEmptyState("조건과 일치하는 결과가 없습니다"));
   }
 }
 
