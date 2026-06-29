@@ -10,6 +10,7 @@ export function createHotelHomeState() {
     currentMonth: initialView.currentMonth,
     selectedDate: initialView.selectedDate,
     searchTerm: "",
+    selectedReservationMember: null,
     isReservationSearchMenuOpen: false,
     isReservationSearchScreenOpen: false,
     members: getStoredMembers(),
@@ -71,20 +72,95 @@ export function getCalendarCountsByDate(reservations, selectedDate) {
 }
 
 export function getFilteredReservationsByDate(hotelHomeState, selectedDate = hotelHomeState.selectedDate) {
-  const searchTerm = normalizeSearchText(hotelHomeState.searchTerm);
   let reservations = getReservationsByDate(hotelHomeState.reservations, selectedDate);
 
-  if (searchTerm) {
-    reservations = reservations.filter((reservation) => {
-      return [reservation.guardianName, reservation.petName].some((fieldValue) => {
-        return normalizeSearchText(fieldValue).includes(searchTerm);
-      });
-    });
+  return getFilteredReservations(hotelHomeState, reservations);
+}
+
+export function getFilteredReservations(hotelHomeState, reservations = hotelHomeState.reservations) {
+  let filteredReservations = [...(reservations || [])];
+
+  filteredReservations = filterReservationsBySelectedMember(filteredReservations, hotelHomeState.selectedReservationMember);
+  filteredReservations = filterReservationsBySearchTerm(filteredReservations, hotelHomeState.searchTerm, hotelHomeState.selectedReservationMember);
+  filteredReservations = filterReservationsByMemberTags(filteredReservations, hotelHomeState.selectedMemberTagNames);
+
+  return filterReservationsByTypes(filteredReservations, hotelHomeState.activeFilters);
+}
+
+export function getFilteredReservationDateRangeRows(hotelHomeState) {
+  const reservations = getFilteredReservations(hotelHomeState);
+  const rowMap = new Map();
+
+  reservations.forEach((reservation) => {
+    const key = createReservationFilterGroupKey(reservation);
+    const currentRow = rowMap.get(key);
+    const nextRow = currentRow || {
+      id: key,
+      petName: reservation.petName || "-",
+      breed: reservation.breed || "",
+      guardianName: reservation.guardianName || "",
+      startDate: reservation.date,
+      endDate: reservation.date,
+      reservations: [],
+    };
+
+    nextRow.reservations.push(reservation);
+    nextRow.startDate = getEarlierDateKey(nextRow.startDate, reservation.date);
+    nextRow.endDate = getLaterDateKey(nextRow.endDate, reservation.date);
+    rowMap.set(key, nextRow);
+  });
+
+  return Array.from(rowMap.values()).sort((leftRow, rightRow) => {
+    const dateCompare = String(leftRow.startDate || "").localeCompare(String(rightRow.startDate || ""));
+    if (dateCompare !== 0) {
+      return dateCompare;
+    }
+
+    return String(leftRow.petName || "").localeCompare(String(rightRow.petName || ""), "ko");
+  });
+}
+
+function filterReservationsBySelectedMember(reservations, selectedReservationMember) {
+  if (!selectedReservationMember) {
+    return reservations;
   }
 
-  reservations = filterReservationsByMemberTags(reservations, hotelHomeState.selectedMemberTagNames);
+  return reservations.filter((reservation) => {
+    if (selectedReservationMember.memberId && reservation.memberId) {
+      if (selectedReservationMember.memberId !== reservation.memberId) {
+        return false;
+      }
 
-  return filterReservationsByTypes(reservations, hotelHomeState.activeFilters);
+      if (selectedReservationMember.petId && reservation.petId) {
+        return selectedReservationMember.petId === reservation.petId;
+      }
+
+      return true;
+    }
+
+    const sameGuardian = normalizeSearchText(reservation.guardianName) === normalizeSearchText(selectedReservationMember.guardianName);
+    const samePet = normalizeSearchText(reservation.petName) === normalizeSearchText(selectedReservationMember.petName);
+
+    if (selectedReservationMember.guardianName && selectedReservationMember.petName) {
+      return sameGuardian && samePet;
+    }
+
+    return sameGuardian || samePet;
+  });
+}
+
+function filterReservationsBySearchTerm(reservations, searchTerm, selectedReservationMember) {
+  const normalizedSearchTerm = normalizeSearchText(searchTerm);
+
+  if (!normalizedSearchTerm || selectedReservationMember) {
+    return reservations;
+  }
+
+  return reservations.filter((reservation) => {
+    return [reservation.guardianName, reservation.petName].some((fieldValue) => {
+      return normalizeSearchText(fieldValue).includes(normalizedSearchTerm);
+    });
+  });
 }
 
 function filterReservationsByMemberTags(reservations, selectedMemberTagNames = []) {
@@ -93,7 +169,7 @@ function filterReservationsByMemberTags(reservations, selectedMemberTagNames = [
   }
 
   return reservations.filter((reservation) => {
-    const reservationTags = [...(reservation.ownerTags || []), ...(reservation.petTags || [])];
+    const reservationTags = reservation.petTags || [];
     return selectedMemberTagNames.every((memberTagName) => reservationTags.includes(memberTagName));
   });
 }
@@ -165,6 +241,28 @@ export function getSelectedDateSummary(hotelHomeState, selectedDate = hotelHomeS
   };
 }
 
+export function getReservationDateRangeStatus(endDate) {
+  const checkoutDate = parseDateKey(endDate);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  if (!checkoutDate || checkoutDate < today) {
+    return {
+      label: "이용 완료",
+      state: "complete",
+    };
+  }
+
+  return {
+    label: "이용 예정",
+    state: "pending",
+  };
+}
+
+export function formatReservationDateRange(startDate, endDate) {
+  return `${formatDateWithWeekday(startDate)} - ${formatDateWithWeekday(endDate || startDate)}`;
+}
+
 function createCalendarCell(date, monthDate) {
   const dateKey = getDateKey(date);
   return {
@@ -185,8 +283,64 @@ function formatSelectedDate(dateText) {
   return `${date.getMonth() + 1}월 ${date.getDate()}일`;
 }
 
+function formatDateWithWeekday(dateText) {
+  const date = parseDateKey(dateText);
+
+  if (!date) {
+    return "-";
+  }
+
+  const weekdays = ["일", "월", "화", "수", "목", "금", "토"];
+  return `${date.getMonth() + 1}월${date.getDate()}일 (${weekdays[date.getDay()]})`;
+}
+
 function normalizeSearchText(value) {
   return String(value || "").trim().toLowerCase();
+}
+
+function parseDateKey(dateText) {
+  const [yearText, monthText, dayText] = String(dateText || "").split("-");
+  const year = Number(yearText);
+  const month = Number(monthText);
+  const day = Number(dayText);
+
+  if (!year || !month || !day) {
+    return null;
+  }
+
+  const date = new Date(year, month - 1, day);
+  date.setHours(0, 0, 0, 0);
+  return Number.isNaN(date.getTime()) ? null : date;
+}
+
+function getEarlierDateKey(leftDate, rightDate) {
+  if (!leftDate) {
+    return rightDate || "";
+  }
+
+  if (!rightDate) {
+    return leftDate;
+  }
+
+  return String(rightDate).localeCompare(String(leftDate)) < 0 ? rightDate : leftDate;
+}
+
+function getLaterDateKey(leftDate, rightDate) {
+  if (!leftDate) {
+    return rightDate || "";
+  }
+
+  if (!rightDate) {
+    return leftDate;
+  }
+
+  return String(rightDate).localeCompare(String(leftDate)) > 0 ? rightDate : leftDate;
+}
+
+function createReservationFilterGroupKey(reservation) {
+  const memberKey = reservation.memberId || normalizeSearchText(reservation.guardianName);
+  const petKey = reservation.petId || normalizeSearchText(reservation.petName);
+  return `${memberKey}:${petKey}`;
 }
 
 function attachMemberTagsToReservations(reservations, members) {
@@ -194,7 +348,12 @@ function attachMemberTagsToReservations(reservations, members) {
     const matchedMemberPet = findReservationMemberPet(reservation, members);
     return {
       ...reservation,
+      memberId: reservation.memberId || matchedMemberPet?.member?.id || "",
+      petId: reservation.petId || matchedMemberPet?.pet?.id || "",
       guardianName: reservation.guardianName || matchedMemberPet?.member?.guardianName || "",
+      phoneNumber: reservation.phoneNumber || matchedMemberPet?.member?.phoneNumber || "",
+      breed: reservation.breed || matchedMemberPet?.pet?.breed || "",
+      weight: reservation.weight || matchedMemberPet?.pet?.weight || "",
       ownerTags: Array.isArray(matchedMemberPet?.member?.ownerTags) ? [...matchedMemberPet.member.ownerTags] : [],
       petTags: Array.isArray(matchedMemberPet?.pet?.petTags) ? [...matchedMemberPet.pet.petTags] : [],
     };

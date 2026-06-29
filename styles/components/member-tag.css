@@ -112,7 +112,7 @@
   gap: var(--space-2);
 }
 
-.member-tag-input-chips,
+.member-tag-selected-list,
 .member-tag-chip-list {
   display: flex;
   flex-wrap: wrap;
@@ -130,7 +130,46 @@
   background: var(--color-surface);
 }
 
+.member-tag-selected-list {
+  min-height: 28px;
+}
+
+.member-tag-selected-list.is-trigger {
+  width: 100%;
+  min-height: 48px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-2);
+  background: var(--color-surface);
+  color: var(--color-text);
+  padding: var(--space-2) var(--space-3);
+  text-align: left;
+  cursor: pointer;
+}
+
+.member-tag-selected-list.is-trigger:focus,
+.member-tag-selected-list.is-trigger:hover {
+  border-color: var(--color-input-focus);
+  outline: none;
+}
+
+.member-tag-selected-placeholder {
+  color: var(--color-text-muted);
+}
+
+.member-tag-selected-chevron {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 16px;
+  margin-left: auto;
+  opacity: 0.64;
+}
+
+.member-tag-selected-list.is-read-view .member-tag-chip-remove {
+  display: none;
+}
+
 .member-tag-input-chip,
+.member-tag-removable-chip,
 .member-tag-filter-chip,
 .member-tag {
   display: inline-flex;
@@ -151,11 +190,6 @@
   color: var(--color-text-muted);
   line-height: 1;
   padding: 0;
-}
-
-.member-tag-input-chips .member-tag-chip-remove,
-.member-tag-input-chips .member-tag-clear-button {
-  display: none;
 }
 
 .member-tag-input-field {
@@ -217,6 +251,7 @@
   top: calc(100% + var(--space-1));
   left: 0;
   width: min(240px, 100%);
+  max-height: 148px;
   display: flex;
   flex-direction: column;
   gap: var(--space-1);
@@ -224,9 +259,11 @@
   border-radius: var(--radius-2);
   padding: var(--space-2);
   background: var(--color-surface);
+  overflow-y: auto;
 }
 
 .member-tag-suggestion-option {
+  flex: 0 0 auto;
   min-height: 30px;
   border: 0;
   border-radius: var(--radius-1);
@@ -288,10 +325,15 @@
   line-height: 1.4;
 }
 
+.member-tag-search-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
 .member-tag-search-control {
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
   gap: var(--space-2);
   min-height: 44px;
   border: 1px solid var(--color-border);
@@ -346,7 +388,7 @@
   font-size: 14px;
 }
 
-.member-tag-checkbox-option {
+.member-tag-option {
   min-height: 40px;
   display: flex;
   align-items: center;
@@ -360,22 +402,14 @@
   cursor: pointer;
 }
 
-.member-tag-checkbox-option input {
-  width: 16px;
-  height: 16px;
-  flex: 0 0 auto;
-  appearance: auto;
-  accent-color: var(--color-primary);
-}
-
-.member-tag-checkbox-option span {
+.member-tag-option span {
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.member-tag-checkbox-option[data-state="selected"] {
+.member-tag-option[data-state="selected"] {
   border-color: var(--color-primary);
   color: var(--color-primary);
   font-weight: 700;
@@ -447,6 +481,28 @@
   text-align: center;
 }
 
+.member-tag-management-back-button {
+  display: inline-grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: var(--radius-2);
+  background: transparent;
+  color: var(--color-text);
+}
+
+.member-tag-management-back-button:focus,
+.member-tag-management-back-button:hover {
+  background: var(--color-primary-soft);
+  outline: none;
+}
+
+.member-tag-management-back-icon {
+  width: 24px;
+  height: 24px;
+}
+
 .member-tag-management-page-body {
   min-height: 0;
   display: grid;
@@ -499,13 +555,30 @@
   overflow: auto;
 }
 
-.member-tag-management-row[data-state="deleted"] {
-  opacity: 0.55;
-}
-
 .member-tag-management-row {
   position: relative;
   min-height: 44px;
+}
+
+.member-tag-management-card-row {
+  width: 100%;
+  min-height: 48px;
+  justify-content: space-between;
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-3);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+  text-align: left;
+  padding: 0 var(--space-4);
+  cursor: pointer;
+}
+
+.member-tag-management-card-row:hover,
+.member-tag-management-card-row:focus {
+  border-color: var(--color-border);
+  background: var(--color-page-subtle);
+  outline: none;
 }
 
 .member-tag-management-input {
@@ -517,6 +590,31 @@
   padding: 0 var(--space-3);
 }
 
+.member-tag-management-input:disabled {
+  background: var(--color-page-subtle);
+  color: var(--color-text-muted);
+  opacity: 1;
+}
+
+.member-tag-management-row[data-state="deleted"] .member-tag-management-input {
+  opacity: 0.55;
+}
+
+.member-tag-management-row[data-state="changed"] .member-tag-management-input {
+  color: var(--color-text);
+}
+
+.member-tag-management-delete-button {
+  min-width: 64px;
+  height: 36px;
+  flex: 0 0 auto;
+  color: #ed6060;
+}
+
+.member-tag-management-delete-button.is-restore {
+  color: var(--color-primary);
+}
+
 .member-tag-management-name {
   flex: 1;
   min-width: 0;
@@ -524,6 +622,17 @@
   color: var(--color-text);
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.member-tag-management-row-icon {
+  width: 24px;
+  flex: 0 0 24px;
+  opacity: 0.48;
+  color: var(--color-text);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
 }
 
 .member-tag-more-button {
@@ -585,6 +694,66 @@
   color: var(--color-primary);
   font-weight: 700;
   padding: 0 var(--space-3);
+}
+
+.member-tag-delete-replacement-dialog {
+  width: min(420px, 100%);
+  overflow: visible;
+}
+
+.member-tag-delete-replacement-content {
+  display: grid;
+  gap: var(--space-4);
+  text-align: center;
+}
+
+.member-tag-delete-replacement-message {
+  margin: 0;
+  color: var(--color-text);
+  line-height: 1.5;
+  white-space: pre-line;
+}
+
+.member-tag-delete-replacement-count {
+  color: var(--color-primary);
+  font-weight: 700;
+}
+
+.member-tag-delete-replacement-selector {
+  display: grid;
+  grid-template-columns: minmax(0, 96px) 20px minmax(0, 1fr);
+  align-items: center;
+  gap: var(--space-3);
+  text-align: left;
+}
+
+.member-tag-delete-replacement-source {
+  overflow: hidden;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.member-tag-delete-replacement-arrow {
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+}
+
+.member-tag-delete-replacement-picker {
+  position: relative;
+}
+
+.member-tag-delete-replacement-control {
+  min-height: 40px;
+}
+
+.member-tag-delete-replacement-list {
+  top: calc(100% + var(--space-1));
+  right: 0;
+  left: 0;
+  width: 100%;
+  max-height: 192px;
 }
 
 .member-tag-edit-sheet-overlay {
@@ -743,7 +912,7 @@
   overflow: hidden;
 }
 
-.tag-bottom-sheet .member-tag-checkbox-option {
+.tag-bottom-sheet .member-tag-option {
   width: 100%;
   min-height: 40px;
   text-align: left;

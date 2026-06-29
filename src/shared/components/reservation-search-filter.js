@@ -34,21 +34,22 @@ export function createReservationSearchFilter(state, options) {
   searchInput.addEventListener("compositionend", (event) => {
     isComposing = false;
     window.setTimeout(() => {
-      state.searchTerm = event.target.value;
+      applyReservationMemberSearch(state, event.target.value);
       state.isReservationSearchMenuOpen = true;
       options.onSearchInput?.(state, event.target.value);
       focusReservationSearchInput(options);
     }, 0);
   });
   searchInput.addEventListener("input", (event) => {
-    state.searchTerm = event.target.value;
     state.isReservationSearchMenuOpen = true;
 
     if (isComposing) {
+      state.searchTerm = event.target.value;
       syncReservationSearchMenu(state, options);
       return;
     }
 
+    applyReservationMemberSearch(state, event.target.value);
     options.onSearchInput?.(state, event.target.value);
     focusReservationSearchInput(options);
   });
@@ -104,7 +105,7 @@ function createReservationSearchMenu(state, options) {
   });
 
   if (!visibleMembers.length) {
-    menu.append(createTagEmptyState("조회 결과가 없습니다"));
+    menu.append(createTagEmptyState("조건과 일치하는 결과가 없습니다"));
     return menu;
   }
 
@@ -125,14 +126,44 @@ function createReservationSearchMenu(state, options) {
       event.preventDefault();
     });
     button.addEventListener("click", () => {
-      state.searchTerm = member.petName || member.guardianName || "";
+      applyReservationMemberSearch(state, member.petName || member.guardianName || "");
+      state.selectedReservationMember = member;
+      state.selectedMemberTagNames = [];
+      state.tagFilterQuery = "";
+      state.isTagMenuOpen = false;
       state.isReservationSearchMenuOpen = false;
+      if (options.onMemberSelect) {
+        options.onMemberSelect(state, member);
+        return;
+      }
+
       options.onSearchInput?.(state, state.searchTerm);
     });
     menu.append(button);
   });
 
   return menu;
+}
+
+function applyReservationMemberSearch(state, searchTerm) {
+  const nextSearchTerm = String(searchTerm || "");
+  const didChange = String(state.searchTerm || "") !== nextSearchTerm;
+  state.searchTerm = nextSearchTerm;
+
+  if (!didChange) {
+    return;
+  }
+
+  state.selectedReservationMember = null;
+  state.selectedMemberTagNames = [];
+  state.tagFilterQuery = "";
+  state.isTagMenuOpen = false;
+}
+
+function clearReservationMemberSearch(state) {
+  state.searchTerm = "";
+  state.selectedReservationMember = null;
+  state.isReservationSearchMenuOpen = false;
 }
 
 function getVisibleReservationMemberOptions(state) {
@@ -282,7 +313,7 @@ function createReservationTagMenu(state, options, menuOptions = {}) {
   });
 
   if (!list.childNodes.length) {
-    list.append(createTagEmptyState("조회 결과가 없습니다"));
+    list.append(createTagEmptyState("조건과 일치하는 결과가 없습니다"));
   }
 
   menu.append(list);
@@ -291,20 +322,25 @@ function createReservationTagMenu(state, options, menuOptions = {}) {
 
 function createTagSearchControl(state, options) {
   let isComposing = false;
-  const control = createElement("div", {
-    className: options.tagSearchControlClassName || "member-tag-search-control tag-menu-search-control",
-    dataset: { state: state.selectedMemberTagNames?.length ? "selected" : "empty" },
+  const wrapper = createElement("div", {
+    className: "member-tag-search-stack",
+    dataset: { area: "reservationTagSearchControl", state: state.selectedMemberTagNames?.length ? "selected" : "empty" },
   });
 
   if (state.selectedMemberTagNames?.length) {
-    control.append(createSelectedTagChipList(state, options));
+    wrapper.append(createSelectedTagChipList(state, options));
   }
+
+  const control = createElement("div", {
+    className: options.tagSearchControlClassName || "member-tag-search-control tag-menu-search-control",
+    dataset: { state: "input" },
+  });
 
   const input = createElement("input", {
     className: "member-tag-search-input",
     type: "text",
     value: state.tagFilterQuery || "",
-    placeholder: "태그 검색",
+    placeholder: "태그 입력 또는 조회",
   });
   input.addEventListener("compositionstart", () => {
     isComposing = true;
@@ -331,26 +367,16 @@ function createTagSearchControl(state, options) {
   });
   control.append(input);
 
-  if (!state.selectedMemberTagNames?.length) {
-    return control;
-  }
+  wrapper.append(control);
+  return wrapper;
+}
+  /*
 
-  const clearButton = createElement("button", {
-    className: "member-tag-clear-button",
-    type: "button",
     textContent: "×",
-    ariaLabel: "선택한 태그 전체 해제",
-    dataset: { action: "clearSelectedReservationTags" },
-  });
-  clearButton.addEventListener("click", () => {
-    state.selectedMemberTagNames = [];
-    options.rerender(state);
-    focusReservationTagSearchInput(options);
-  });
-  control.append(clearButton);
-  return control;
+    ariaLabel: "",
 }
 
+*/
 function syncReservationTagDataList(control, state, options) {
   const list = control.closest("[data-area='reservationTagMenu']")?.querySelector(".member-tag-data-list")
     || control.closest(".tag-bottom-sheet")?.querySelector("[data-area='reservationTagMenu'] .member-tag-data-list");
@@ -375,27 +401,25 @@ function syncReservationTagDataList(control, state, options) {
   });
 
   if (!list.childNodes.length) {
-    list.append(createTagEmptyState("조회 결과가 없습니다"));
+    list.append(createTagEmptyState("조건과 일치하는 결과가 없습니다"));
   }
 }
 
 function createReservationTagOption(state, options, memberTagName) {
   const isSelected = state.selectedMemberTagNames.includes(memberTagName);
-  const option = createElement("label", {
-    className: "member-tag-checkbox-option",
+  const option = createElement("button", {
+    className: "member-tag-option",
+    type: "button",
     dataset: { action: "toggleReservationTag", entityId: memberTagName, state: isSelected ? "selected" : "idle" },
   });
-  const checkbox = createElement("input", {
-    type: "checkbox",
-  });
-  checkbox.checked = isSelected;
-  checkbox.addEventListener("change", () => {
+  option.addEventListener("click", () => {
     state.selectedMemberTagNames = isSelected
       ? state.selectedMemberTagNames.filter((selectedTagName) => selectedTagName !== memberTagName)
       : [...state.selectedMemberTagNames, memberTagName];
+    clearReservationMemberSearch(state);
+    options.onTagSelect?.(state, memberTagName);
     options.rerender(state);
   });
-  option.append(checkbox);
   option.append(createElement("span", { textContent: memberTagName }));
   return option;
 }
@@ -434,6 +458,8 @@ function createSelectedTagChipList(state, options) {
       state.selectedMemberTagNames = state.selectedMemberTagNames.filter((selectedTagName) => {
         return String(selectedTagName || "").trim().toLowerCase() !== String(memberTagName || "").trim().toLowerCase();
       });
+      clearReservationMemberSearch(state);
+      options.onTagSelect?.(state, memberTagName);
       options.rerender(state);
     });
     chip.append(removeButton);

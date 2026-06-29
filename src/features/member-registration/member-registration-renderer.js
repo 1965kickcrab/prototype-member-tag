@@ -84,8 +84,25 @@ function createHeader(title, onClose, closeText = "✕") {
   header.append(createCloseButton(onClose, closeText, `${title} 닫기`));
   header.append(createElement("strong", { className: "brand-name", textContent: "다이얼독 비즈" }));
   header.append(createElement("h1", { textContent: title }));
-  header.append(createElement("span", { className: "header-utility", textContent: "설정  알림  계정" }));
+  header.append(createHeaderUtility());
   return header;
+}
+
+function createHeaderUtility() {
+  const utility = createElement("span", { className: "header-utility" });
+  const settingsButton = createElement("button", {
+    className: "header-utility-button",
+    type: "button",
+    textContent: "설정",
+    dataset: { action: "openSettings" },
+  });
+  settingsButton.addEventListener("click", () => {
+    window.location.href = "./settings/member/tag-management.html";
+  });
+  utility.append(settingsButton);
+  utility.append(createElement("span", { textContent: "알림" }));
+  utility.append(createElement("span", { textContent: "계정" }));
+  return utility;
 }
 
 function createCloseButton(onClick, textContent, ariaLabel) {
@@ -160,10 +177,6 @@ function createGuardianSummary(memberRegistrationState) {
 
   section.append(header);
   section.append(summaryList);
-  const tagSection = createRegistrationTagDisplay("보호자 태그", member.ownerTags);
-  if (tagSection) {
-    section.append(tagSection);
-  }
   return section;
 }
 
@@ -672,7 +685,6 @@ function createGuardianEditForm(memberRegistrationState, layoutMode) {
     },
   }));
   form.append(addressField);
-  form.append(createGuardianTagField(memberRegistrationState));
   const submitButton = createElement("button", { className: "large-disabled-button guardian-edit-submit-button", type: "button", textContent: "수정", dataset: { action: "submitGuardianEdit", state: ACTION_BUTTON_STATE.enabled } });
   submitButton.addEventListener("click", () => {
     submitGuardianEdit(memberRegistrationState);
@@ -681,27 +693,10 @@ function createGuardianEditForm(memberRegistrationState, layoutMode) {
   return form;
 }
 
-function createGuardianTagField(memberRegistrationState) {
-  const field = createElement("section", { className: "registration-field", dataset: { field: "ownerTags" } });
-  field.append(createElement("span", { className: "registration-label", textContent: "태그" }));
-  const container = createElement("div", { dataset: { area: "ownerTagInput" } });
-  initTagInput({
-    container,
-    initialTags: memberRegistrationState.guardianDraft.ownerTags,
-    getCatalog: () => memberRegistrationState.memberTagCatalog || [],
-    onChange: (nextTags) => {
-      memberRegistrationState.guardianDraft.ownerTags = nextTags;
-    },
-  });
-  field.append(container);
-  return field;
-}
-
 function submitGuardianEdit(memberRegistrationState) {
   memberRegistrationState.member.address = memberRegistrationState.guardianDraft.address || "";
   memberRegistrationState.member.addressDetail = memberRegistrationState.guardianDraft.addressDetail || "";
-  memberRegistrationState.member.ownerTags = sanitizeTagList(memberRegistrationState.guardianDraft.ownerTags);
-  memberRegistrationState.memberTagCatalog = mergeMemberTagCatalog(memberRegistrationState.member.ownerTags);
+  memberRegistrationState.member.ownerTags = [];
   memberRegistrationState.isGuardianEditModalOpen = false;
   memberRegistrationState.activeScreen = "memberRegistration";
   rerender(memberRegistrationState);
@@ -805,7 +800,6 @@ function createRegistrationAlert(memberRegistrationState) {
     if (!isCancelAlert) {
       const memberToRegister = createMemberForRegistration(memberRegistrationState);
       mergeMemberTagCatalog([
-        ...memberToRegister.ownerTags,
         ...memberToRegister.pets.flatMap((pet) => pet.petTags),
       ]);
       saveRegisteredMembers([memberToRegister]);
@@ -874,7 +868,7 @@ function createMemberForRegistration(memberRegistrationState) {
     phoneNumber: guardian.phoneNumber,
     address: guardian.address,
     addressDetail: guardian.addressDetail || "",
-    ownerTags: sanitizeTagList(guardian.ownerTags),
+    ownerTags: [],
     isRegistered: true,
     pets: memberRegistrationState.petForms.filter(isPetFormReady).map((petForm) => ({
       ...petForm,

@@ -94,6 +94,7 @@
 - Do not duplicate the same UI pattern in multiple page CSS files. If a page-specific style becomes useful across screens, promote it to the shared `components` or `layout` layer and keep page CSS for screen-specific exceptions.
 - Preserve Web and Mobile/App layout differences primarily through layout/page CSS and responsive rules.
 - Keep styles minimal and LoFi unless visual refinement is explicitly requested.
+- When matching a reference image, prioritize structural fidelity over visual recreation. Reuse existing styles whenever possible and introduce only the minimum CSS required.
 
 ## 9. Figma References
 

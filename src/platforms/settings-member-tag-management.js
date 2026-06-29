@@ -2,6 +2,6 @@ import { renderMemberTagManagementScreen } from "../features/member-tag-manageme
 import { createMemberTagManagementState } from "../features/member-tag-management/member-tag-management-state.js";
 
 const rootElement = document.querySelector("#app");
-const state = createMemberTagManagementState({ mode: "app" });
+const state = createMemberTagManagementState({ mode: "web" });
 
 renderMemberTagManagementScreen(rootElement, state);

@@ -5,7 +5,7 @@ export function createOwnerDetailDraft(member) {
     phoneNumber: member?.phoneNumber || "",
     address: member?.address || "",
     addressDetail: member?.addressDetail || "",
-    ownerTags: Array.isArray(member?.ownerTags) ? [...member.ownerTags] : [],
+    ownerTags: [],
   };
 }
 

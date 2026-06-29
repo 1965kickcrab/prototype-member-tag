@@ -5,7 +5,12 @@ import { initTagInput } from "../../shared/components/member-tag-input.js";
 import { createBusinessNavigation } from "../../shared/components/navigation.js";
 import { createToast, TOAST_AUTO_DISMISS_MS } from "../../shared/components/toast.js";
 import { sanitizeTagList } from "../../shared/services/member-tag-service.js";
-import { mergeMemberTagCatalog, saveRegisteredMembers } from "../../shared/storage/member-storage.js";
+import {
+  deleteStoredMember,
+  mergeMemberTagCatalog,
+  saveRegisteredMembers,
+  saveStoredMembers,
+} from "../../shared/storage/member-storage.js";
 import { createElement } from "../../shared/utils/dom.js";
 import { formatText } from "../../shared/utils/format.js";
 import { formatMemberBirthDate, formatMemberGender, formatMemberWeight, getAgeOutputText, normalizeBirthDateParts } from "../../shared/utils/member-date.js";
@@ -67,15 +72,32 @@ function createWebMemberDetailScreen(memberDetailState) {
 
 function createHeader() {
   const header = createElement("header", {
-    className: "member-header",
+    className: "header",
     dataset: { area: "header" },
   });
 
   header.append(createElement("strong", { className: "brand-name", textContent: "다이얼독 비즈" }));
   header.append(createElement("h1", { textContent: "회원" }));
-  header.append(createElement("span", { className: "header-utility", textContent: "설정  알림  계정" }));
+  header.append(createHeaderUtility());
 
   return header;
+}
+
+function createHeaderUtility() {
+  const utility = createElement("span", { className: "header-utility" });
+  const settingsButton = createElement("button", {
+    className: "header-utility-button",
+    type: "button",
+    textContent: "설정",
+    dataset: { action: "openSettings" },
+  });
+  settingsButton.addEventListener("click", () => {
+    window.location.href = "./settings/member/tag-management.html";
+  });
+  utility.append(settingsButton);
+  utility.append(createElement("span", { textContent: "알림" }));
+  utility.append(createElement("span", { textContent: "계정" }));
+  return utility;
 }
 
 function createNavigation() {
@@ -306,7 +328,6 @@ function createWebGuardianInfoSection(memberDetailState, member) {
     area: "guardianInfo",
     actionText: "수정",
     actionName: "openOwnerDetail",
-    headerTags: member.ownerTags,
   });
   section.append(createInfoList([
     ["보호자", formatText(member.guardianName)],
@@ -437,10 +458,6 @@ function createAppDetailInfoBody(member) {
     ["몸무게", formatMemberWeight(member.weight)],
     ["성별", formatMemberGender(member.gender, member.neuteredStatus)],
   ], "member-detail-app-info-list"));
-  const ownerTagSection = createMemberTagDisplaySection("태그", member.ownerTags);
-  if (ownerTagSection) {
-    body.append(ownerTagSection);
-  }
   return body;
 }
 
@@ -730,7 +747,26 @@ function createOwnerDetailModal(memberDetailState) {
   form.append(createOwnerReadonlyField("보호자", memberDetailState.ownerDetailDraft.guardianName));
   form.append(createOwnerReadonlyField("연락처", formatPhoneNumber(memberDetailState.ownerDetailDraft.phoneNumber)));
   form.append(createOwnerAddressField(memberDetailState));
-  form.append(createOwnerTagField(memberDetailState));
+
+  form.append(createOwnerDetailActions(memberDetailState));
+
+  modal.append(header);
+  modal.append(form);
+  overlay.append(modal);
+  return overlay;
+}
+
+function createOwnerDetailActions(memberDetailState) {
+  const actions = createElement("div", { className: "pet-detail-web-actions has-delete" });
+  const deleteButton = createElement("button", {
+    className: "pet-detail-delete-button",
+    type: "button",
+    textContent: "회원 삭제",
+    dataset: { action: "deleteMember" },
+  });
+  deleteButton.addEventListener("click", () => {
+    deleteSelectedMember(memberDetailState);
+  });
 
   const submitButton = createElement("button", {
     className: "large-disabled-button pet-detail-web-submit-button",
@@ -741,12 +777,10 @@ function createOwnerDetailModal(memberDetailState) {
   submitButton.addEventListener("click", () => {
     submitOwnerDetailDraft(memberDetailState);
   });
-  form.append(submitButton);
 
-  modal.append(header);
-  modal.append(form);
-  overlay.append(modal);
-  return overlay;
+  actions.append(deleteButton);
+  actions.append(submitButton);
+  return actions;
 }
 
 function createOwnerReadonlyField(labelText, value) {
@@ -796,22 +830,6 @@ function createOwnerAddressField(memberDetailState) {
   wrapper.append(searchRow);
   wrapper.append(detailAddressInput);
   field.append(wrapper);
-  return field;
-}
-
-function createOwnerTagField(memberDetailState) {
-  const field = createElement("section", { className: "pet-detail-field", dataset: { field: "ownerTags" } });
-  field.append(createElement("span", { className: "pet-detail-label", textContent: "태그" }));
-  const container = createElement("div", { dataset: { area: "ownerTagInput" } });
-  initTagInput({
-    container,
-    initialTags: memberDetailState.ownerDetailDraft.ownerTags,
-    getCatalog: () => memberDetailState.memberTagCatalog || [],
-    onChange: (nextTags) => {
-      memberDetailState.ownerDetailDraft.ownerTags = nextTags;
-    },
-  });
-  field.append(container);
   return field;
 }
 
@@ -1046,6 +1064,7 @@ function createPetDetailTagField(memberDetailState, draft, options = {}) {
     initialTags: draft.petTags,
     getCatalog: () => memberDetailState.memberTagCatalog || [],
     showRemoveControls: options.showRemoveControls !== false,
+    useSelectedListTrigger: options.showRemoveControls === false,
     onChange: (nextTags) => {
       draft.petTags = nextTags;
       syncPetDetailSubmitState(memberDetailState);
@@ -1056,6 +1075,25 @@ function createPetDetailTagField(memberDetailState, draft, options = {}) {
 }
 
 function createPetDetailWebSubmit(memberDetailState) {
+  const actions = createElement("div", {
+    className: canDeleteSelectedPet(memberDetailState)
+      ? "pet-detail-web-actions has-delete"
+      : "pet-detail-web-actions",
+  });
+
+  if (canDeleteSelectedPet(memberDetailState)) {
+    const deleteButton = createElement("button", {
+      className: "pet-detail-delete-button",
+      type: "button",
+      textContent: "반려견 삭제",
+      dataset: { action: "deletePet" },
+    });
+    deleteButton.addEventListener("click", () => {
+      deleteSelectedPet(memberDetailState);
+    });
+    actions.append(deleteButton);
+  }
+
   const button = createElement("button", {
     className: "large-disabled-button pet-detail-web-submit-button",
     type: "button",
@@ -1066,19 +1104,29 @@ function createPetDetailWebSubmit(memberDetailState) {
   button.addEventListener("click", () => {
     submitPetDetailDraft(memberDetailState);
   });
-  return button;
+  actions.append(button);
+  return actions;
 }
 
 function createPetDetailBottomSheetActions(memberDetailState) {
-  const actions = createElement("div", { className: "pet-detail-bottom-sheet-actions" });
-  const deleteButton = createElement("button", {
-    className: "pet-detail-delete-button",
-    type: "button",
-    textContent: "삭제",
+  const actions = createElement("div", {
+    className: canDeleteSelectedPet(memberDetailState)
+      ? "pet-detail-bottom-sheet-actions has-delete"
+      : "pet-detail-bottom-sheet-actions",
   });
-  deleteButton.addEventListener("click", () => {
-    clearPetDetail(memberDetailState);
-  });
+
+  if (canDeleteSelectedPet(memberDetailState)) {
+    const deleteButton = createElement("button", {
+      className: "pet-detail-delete-button",
+      type: "button",
+      textContent: "삭제",
+      dataset: { action: "deletePet" },
+    });
+    deleteButton.addEventListener("click", () => {
+      deleteSelectedPet(memberDetailState);
+    });
+    actions.append(deleteButton);
+  }
 
   const submitButton = createElement("button", {
     className: "large-disabled-button bottom-sheet-submit-button",
@@ -1091,7 +1139,6 @@ function createPetDetailBottomSheetActions(memberDetailState) {
     submitPetDetailDraft(memberDetailState);
   });
 
-  actions.append(deleteButton);
   actions.append(submitButton);
   return actions;
 }
@@ -1126,32 +1173,46 @@ function submitPetDetailDraft(memberDetailState) {
 function submitOwnerDetailDraft(memberDetailState) {
   memberDetailState.selectedMember.address = memberDetailState.ownerDetailDraft.address || "";
   memberDetailState.selectedMember.addressDetail = memberDetailState.ownerDetailDraft.addressDetail || "";
-  memberDetailState.selectedMember.ownerTags = sanitizeTagList(memberDetailState.ownerDetailDraft.ownerTags);
-  memberDetailState.memberTagCatalog = mergeMemberTagCatalog(memberDetailState.selectedMember.ownerTags);
+  memberDetailState.selectedMember.ownerTags = [];
   memberDetailState.members = saveRegisteredMembers([memberDetailState.selectedMember]);
   memberDetailState.isOwnerDetailModalOpen = false;
   memberDetailState.toastMessage = "정보를 수정했습니다.";
   rerender(memberDetailState);
 }
 
-function clearPetDetail(memberDetailState) {
-  applyPetDetailDraft(memberDetailState.selectedPet, {
-    petName: "",
-    breed: "",
-    birthDate: "",
-    animalRegistrationNumber: "",
-    coatColor: "",
-    weight: "",
-    gender: "",
-    neuteredStatus: "",
-    memo: "",
-    petTags: [],
-  });
-  memberDetailState.members = saveRegisteredMembers([memberDetailState.selectedMember]);
+function deleteSelectedMember(memberDetailState) {
+  if (!memberDetailState.selectedMember?.id) {
+    return;
+  }
+
+  deleteStoredMember(memberDetailState.selectedMember.id);
+  window.location.href = "./member-home.html";
+}
+
+function deleteSelectedPet(memberDetailState) {
+  if (!canDeleteSelectedPet(memberDetailState)) {
+    return;
+  }
+
+  const selectedPetId = memberDetailState.selectedPet.id;
+  memberDetailState.selectedMember.pets = memberDetailState.selectedMember.pets.filter((pet) => pet.id !== selectedPetId);
+  memberDetailState.selectedPet = memberDetailState.selectedMember.pets[0];
   memberDetailState.petDetailDraft = createPetDetailDraft(memberDetailState.selectedPet);
+  memberDetailState.members = saveStoredMembers((memberDetailState.members || []).map((member) => {
+    return member.id === memberDetailState.selectedMember.id ? memberDetailState.selectedMember : member;
+  }));
+  memberDetailState.isPetDetailModalOpen = false;
   memberDetailState.isPetDetailBottomSheetOpen = false;
-  memberDetailState.toastMessage = "반려견 정보를 삭제했습니다.";
+  memberDetailState.toastMessage = "반려견을 삭제했습니다.";
   rerender(memberDetailState);
+}
+
+function canDeleteSelectedPet(memberDetailState) {
+  return Boolean(
+    memberDetailState.selectedPet?.id
+      && Array.isArray(memberDetailState.selectedMember?.pets)
+      && memberDetailState.selectedMember.pets.length >= 2
+  );
 }
 
 function applyPetDetailDraft(pet, draft) {

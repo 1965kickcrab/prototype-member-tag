@@ -1,3 +1,6 @@
+export const MAX_MEMBER_TAGS_PER_MEMBER = 10;
+export const MAX_MEMBER_TAG_CATALOG_SIZE = 20;
+
 export function normalizeMemberTagName(memberTagName) {
   return String(memberTagName || "").trim().replace(/\s+/g, " ").toLowerCase();
 }
@@ -53,7 +56,14 @@ export function hasDuplicateMemberTagDraftName(drafts) {
 }
 
 export function mergeTagCatalog(currentTags, incomingTags) {
-  return sortMemberTagNames([...(currentTags || []), ...(incomingTags || [])]);
+  return sortMemberTagNames([...(currentTags || []), ...(incomingTags || [])]).slice(0, MAX_MEMBER_TAG_CATALOG_SIZE);
+}
+
+export function hasMemberTagName(memberTags, memberTagName) {
+  const normalizedTagName = normalizeMemberTagName(memberTagName);
+  return sanitizeTagList(memberTags).some((currentTagName) => {
+    return normalizeMemberTagName(currentTagName) === normalizedTagName;
+  });
 }
 
 function compareMemberTagNames(leftTagName, rightTagName) {
@@ -208,8 +218,14 @@ export function syncTagListWithCatalogEdits(memberTags, drafts) {
       return normalizeMemberTagName(draft?.sourceTag) === normalizeMemberTagName(memberTagName);
     });
 
-    if (!matchingDraft || matchingDraft.isDeleted) {
-      return matchingDraft?.isDeleted ? "" : memberTagName;
+    if (!matchingDraft) {
+      return memberTagName;
+    }
+
+    if (matchingDraft.isDeleted) {
+      return normalizeMemberTagName(matchingDraft.nextTag) === normalizeMemberTagName(matchingDraft.sourceTag)
+        ? ""
+        : matchingDraft.nextTag || "";
     }
 
     return matchingDraft.nextTag || memberTagName;
@@ -225,8 +241,12 @@ export function applyCatalogDrafts(catalog, drafts) {
       return normalizeMemberTagName(draft?.sourceTag) === normalizeMemberTagName(memberTagName);
     });
 
-    if (!matchingDraft || matchingDraft.isDeleted) {
-      return matchingDraft?.isDeleted ? "" : memberTagName;
+    if (!matchingDraft) {
+      return memberTagName;
+    }
+
+    if (matchingDraft.isDeleted) {
+      return "";
     }
 
     return matchingDraft.nextTag || memberTagName;
@@ -236,9 +256,14 @@ export function applyCatalogDrafts(catalog, drafts) {
   const newTags = activeDrafts
     .filter((draft) => {
       const sourceTag = normalizeMemberTagName(draft?.sourceTag);
-      return !draft?.isDeleted && sourceTag && !currentTagSet.has(sourceTag);
-    })
-    .map((draft) => draft.nextTag || draft.sourceTag);
+      const nextTag = normalizeMemberTagName(draft?.nextTag);
+      if (!nextTag || (draft?.isDeleted && nextTag === sourceTag)) {
+        return false;
+      }
 
-  return sortMemberTagNames([...editedTags, ...newTags]);
+      return !sourceTag || !currentTagSet.has(sourceTag) || draft?.isDeleted;
+    })
+    .map((draft) => draft.nextTag);
+
+  return sortMemberTagNames([...editedTags, ...newTags]).slice(0, MAX_MEMBER_TAG_CATALOG_SIZE);
 }

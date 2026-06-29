@@ -66,22 +66,32 @@ function createSchoolHomeWebShell(schoolHomeState) {
 
 function createWebHeader() {
   const header = createElement("header", {
-    className: "school-web-header",
+    className: "header",
     dataset: { area: "header" },
   });
 
-  const brand = createElement("div", { className: "school-brand" });
-  brand.append(createElement("img", { className: "school-brand-logo", src: "../assets/logoImg.svg", alt: "다이얼독 로고" }));
-  brand.append(createElement("img", { className: "school-brand-text", src: "../assets/logoText.svg", alt: "다이얼독 비즈" }));
-  header.append(brand);
-
-  const utilities = createElement("div", { className: "school-web-utilities" });
-  utilities.append(createHeaderIconButton(SETTING_ICON_PATH, "설정"));
-  utilities.append(createHeaderIconButton(ALARM_ICON_PATH, "알림"));
-  utilities.append(createHeaderIconButton(PROFILE_ICON_PATH, "계정"));
-  header.append(utilities);
+  header.append(createElement("strong", { className: "brand-name", textContent: "다이얼독 비즈" }));
+  header.append(createElement("h1", { textContent: "유치원" }));
+  header.append(createHeaderUtility());
 
   return header;
+}
+
+function createHeaderUtility() {
+  const utility = createElement("span", { className: "header-utility" });
+  const settingsButton = createElement("button", {
+    className: "header-utility-button",
+    type: "button",
+    textContent: "설정",
+    dataset: { action: "openSettings" },
+  });
+  settingsButton.addEventListener("click", () => {
+    window.location.href = "./settings/member/tag-management.html";
+  });
+  utility.append(settingsButton);
+  utility.append(createElement("span", { textContent: "알림" }));
+  utility.append(createElement("span", { textContent: "계정" }));
+  return utility;
 }
 
 function createHeaderIconButton(iconPath, label) {
@@ -310,9 +320,9 @@ function createCalendarDateButton(schoolHomeState, cell, platform) {
   const classNames = [
     "calendar-date",
     cell.isCurrentMonth ? "" : "is-muted",
+    cell.isToday ? "is-today" : "",
     isSelected ? "is-selected" : "",
     cell.isHoliday ? "is-holiday" : "",
-    hasReservations ? "has-reservations" : "",
     isCapacityClosed ? "is-capacity-closed" : "",
   ].filter(Boolean).join(" ");
   const button = createElement("button", {
@@ -703,7 +713,7 @@ function getFilteredReservationSearchResults(schoolHomeState) {
       if (!schoolHomeState.selectedMemberTagNames?.length) {
         return true;
       }
-      const reservationTags = [...(reservation.ownerTags || []), ...(reservation.petTags || [])];
+      const reservationTags = reservation.petTags || [];
       return schoolHomeState.selectedMemberTagNames.every((memberTagName) => reservationTags.includes(memberTagName));
     })
     .sort((leftReservation, rightReservation) => String(leftReservation.date || "").localeCompare(String(rightReservation.date || "")));

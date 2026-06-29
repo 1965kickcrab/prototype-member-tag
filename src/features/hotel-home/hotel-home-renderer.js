@@ -1,5 +1,5 @@
 ﻿import { createEmptyStateElement } from "../../shared/components/empty-state.js";
-import { createBusinessNavigation } from "../../shared/components/navigation.js";
+import { createBusinessNavigation, createDefaultAppBottomNavigation } from "../../shared/components/navigation.js";
 import { createReservationSearchFilter } from "../../shared/components/reservation-search-filter.js";
 import { createElement } from "../../shared/utils/dom.js";
 import {
@@ -7,11 +7,14 @@ import {
   createMonthDate,
   getCalendarMatrix,
   getDateKey,
+  getFilteredReservationDateRangeRows,
   getFilteredReservationsByDate,
   getMonthLabel,
   getReservationGroups,
+  getReservationDateRangeStatus,
   getReservationsByDate,
   getSelectedDateSummary,
+  formatReservationDateRange,
   sortReservationsForApp,
   shiftMonth,
 } from "./hotel-home-state.js";
@@ -24,7 +27,6 @@ const PROFILE_ICON_PATH = "../assets/menuIcon_profile.svg";
 const SEARCH_ICON_PATH = "../assets/searchIcon.svg";
 const CHEVRON_LEFT_ICON_PATH = "../assets/iconChevronLeft.svg";
 const CHEVRON_RIGHT_ICON_PATH = "../assets/iconChevronRight.svg";
-const CLOSE_ICON_PATH = "../assets/iconClose.svg";
 const CHECKIN_ICON_PATH = "../assets/iconCheckin.svg";
 const CHECKOUT_ICON_PATH = "../assets/iconCheckout.svg";
 
@@ -87,28 +89,46 @@ function createHotelHomeAppShell(hotelHomeState) {
   shell.append(createAppHeader(hotelHomeState));
   shell.append(createCalendarSection(hotelHomeState, "app"));
   shell.append(createAppReservationSection(hotelHomeState));
+  shell.append(createAppBottomNavigation());
 
   return shell;
 }
 
+function createAppBottomNavigation() {
+  return createDefaultAppBottomNavigation({
+    className: "mobile-bottom-nav hotel-mobile-bottom-nav",
+    dataset: { area: "bottomNavigation", platform: "app" },
+    selectedLabel: "일정",
+  });
+}
+
 function createWebHeader() {
   const header = createElement("header", {
-    className: "hotel-web-header",
+    className: "header",
     dataset: { area: "header" },
   });
 
-  const brand = createElement("div", { className: "hotel-brand" });
-  brand.append(createElement("img", { className: "hotel-brand-logo", src: "../assets/logoImg.svg", alt: "다이얼독 로고" }));
-  brand.append(createElement("img", { className: "hotel-brand-text", src: "../assets/logoText.svg", alt: "다이얼독 비즈" }));
-
-  const utility = createElement("div", { className: "hotel-header-utility" });
-  [SETTING_ICON_PATH, ALARM_ICON_PATH, PROFILE_ICON_PATH].forEach((iconPath, index) => {
-    utility.append(createHeaderIconButton(iconPath, ["설정", "알림", "계정"][index]));
-  });
-
-  header.append(brand);
-  header.append(utility);
+  header.append(createElement("strong", { className: "brand-name", textContent: "다이얼독 비즈" }));
+  header.append(createElement("h1", { textContent: "호텔링" }));
+  header.append(createHeaderUtility());
   return header;
+}
+
+function createHeaderUtility() {
+  const utility = createElement("span", { className: "header-utility" });
+  const settingsButton = createElement("button", {
+    className: "header-utility-button",
+    type: "button",
+    textContent: "설정",
+    dataset: { action: "openSettings" },
+  });
+  settingsButton.addEventListener("click", () => {
+    window.location.href = "./settings/member/tag-management.html";
+  });
+  utility.append(settingsButton);
+  utility.append(createElement("span", { textContent: "알림" }));
+  utility.append(createElement("span", { textContent: "계정" }));
+  return utility;
 }
 
 function createAppHeader(hotelHomeState) {
@@ -254,6 +274,12 @@ function createCalendarHeader(hotelHomeState, platform) {
       onSearchInput: (state) => {
         rerender(state);
       },
+      onMemberSelect: (state) => {
+        openFilteredHotelDetailPanel(state);
+      },
+      onTagSelect: (state) => {
+        openFilteredHotelDetailPanel(state);
+      },
     }));
   }
 
@@ -298,7 +324,6 @@ function createCalendarDateButton(hotelHomeState, cell, platform) {
       "calendar-date",
       cell.isCurrentMonth ? "" : "is-muted",
       cell.isToday ? "is-today" : "",
-      reservations.length > 0 ? "has-reservations" : "",
       isSelected ? "is-selected" : "",
       isDimmed ? "is-dimmed" : "",
     ].filter(Boolean).join(" "),
@@ -344,6 +369,10 @@ function createCalendarCountSummary(counts) {
 }
 
 function createWebDetailPanel(hotelHomeState) {
+  if (hasReservationDetailFilter(hotelHomeState)) {
+    return createFilteredWebDetailPanel(hotelHomeState);
+  }
+
   const summary = getSelectedDateSummary(hotelHomeState);
   const filteredReservations = getFilteredReservationsByDate(hotelHomeState);
   const filteredGroups = getReservationGroups(filteredReservations);
@@ -355,6 +384,7 @@ function createWebDetailPanel(hotelHomeState) {
     },
   });
 
+  panel.append(createWebDetailCloseRow(hotelHomeState));
   panel.append(createWebDetailHeader(hotelHomeState, summary));
 
   if (filteredReservations.length === 0) {
@@ -375,6 +405,35 @@ function createWebDetailPanel(hotelHomeState) {
   return panel;
 }
 
+function createFilteredWebDetailPanel(hotelHomeState) {
+  const rows = getFilteredReservationDateRangeRows(hotelHomeState);
+  const panel = createElement("section", {
+    className: "hotel-detail-panel",
+    dataset: {
+      area: "detailPanel",
+      state: rows.length > 0 ? "list" : "empty",
+      mode: "filter",
+    },
+  });
+
+  panel.append(createWebDetailCloseRow(hotelHomeState));
+  panel.append(createWebDetailHeader(hotelHomeState, {
+    dateText: getFilteredDetailMonthTitle(hotelHomeState),
+    reservationCount: rows.length,
+  }));
+
+  if (rows.length === 0) {
+    panel.append(createDetailEmptyState(hotelHomeState));
+    return panel;
+  }
+
+  const body = createElement("div", { className: "hotel-detail-body" });
+  body.append(createFilteredWebReservationTable(rows));
+  panel.append(body);
+
+  return panel;
+}
+
 function createWebDetailHeader(hotelHomeState, summary) {
   const header = createElement("div", { className: "hotel-detail-header" });
   const title = createElement("div", { className: "hotel-detail-title" });
@@ -382,19 +441,6 @@ function createWebDetailHeader(hotelHomeState, summary) {
   title.append(createElement("strong", { textContent: `숙박 ${summary.reservationCount}` }));
 
   const actions = createElement("div", { className: "hotel-detail-actions" });
-  const closeButton = createElement("button", {
-    className: "close-button small-icon-button",
-    type: "button",
-    ariaLabel: "닫기",
-    dataset: { action: "closeHotelDetail" },
-  });
-  closeButton.append(createElement("img", { className: "button-icon", src: CLOSE_ICON_PATH, alt: "" }));
-  closeButton.addEventListener("click", () => {
-    hotelHomeState.isDetailPanelOpen = false;
-    hotelHomeState.selectedReservationIds = [];
-    rerender(hotelHomeState);
-  });
-
   const actionButton = createElement("button", {
     className: getSelectedReservationCount(hotelHomeState) > 0
       ? "hotel-detail-register-button is-active"
@@ -408,12 +454,29 @@ function createWebDetailHeader(hotelHomeState, summary) {
   });
   actionButton.disabled = getSelectedReservationCount(hotelHomeState) === 0;
 
-  actions.append(closeButton);
   actions.append(actionButton);
   header.append(title);
   header.append(actions);
 
   return header;
+}
+
+function createWebDetailCloseRow(hotelHomeState) {
+  const row = createElement("div", { className: "hotel-detail-close-row" });
+  const closeButton = createElement("button", {
+    className: "close-button small-icon-button hotel-detail-close-button",
+    type: "button",
+    textContent: ">>",
+    ariaLabel: "닫기",
+    dataset: { action: "closeHotelDetail" },
+  });
+  closeButton.addEventListener("click", () => {
+    hotelHomeState.isDetailPanelOpen = false;
+    hotelHomeState.selectedReservationIds = [];
+    rerender(hotelHomeState);
+  });
+  row.append(closeButton);
+  return row;
 }
 
 function createWebReservationGroup(hotelHomeState, group) {
@@ -508,6 +571,55 @@ function createWebReservationRow(hotelHomeState, reservation) {
   row.append(more);
 
   return row;
+}
+
+function createFilteredWebReservationTable(rows) {
+  const table = createElement("div", { className: "hotel-detail-table is-filter-result" });
+  const header = createElement("div", { className: "hotel-detail-table-row is-header is-filter-result" });
+  ["상태", "반려견", "날짜"].forEach((labelText) => {
+    header.append(createElement("strong", { textContent: labelText }));
+  });
+  header.append(createElement("span", { textContent: "" }));
+  table.append(header);
+
+  rows.forEach((row) => {
+    table.append(createFilteredWebReservationRow(row));
+  });
+
+  return table;
+}
+
+function createFilteredWebReservationRow(row) {
+  const status = getReservationDateRangeStatus(row.endDate);
+  const tableRow = createElement("div", {
+    className: "hotel-detail-table-row is-filter-result",
+    dataset: {
+      entityId: row.id,
+      state: status.state,
+    },
+  });
+  const petInfo = createElement("div", { className: "hotel-detail-pet-info" });
+  petInfo.append(createElement("strong", { textContent: row.petName || "-" }));
+  petInfo.append(createElement("span", { textContent: row.breed || row.guardianName || "-" }));
+
+  tableRow.append(createElement("span", {
+    className: "hotel-detail-status",
+    textContent: status.label,
+    dataset: { state: status.state },
+  }));
+  tableRow.append(petInfo);
+  tableRow.append(createElement("span", { textContent: formatReservationDateRange(row.startDate, row.endDate) }));
+
+  const more = createElement("button", {
+    className: "tiny-icon-button",
+    type: "button",
+    ariaLabel: `${row.petName || "예약"} 상세`,
+    dataset: { action: "openReservationDetail", entityId: row.id },
+  });
+  more.append(createElement("img", { className: "button-icon", src: CHEVRON_RIGHT_ICON_PATH, alt: "" }));
+  tableRow.append(more);
+
+  return tableRow;
 }
 
 function createAppReservationSection(hotelHomeState) {
@@ -730,7 +842,7 @@ function getFilteredReservationSearchResults(hotelHomeState) {
       if (!hotelHomeState.selectedMemberTagNames?.length) {
         return true;
       }
-      const reservationTags = [...(reservation.ownerTags || []), ...(reservation.petTags || [])];
+      const reservationTags = reservation.petTags || [];
       return hotelHomeState.selectedMemberTagNames.every((memberTagName) => reservationTags.includes(memberTagName));
     })
     .sort((leftReservation, rightReservation) => String(leftReservation.date || "").localeCompare(String(rightReservation.date || "")));
@@ -810,10 +922,32 @@ function createAppEmptyState(hotelHomeState) {
 
 function hasActiveReservationFilters(hotelHomeState) {
   return Boolean(
-    String(hotelHomeState.searchTerm || "").trim()
+    hotelHomeState.selectedReservationMember
+    || String(hotelHomeState.searchTerm || "").trim()
     || (hotelHomeState.selectedMemberTagNames || []).length
     || (hotelHomeState.activeFilters || []).length !== FILTER_OPTIONS.length
   );
+}
+
+function hasReservationDetailFilter(hotelHomeState) {
+  return Boolean(
+    hotelHomeState.selectedReservationMember
+    || (hotelHomeState.selectedMemberTagNames || []).length
+  );
+}
+
+function openFilteredHotelDetailPanel(hotelHomeState) {
+  hotelHomeState.isDetailPanelOpen = hasReservationDetailFilter(hotelHomeState);
+  hotelHomeState.selectedDate = "";
+  hotelHomeState.selectedReservationIds = [];
+  hotelHomeState.isReservationSearchMenuOpen = false;
+  hotelHomeState.isTagMenuOpen = false;
+  rerender(hotelHomeState);
+}
+
+function getFilteredDetailMonthTitle(hotelHomeState) {
+  const monthDate = createMonthDate(hotelHomeState.currentMonth);
+  return `${monthDate.getMonth() + 1}월`;
 }
 
 function getSelectedReservationCount(hotelHomeState) {
@@ -831,7 +965,7 @@ function getCapacityCount(hotelHomeState) {
 
 function getWebContentState(hotelHomeState) {
   if (!hotelHomeState.selectedDate) {
-    return getReservationsByDate(hotelHomeState.reservations, "2025-07-02").length > 0 ? "reserved" : "empty";
+    return getReservationsByDate(hotelHomeState.reservations, "2026-06-29").length > 0 ? "reserved" : "empty";
   }
 
   return getReservationsByDate(hotelHomeState.reservations, hotelHomeState.selectedDate).length > 0 ? "detailList" : "detailEmpty";

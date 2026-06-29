@@ -1,7 +1,9 @@
 import { readJsonStorage, writeJsonStorage } from "./storage-utils.js";
+import { getHotelHomeReservationMembers } from "./hotel-home-storage.js";
 import { getSchoolHomeReservationMembers } from "./school-home-storage.js";
 import {
   applyCatalogDrafts,
+  MAX_MEMBER_TAG_CATALOG_SIZE,
   mergeTagCatalog,
   normalizeMemberTagName,
   sanitizeTagList,
@@ -19,7 +21,7 @@ export const MEMBER_TAG_CATALOG_STORAGE_KEY = "memberTagCatalog";
 export function getStoredMembers() {
   const deletedMemberIds = loadDeletedMemberIds();
   const normalizedMembers = normalizeStoredMembers([
-    ...getSchoolHomeReservationMembers(),
+    ...getDefaultReservationMembers(),
     ...readMemberListStorage(LEGACY_MEMBER_LIST_STORAGE_KEY),
     ...readMemberListStorage(MEMBER_LIST_STORAGE_KEY),
   ]).filter((member) => !deletedMemberIds.includes(member.id));
@@ -51,7 +53,7 @@ export function loadMemberTagCatalog() {
 }
 
 export function saveMemberTagCatalog(tags) {
-  const nextCatalog = sortMemberTagNames(tags);
+  const nextCatalog = sortMemberTagNames(tags).slice(0, MAX_MEMBER_TAG_CATALOG_SIZE);
   writeJsonStorage(MEMBER_TAG_CATALOG_STORAGE_KEY, nextCatalog);
   return nextCatalog;
 }
@@ -67,7 +69,7 @@ export function applyMemberTagCatalogEdits(drafts) {
   const nextMembers = getStoredMembers().map((member) => {
     return normalizeStoredMember({
       ...member,
-      ownerTags: syncTagListWithCatalogEdits(member.ownerTags, drafts),
+      ownerTags: [],
       pets: member.pets.map((pet) => ({
         ...pet,
         petTags: syncTagListWithCatalogEdits(pet.petTags, drafts),
@@ -94,6 +96,10 @@ export function createMemberTag(memberTagName) {
 
   if (hasMemberTag(memberTagCatalog, nextTag)) {
     return createMemberTagMutationResult(false, "duplicate", memberTagCatalog);
+  }
+
+  if (memberTagCatalog.length >= MAX_MEMBER_TAG_CATALOG_SIZE) {
+    return createMemberTagMutationResult(false, "maxCatalog", memberTagCatalog);
   }
 
   return {
@@ -157,7 +163,7 @@ export function deleteMemberTag(memberTagName) {
     reason: "",
     ...applyMemberTagCatalogEdits([{
       sourceTag: sourceTagName,
-      nextTag: sourceTagName,
+      nextTag: "",
       isDeleted: true,
     }]),
   };
@@ -298,7 +304,14 @@ function loadDeletedMemberIds() {
 }
 
 function getDefaultMemberIds() {
-  return normalizeStoredMembers(getSchoolHomeReservationMembers()).map((member) => member.id);
+  return normalizeStoredMembers(getDefaultReservationMembers()).map((member) => member.id);
+}
+
+function getDefaultReservationMembers() {
+  return [
+    ...getSchoolHomeReservationMembers(),
+    ...getHotelHomeReservationMembers(),
+  ];
 }
 
 function mergeUniqueValues(values) {
@@ -322,7 +335,7 @@ function normalizeStoredMember(member) {
     address: member?.address || "",
     addressDetail: member?.addressDetail || "",
     isRegistered: Boolean(member?.isRegistered || member?.registered || member?.registeredAt || member?.memberRegistrationStatus === "registered"),
-    ownerTags: normalizeMemberTags(member?.ownerTags),
+    ownerTags: [],
     pets: normalizePets(member),
   };
 
@@ -406,7 +419,7 @@ function mergeMemberRecords(currentMember, nextMember) {
     phoneNumber: nextMember.phoneNumber || currentMember.phoneNumber,
     address: nextMember.address || currentMember.address,
     addressDetail: nextMember.addressDetail || currentMember.addressDetail,
-    ownerTags: mergeTagCatalog(currentMember.ownerTags || [], nextMember.ownerTags || []),
+    ownerTags: [],
     isRegistered: Boolean(currentMember.isRegistered || nextMember.isRegistered),
     pets: mergedPets,
   });
@@ -426,7 +439,7 @@ function createMemberPetRow(member, pet) {
     phoneNumber: member.phoneNumber,
     address: member.address,
     addressDetail: member.addressDetail,
-    ownerTags: Array.isArray(member.ownerTags) ? [...member.ownerTags] : [],
+    ownerTags: [],
     isRegistered: member.isRegistered,
     pets: member.pets,
   };
@@ -460,9 +473,8 @@ function normalizeMemberTags(memberTags) {
 }
 
 function getDefaultMemberTagCatalog() {
-  return getSchoolHomeReservationMembers().flatMap((member) => {
+  return getDefaultReservationMembers().flatMap((member) => {
     return [
-      ...(member.ownerTags || []),
       ...(member.pets || []).flatMap((pet) => pet.petTags || []),
     ];
   });

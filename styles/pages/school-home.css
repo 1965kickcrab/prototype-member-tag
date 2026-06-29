@@ -162,12 +162,13 @@
   color: #c4c4c4;
 }
 
-.school-home-screen .calendar-date.has-reservations {
-  border-color: #dbe9ff;
-}
-
 .school-home-screen .calendar-date.is-holiday {
   color: #ed6060;
+}
+
+.school-home-screen .calendar-date.is-today .calendar-date-number {
+  color: #1e78f0;
+  font-weight: 700;
 }
 
 .school-home-screen .calendar-date.is-holiday .calendar-meta {

@@ -3,7 +3,7 @@ import { createElement } from "../../shared/utils/dom.js";
 import { formatText } from "../../shared/utils/format.js";
 import { getAgeOutputText, normalizeBirthDateParts } from "../../shared/utils/member-date.js";
 import { formatPhoneNumber } from "../../shared/utils/phone.js";
-import { deleteStoredMember, mergeMemberTagCatalog, saveRegisteredMembers } from "../../shared/storage/member-storage.js";
+import { deleteStoredMember, mergeMemberTagCatalog, saveRegisteredMembers, saveStoredMembers } from "../../shared/storage/member-storage.js";
 import { sanitizeTagList } from "../../shared/services/member-tag-service.js";
 import { initTagInput } from "../../shared/components/member-tag-input.js";
 import { createToast, TOAST_AUTO_DISMISS_MS } from "../../shared/components/toast.js";
@@ -55,6 +55,10 @@ function createMemberEditScreen(memberEditState) {
 
   if (memberEditState.activeAlert === "deleteAll") {
     page.append(createDeleteAlert(memberEditState));
+  }
+
+  if (memberEditState.activeAlert === "deletePet") {
+    page.append(createDeletePetAlert(memberEditState));
   }
 
   if (memberEditState.toastMessage) {
@@ -181,7 +185,9 @@ function createPetBottomSheet(memberEditState, title, draft, onSubmit, submitTex
   header.append(createElement("span", { className: "header-spacer" }));
 
   const body = createElement("section", { className: "bottom-sheet-body" });
-  body.append(createPetForm(memberEditState, draft));
+  body.append(createPetForm(memberEditState, draft, {
+    useTagTrigger: modalName === "petDetailBottomSheet",
+  }));
 
   const submitButton = createElement("button", {
     className: "large-disabled-button bottom-sheet-submit-button",
@@ -192,14 +198,36 @@ function createPetBottomSheet(memberEditState, title, draft, onSubmit, submitTex
   submitButton.disabled = !isPetReady(draft);
   submitButton.addEventListener("click", onSubmit);
 
+  const actions = createElement("div", {
+    className: modalName === "petDetailBottomSheet" && canDeleteSelectedPet(memberEditState)
+      ? "bottom-sheet-actions has-delete"
+      : "bottom-sheet-actions",
+  });
+
+  if (modalName === "petDetailBottomSheet" && canDeleteSelectedPet(memberEditState)) {
+    const deleteButton = createElement("button", {
+      className: "bottom-sheet-delete-button",
+      type: "button",
+      textContent: "삭제",
+      dataset: { action: "deletePet" },
+    });
+    deleteButton.addEventListener("click", () => {
+      memberEditState.activeAlert = "deletePet";
+      rerender(memberEditState);
+    });
+    actions.append(deleteButton);
+  }
+
+  actions.append(submitButton);
+
   sheet.append(header);
   sheet.append(body);
-  sheet.append(submitButton);
+  sheet.append(actions);
   overlay.append(sheet);
   return overlay;
 }
 
-function createPetForm(memberEditState, draft) {
+function createPetForm(memberEditState, draft, options = {}) {
   const section = createElement("section", {
     className: "pet-form-section mobile-pet-form-section",
     dataset: { area: "petForm" },
@@ -220,7 +248,7 @@ function createPetForm(memberEditState, draft) {
   rightColumn.append(createBirthDateField(memberEditState, draft));
   rightColumn.append(createChoiceField(memberEditState, draft, "성별", "gender", ["선택 안함", "남아", "여아"]));
   rightColumn.append(createChoiceField(memberEditState, draft, "중성화 여부", "neuteredStatus", ["선택안함", "완료", "미완료"]));
-  rightColumn.append(createPetTagField(memberEditState, draft));
+  rightColumn.append(createPetTagField(memberEditState, draft, { useTagTrigger: options.useTagTrigger }));
 
   formBody.append(leftColumn);
   formBody.append(rightColumn);
@@ -315,7 +343,7 @@ function createChoiceField(memberEditState, draft, labelText, fieldName, options
   return field;
 }
 
-function createPetTagField(memberEditState, draft) {
+function createPetTagField(memberEditState, draft, options = {}) {
   const field = createElement("section", { className: "registration-field", dataset: { field: "petTags" } });
   field.append(createElement("span", { className: "registration-label", textContent: "태그" }));
   const container = createElement("div", { dataset: { area: "petTagInput" } });
@@ -323,6 +351,8 @@ function createPetTagField(memberEditState, draft) {
     container,
     initialTags: draft.petTags,
     getCatalog: () => memberEditState.memberTagCatalog || [],
+    showRemoveControls: !options.useTagTrigger,
+    useSelectedListTrigger: Boolean(options.useTagTrigger),
     onChange: (nextTags) => {
       draft.petTags = nextTags;
       syncSubmitButton(draft);
@@ -390,7 +420,6 @@ function submitAddPet(memberEditState) {
 
 function persistMember(memberEditState, toastMessage) {
   memberEditState.memberTagCatalog = mergeMemberTagCatalog([
-    ...(memberEditState.selectedMember.ownerTags || []),
     ...memberEditState.selectedMember.pets.flatMap((pet) => pet.petTags || []),
   ]);
   memberEditState.members = saveRegisteredMembers([memberEditState.selectedMember]);
@@ -440,7 +469,6 @@ function createGuardianEditContent(memberEditState) {
   form.append(createReadonlyGuardianField("보호자 이름", memberEditState.guardianDraft.guardianName, true));
   form.append(createReadonlyGuardianField("전화번호", formatPhoneNumber(memberEditState.guardianDraft.phoneNumber), true));
   form.append(createGuardianAddressField(memberEditState));
-  form.append(createGuardianTagField(memberEditState));
   content.append(form);
   return content;
 }
@@ -502,7 +530,7 @@ function createGuardianAddressField(memberEditState) {
 function createGuardianTagField(memberEditState) {
   const field = createElement("section", { className: "registration-field", dataset: { field: "ownerTags" } });
   field.append(createElement("span", { className: "registration-label", textContent: "태그" }));
-  const container = createElement("div", { dataset: { area: "ownerTagInput" } });
+  const container = createElement("div", { dataset: { area: "unusedOwnerTagInput" } });
   initTagInput({
     container,
     initialTags: memberEditState.guardianDraft.ownerTags,
@@ -532,8 +560,7 @@ function createGuardianSubmitButton(memberEditState) {
 function submitGuardianEdit(memberEditState) {
   memberEditState.selectedMember.address = memberEditState.guardianDraft.address || "";
   memberEditState.selectedMember.addressDetail = memberEditState.guardianDraft.addressDetail || "";
-  memberEditState.selectedMember.ownerTags = sanitizeTagList(memberEditState.guardianDraft.ownerTags);
-  memberEditState.memberTagCatalog = mergeMemberTagCatalog(memberEditState.selectedMember.ownerTags);
+  memberEditState.selectedMember.ownerTags = [];
   memberEditState.members = saveRegisteredMembers([memberEditState.selectedMember]);
   memberEditState.activeScreen = "memberEdit";
   memberEditState.toastMessage = "정보를 수정했습니다.";
@@ -564,6 +591,60 @@ function createDeleteAlert(memberEditState) {
   alert.append(actions);
   overlay.append(alert);
   return overlay;
+}
+
+function createDeletePetAlert(memberEditState) {
+  const overlay = createElement("section", { className: "registration-alert-overlay", dataset: { area: "deletePetAlert", modal: "deletePetAlert", state: "open" } });
+  const alert = createElement("div", { className: "registration-alert" });
+  const content = createElement("div", { className: "registration-alert-content" });
+  content.append(createElement("p", { textContent: "반려견을 삭제하시겠습니까?\n삭제한 반려견 정보는 되돌릴 수 없습니다." }));
+
+  const actions = createElement("div", { className: "registration-alert-actions" });
+  const closeButton = createElement("button", { className: "alert-secondary-button", type: "button", textContent: "닫기" });
+  closeButton.addEventListener("click", () => {
+    memberEditState.activeAlert = "";
+    rerender(memberEditState);
+  });
+  const deleteButton = createElement("button", { className: "alert-danger-button", type: "button", textContent: "반려견 삭제" });
+  deleteButton.addEventListener("click", () => {
+    deleteSelectedPet(memberEditState);
+  });
+
+  actions.append(closeButton);
+  actions.append(deleteButton);
+  alert.append(content);
+  alert.append(actions);
+  overlay.append(alert);
+  return overlay;
+}
+
+function deleteSelectedPet(memberEditState) {
+  if (!canDeleteSelectedPet(memberEditState)) {
+    memberEditState.activeAlert = "";
+    rerender(memberEditState);
+    return;
+  }
+
+  const selectedPetId = memberEditState.selectedPet.id;
+  memberEditState.selectedMember.pets = memberEditState.selectedMember.pets.filter((pet) => pet.id !== selectedPetId);
+  memberEditState.selectedPet = memberEditState.selectedMember.pets[0];
+  memberEditState.petDetailDraft = createPetDraft(memberEditState.selectedPet);
+  memberEditState.activeAlert = "";
+  memberEditState.members = saveStoredMembers((memberEditState.members || []).map((member) => {
+    return member.id === memberEditState.selectedMember.id ? memberEditState.selectedMember : member;
+  }));
+  memberEditState.activeSheet = "";
+  memberEditState.toastMessage = "반려견을 삭제했습니다.";
+  rerender(memberEditState);
+}
+
+function canDeleteSelectedPet(memberEditState) {
+  return Boolean(
+    memberEditState.activeSheet === "petDetail"
+      && memberEditState.selectedPet?.id
+      && Array.isArray(memberEditState.selectedMember?.pets)
+      && memberEditState.selectedMember.pets.length >= 2
+  );
 }
 
 function createSummaryLine(label, value) {
