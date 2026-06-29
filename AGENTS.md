@@ -121,3 +121,7 @@ Before editing:
 - Do not define product behavior through CSS alone.
 - Do not create platform-specific HTML or renderers unless product behavior truly requires it.
 - Do not use LoFi as a reason to ignore Figma section structure, action placement, or responsive layout intent.
+
+## 12. Git Workflow
+
+- Do not push to the remote repository (`git push`) unless explicitly requested by the user.
