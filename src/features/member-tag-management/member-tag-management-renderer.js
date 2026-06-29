@@ -118,7 +118,6 @@ function createWebSettingsScreen(state) {
   if (state.isDeleteReplacementModalOpen) {
     screen.append(createDeleteReplacementModal(state));
   }
-
   if (state.toastMessage) {
     screen.append(createToast(state.toastMessage));
   }
@@ -245,6 +244,15 @@ function createSettingsSaveBar(state) {
     className: "settings-save-bar",
     dataset: { area: "settingsSaveBar", state: "dirty" },
   });
+  const resetButton = createElement("button", {
+    className: "secondary-button settings-reset-button",
+    type: "button",
+    textContent: "초기화",
+    dataset: { action: "resetMemberTagSettings" },
+  });
+  resetButton.addEventListener("click", () => {
+    resetWebDrafts(state);
+  });
   const saveButton = createElement("button", {
     className: "primary-button settings-save-button",
     type: "button",
@@ -254,6 +262,7 @@ function createSettingsSaveBar(state) {
   saveButton.addEventListener("click", () => {
     saveWebDrafts(state);
   });
+  bar.append(resetButton);
   bar.append(saveButton);
   return bar;
 }
@@ -487,7 +496,6 @@ function createMemberTagRow(state, memberTagName) {
 function getMemberTagRowInputValue(memberTagName, replacementTagName) {
   return replacementTagName ? `${memberTagName} -> ${replacementTagName}` : memberTagName;
 }
-
 function createWebDeleteToggleButton(state, memberTagName, isDeleted) {
   const button = createElement("button", {
     className: isDeleted
@@ -1068,6 +1076,17 @@ function saveWebDrafts(state) {
   rerender(state);
 }
 
+function resetWebDrafts(state) {
+  state.draftMemberTagCatalog = [...state.memberTagCatalog];
+  state.memberTagDrafts = [];
+  state.deletedDraftMemberTagNames = [];
+  state.openMemberTagMenuTagName = "";
+  state.activeMemberTagSheetTagName = "";
+  state.memberTagSheetDraftName = "";
+  clearDeleteReplacementState(state);
+  rerender(state);
+}
+
 function requestWebNavigation(state, href) {
   if (!hasMemberTagDraftChanges(state)) {
     window.location.href = href;
@@ -1127,7 +1146,6 @@ function restoreWebDraftMemberTag(state, memberTagName) {
 
   rerender(state);
 }
-
 function upsertRenameDraft(state, sourceTag, nextTag) {
   const originalSource = findOriginalSourceForDraft(state, sourceTag);
   const normalizedOriginalSource = normalizeMemberTagName(originalSource);

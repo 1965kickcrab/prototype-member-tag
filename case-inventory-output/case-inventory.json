@@ -1,0 +1,6126 @@
+{
+  "version": 1,
+  "feature": "회원 태그",
+  "prototype": "C:\\Users\\kebi\\OneDrive\\문서\\prototype-member-tag",
+  "generatedAt": "2026-05-29T05:06:55.077Z",
+  "analysisMode": "js-case-first",
+  "featureProfile": {
+    "version": 1,
+    "feature": "회원 태그",
+    "generatedAt": "2026-05-29T05:06:54.966Z",
+    "aliases": [
+      "회원 태그",
+      "memberTagCatalog",
+      "ownerTags",
+      "petTags",
+      "memberTagDrafts",
+      "tagFilterQuery",
+      "selectedMemberTagNames",
+      "memberTagInput",
+      "memberTagSearch",
+      "회원-태그",
+      "회원_태그",
+      "회원태그",
+      "회원",
+      "태그"
+    ],
+    "searchTerms": [
+      "membertagcatalog",
+      "ownertags",
+      "pettags",
+      "membertagdrafts",
+      "tagfilterquery",
+      "selectedmembertagnames",
+      "membertaginput",
+      "membertagsearch",
+      "회원태그",
+      "pet",
+      "birth",
+      "radio",
+      "owner",
+      "desktop",
+      "bottom",
+      "feature",
+      "summary",
+      "mobile",
+      "back",
+      "empty",
+      "entity",
+      "filters",
+      "hotel",
+      "initial",
+      "view",
+      "matrix",
+      "first",
+      "visible",
+      "counts",
+      "checkin",
+      "count",
+      "checkout",
+      "staying",
+      "filtered",
+      "search",
+      "term"
+    ],
+    "domainTerms": [
+      "memberTagCatalog",
+      "ownerTags",
+      "petTags",
+      "memberTagDrafts",
+      "tagFilterQuery",
+      "selectedMemberTagNames",
+      "memberTagInput",
+      "memberTagSearch",
+      "회원태그",
+      "pet",
+      "birth",
+      "radio",
+      "Owner",
+      "Pet",
+      "Desktop",
+      "bottom",
+      "feature",
+      "Summary",
+      "Mobile",
+      "back",
+      "empty",
+      "entity",
+      "FILTERS",
+      "Hotel",
+      "initial",
+      "View",
+      "Matrix",
+      "first",
+      "Visible",
+      "Counts",
+      "checkin",
+      "Count",
+      "checkout",
+      "staying",
+      "Filtered",
+      "search",
+      "Term"
+    ],
+    "negativeTerms": [],
+    "entrySignals": [
+      "addEventListener",
+      "querySelector",
+      "classList",
+      "disabled",
+      "hidden",
+      "submit",
+      "save",
+      "update",
+      "delete"
+    ],
+    "expectedLogicTypes": [
+      "event",
+      "mode",
+      "validation",
+      "state",
+      "submit",
+      "pricing",
+      "ticket",
+      "date",
+      "storage"
+    ],
+    "confidence": "high",
+    "notes": []
+  },
+  "keywords": [
+    "membertagcatalog",
+    "ownertags",
+    "pettags",
+    "membertagdrafts",
+    "tagfilterquery",
+    "selectedmembertagnames",
+    "membertaginput",
+    "membertagsearch",
+    "회원태그",
+    "pet",
+    "birth",
+    "radio",
+    "owner",
+    "desktop",
+    "bottom",
+    "feature",
+    "summary",
+    "mobile",
+    "back",
+    "empty",
+    "entity",
+    "filters",
+    "hotel",
+    "initial",
+    "view",
+    "matrix",
+    "first",
+    "visible",
+    "counts",
+    "checkin",
+    "count",
+    "checkout",
+    "staying",
+    "filtered",
+    "search",
+    "term"
+  ],
+  "summary": {
+    "sourceFileCount": 36,
+    "relevantFileCount": 33,
+    "caseGroupCount": 18,
+    "caseCount": 132,
+    "policyGapCount": 79
+  },
+  "caseGroups": [
+    {
+      "id": "CG-01",
+      "title": "Logic in member-home-renderer.js",
+      "sourceFiles": [
+        "../../../OneDrive/문서/prototype-member-tag/src/features/member-home/member-home-renderer.js"
+      ],
+      "cases": [
+        {
+          "id": "CG-01-C01",
+          "title": "logic branch when !isMobileLayout() -> if (!isMobileLayout()) {",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "logic branch",
+          "conditions": [
+            "!isMobileLayout()"
+          ],
+          "expectedBehavior": [
+            "if (!isMobileLayout()) {"
+          ],
+          "stateChanges": [],
+          "dataImpact": [],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-home/member-home-renderer.js:164"
+          ],
+          "policyGapRefs": []
+        },
+        {
+          "id": "CG-01-C02",
+          "title": "click on #app when isMobileLayout() -> button.addEventListener(\"click\", () => {",
+          "audiences": [
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "click on #app",
+          "conditions": [
+            "isMobileLayout()"
+          ],
+          "expectedBehavior": [
+            "button.addEventListener(\"click\", () => {"
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [
+            "#app"
+          ],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-home/member-home-renderer.js:189"
+          ],
+          "policyGapRefs": []
+        },
+        {
+          "id": "CG-01-C03",
+          "title": "logic branch when isMobileLayout() -> if (isMobileLayout()) {",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "logic branch",
+          "conditions": [
+            "isMobileLayout()"
+          ],
+          "expectedBehavior": [
+            "if (isMobileLayout()) {"
+          ],
+          "stateChanges": [],
+          "dataImpact": [],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-home/member-home-renderer.js:190"
+          ],
+          "policyGapRefs": []
+        },
+        {
+          "id": "CG-01-C04",
+          "title": "input on [data-state] -> memoField.addEventListener(\"input\", (event) => {",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "input on [data-state]",
+          "conditions": [],
+          "expectedBehavior": [
+            "memoField.addEventListener(\"input\", (event) => {"
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [
+            "[data-state]"
+          ],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-home/member-home-renderer.js:683"
+          ],
+          "policyGapRefs": []
+        },
+        {
+          "id": "CG-01-C05",
+          "title": "click on #app -> closeButton.addEventListener(\"click\", () => {",
+          "audiences": [
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "click on #app",
+          "conditions": [],
+          "expectedBehavior": [
+            "closeButton.addEventListener(\"click\", () => {"
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [
+            "#app"
+          ],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-home/member-home-renderer.js:1031",
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-home/member-home-renderer.js:2153"
+          ],
+          "policyGapRefs": []
+        },
+        {
+          "id": "CG-01-C06",
+          "title": "compositionend on #app -> input.addEventListener(\"compositionend\", (event) => {",
+          "audiences": [
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "compositionend on #app",
+          "conditions": [],
+          "expectedBehavior": [
+            "input.addEventListener(\"compositionend\", (event) => {"
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [
+            "#app"
+          ],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-home/member-home-renderer.js:1717"
+          ],
+          "policyGapRefs": []
+        },
+        {
+          "id": "CG-01-C07",
+          "title": "input on #app when isComposing -> input.addEventListener(\"input\", (event) => {",
+          "audiences": [
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "input on #app",
+          "conditions": [
+            "isComposing",
+            "!options.refocusSelector"
+          ],
+          "expectedBehavior": [
+            "input.addEventListener(\"input\", (event) => {"
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [
+            "#app"
+          ],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-home/member-home-renderer.js:1726"
+          ],
+          "policyGapRefs": []
+        },
+        {
+          "id": "CG-01-C08",
+          "title": "click on #app when options.clearMode === \"selection\" -> clearButton.addEventListener(\"click\", () => {",
+          "audiences": [
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "click on #app",
+          "conditions": [
+            "options.clearMode === \"selection\""
+          ],
+          "expectedBehavior": [
+            "clearButton.addEventListener(\"click\", () => {"
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data",
+            "mutate form state"
+          ],
+          "uiSelectors": [
+            "#app"
+          ],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-home/member-home-renderer.js:1755"
+          ],
+          "policyGapRefs": []
+        },
+        {
+          "id": "CG-01-C09",
+          "title": "logic branch when options.clearMode === \"selection\" -> if (options.clearMode === \"selection\") {",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "logic branch",
+          "conditions": [
+            "options.clearMode === \"selection\""
+          ],
+          "expectedBehavior": [
+            "if (options.clearMode === \"selection\") {"
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "mutate form state"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-home/member-home-renderer.js:1756"
+          ],
+          "policyGapRefs": []
+        },
+        {
+          "id": "CG-01-C10",
+          "title": "input on #app -> searchInput.addEventListener(\"input\", (event) => {",
+          "audiences": [
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "input on #app",
+          "conditions": [],
+          "expectedBehavior": [
+            "searchInput.addEventListener(\"input\", (event) => {"
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [
+            "#app"
+          ],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-home/member-home-renderer.js:1864"
+          ],
+          "policyGapRefs": []
+        },
+        {
+          "id": "CG-01-C11",
+          "title": "click on #app -> button.addEventListener(\"click\", () => {",
+          "audiences": [
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "click on #app",
+          "conditions": [],
+          "expectedBehavior": [
+            "button.addEventListener(\"click\", () => {"
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data",
+            "mutate form state"
+          ],
+          "uiSelectors": [
+            "#app"
+          ],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-home/member-home-renderer.js:1917"
+          ],
+          "policyGapRefs": []
+        },
+        {
+          "id": "CG-01-C12",
+          "title": "logic branch when tagsCell -> if (tagsCell) {",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "logic branch",
+          "conditions": [
+            "tagsCell"
+          ],
+          "expectedBehavior": [
+            "if (tagsCell) {"
+          ],
+          "stateChanges": [],
+          "dataImpact": [],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-home/member-home-renderer.js:2047"
+          ],
+          "policyGapRefs": []
+        },
+        {
+          "id": "CG-01-C13",
+          "title": "logic branch when excessCount > 0 -> if (excessCount > 0) {",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "logic branch",
+          "conditions": [
+            "excessCount > 0"
+          ],
+          "expectedBehavior": [
+            "if (excessCount > 0) {"
+          ],
+          "stateChanges": [],
+          "dataImpact": [],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-home/member-home-renderer.js:2099"
+          ],
+          "policyGapRefs": []
+        },
+        {
+          "id": "CG-01-C14",
+          "title": "input -> input.addEventListener(\"input\", (event) => {",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "input",
+          "conditions": [],
+          "expectedBehavior": [
+            "input.addEventListener(\"input\", (event) => {"
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-home/member-home-renderer.js:2190"
+          ],
+          "policyGapRefs": []
+        },
+        {
+          "id": "CG-01-C15",
+          "title": "click on #app -> cancelButton.addEventListener(\"click\", () => {",
+          "audiences": [
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "click on #app",
+          "conditions": [],
+          "expectedBehavior": [
+            "cancelButton.addEventListener(\"click\", () => {"
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [
+            "#app"
+          ],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-home/member-home-renderer.js:2220"
+          ],
+          "policyGapRefs": []
+        }
+      ]
+    },
+    {
+      "id": "CG-02",
+      "title": "Submit and persistence",
+      "sourceFiles": [
+        "../../../OneDrive/문서/prototype-member-tag/src/features/member-home/member-home-renderer.js",
+        "../../../OneDrive/문서/prototype-member-tag/src/features/member-detail/member-detail-renderer.js",
+        "../../../OneDrive/문서/prototype-member-tag/src/features/hotel-home/hotel-home-renderer.js",
+        "../../../OneDrive/문서/prototype-member-tag/src/features/member-registration/member-registration-renderer.js",
+        "../../../OneDrive/문서/prototype-member-tag/src/features/member-edit/member-edit-renderer.js",
+        "../../../OneDrive/문서/prototype-member-tag/src/shared/storage/member-storage.js",
+        "../../../OneDrive/문서/prototype-member-tag/src/shared/components/member-tag-input.js",
+        "../../../OneDrive/문서/prototype-member-tag/src/features/school-home/school-home-renderer.js"
+      ],
+      "cases": [
+        {
+          "id": "CG-02-C01",
+          "title": "logic branch when matchedByPhone && matchedByPhone.isRegistered -> if (matchedByPhone && matchedByPhone.isRegistered) {",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "logic branch",
+          "conditions": [
+            "matchedByPhone && matchedByPhone.isRegistered"
+          ],
+          "expectedBehavior": [
+            "if (matchedByPhone && matchedByPhone.isRegistered) {"
+          ],
+          "stateChanges": [],
+          "dataImpact": [],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-home/member-home-renderer.js:437"
+          ],
+          "policyGapRefs": []
+        },
+        {
+          "id": "CG-02-C02",
+          "title": "logic branch when isMobileLayout() -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "logic branch",
+          "conditions": [
+            "isMobileLayout()"
+          ],
+          "expectedBehavior": [
+            "Submit or save feature data."
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-home/member-home-renderer.js:480"
+          ],
+          "policyGapRefs": [
+            "GAP-001"
+          ]
+        },
+        {
+          "id": "CG-02-C03",
+          "title": "logic branch when memberHomeState.isPetDetailBottomSheetOpen -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "logic branch",
+          "conditions": [
+            "memberHomeState.isPetDetailBottomSheetOpen"
+          ],
+          "expectedBehavior": [
+            "Submit or save feature data."
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-home/member-home-renderer.js:603"
+          ],
+          "policyGapRefs": [
+            "GAP-002"
+          ]
+        },
+        {
+          "id": "CG-02-C04",
+          "title": "click on #app -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "click on #app",
+          "conditions": [],
+          "expectedBehavior": [
+            "Submit or save feature data."
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data",
+            "mutate form state"
+          ],
+          "uiSelectors": [
+            "#app"
+          ],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-home/member-home-renderer.js:628"
+          ],
+          "policyGapRefs": [
+            "GAP-003"
+          ]
+        },
+        {
+          "id": "CG-02-C05",
+          "title": "logic branch / [data-state=\"empty\"] when siblings.length === 0 -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "logic branch",
+          "conditions": [
+            "siblings.length === 0"
+          ],
+          "expectedBehavior": [
+            "Submit or save feature data."
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [
+            "[data-state=\"empty\"]"
+          ],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-home/member-home-renderer.js:725",
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-detail/member-detail-renderer.js:317"
+          ],
+          "policyGapRefs": [
+            "GAP-004"
+          ]
+        },
+        {
+          "id": "CG-02-C06",
+          "title": "logic branch when isMobile -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "logic branch",
+          "conditions": [
+            "isMobile"
+          ],
+          "expectedBehavior": [
+            "Submit or save feature data."
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-home/member-home-renderer.js:1075",
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-detail/member-detail-renderer.js:891"
+          ],
+          "policyGapRefs": [
+            "GAP-005"
+          ]
+        },
+        {
+          "id": "CG-02-C07",
+          "title": "submit -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "submit",
+          "conditions": [],
+          "expectedBehavior": [
+            "Submit or save feature data."
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-home/member-home-renderer.js:1220",
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-detail/member-detail-renderer.js:730",
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-detail/member-detail-renderer.js:732",
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-detail/member-detail-renderer.js:1054",
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-registration/member-registration-renderer.js:577",
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-registration/member-registration-renderer.js:700"
+          ],
+          "policyGapRefs": [
+            "GAP-006"
+          ]
+        },
+        {
+          "id": "CG-02-C08",
+          "title": "submit / #app when !isPetDetailDraftReady(memberHomeState.petDetailDraft) -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "submit",
+          "conditions": [
+            "!isPetDetailDraftReady(memberHomeState.petDetailDraft)"
+          ],
+          "expectedBehavior": [
+            "Submit or save feature data."
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data",
+            "mutate form state"
+          ],
+          "uiSelectors": [
+            "#app"
+          ],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-home/member-home-renderer.js:1265"
+          ],
+          "policyGapRefs": [
+            "GAP-007"
+          ]
+        },
+        {
+          "id": "CG-02-C09",
+          "title": "logic branch / [data-entity=\"member\"] when member.petName \\|\\| member.dogName -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "logic branch",
+          "conditions": [
+            "member.petName \\|\\| member.dogName"
+          ],
+          "expectedBehavior": [
+            "Submit or save feature data."
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [
+            "[data-entity=\"member\"]"
+          ],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-home/member-home-renderer.js:1417"
+          ],
+          "policyGapRefs": [
+            "GAP-008"
+          ]
+        },
+        {
+          "id": "CG-02-C10",
+          "title": "logic branch when isMobileLayout() && memberHomeState.isTagMenuOpen -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "logic branch",
+          "conditions": [
+            "isMobileLayout() && memberHomeState.isTagMenuOpen"
+          ],
+          "expectedBehavior": [
+            "Submit or save feature data."
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-home/member-home-renderer.js:1458"
+          ],
+          "policyGapRefs": [
+            "GAP-009"
+          ]
+        },
+        {
+          "id": "CG-02-C11",
+          "title": "click on #app -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "click on #app",
+          "conditions": [],
+          "expectedBehavior": [
+            "Submit or save feature data."
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [
+            "#app"
+          ],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-home/member-home-renderer.js:1567",
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-home/member-home-renderer.js:1633"
+          ],
+          "policyGapRefs": [
+            "GAP-010"
+          ]
+        },
+        {
+          "id": "CG-02-C12",
+          "title": "logic branch when !isMobileLayout() -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "logic branch",
+          "conditions": [
+            "!isMobileLayout()"
+          ],
+          "expectedBehavior": [
+            "Submit or save feature data."
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-home/member-home-renderer.js:1662"
+          ],
+          "policyGapRefs": [
+            "GAP-011"
+          ]
+        },
+        {
+          "id": "CG-02-C13",
+          "title": "logic branch when memberHomeState.memberTagCatalog.length === 0 -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "logic branch",
+          "conditions": [
+            "memberHomeState.memberTagCatalog.length === 0"
+          ],
+          "expectedBehavior": [
+            "Submit or save feature data."
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-home/member-home-renderer.js:1676",
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-home/member-home-renderer.js:1789"
+          ],
+          "policyGapRefs": [
+            "GAP-012"
+          ]
+        },
+        {
+          "id": "CG-02-C14",
+          "title": "logic branch when visibleMemberTags.length === 0 -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "logic branch",
+          "conditions": [
+            "visibleMemberTags.length === 0"
+          ],
+          "expectedBehavior": [
+            "Submit or save feature data."
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-home/member-home-renderer.js:1682",
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-home/member-home-renderer.js:1794"
+          ],
+          "policyGapRefs": [
+            "GAP-013"
+          ]
+        },
+        {
+          "id": "CG-02-C15",
+          "title": "logic branch when listState !== \"list\" -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "logic branch",
+          "conditions": [
+            "listState !== \"list\""
+          ],
+          "expectedBehavior": [
+            "Submit or save feature data."
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-home/member-home-renderer.js:1968"
+          ],
+          "policyGapRefs": [
+            "GAP-014"
+          ]
+        },
+        {
+          "id": "CG-02-C16",
+          "title": "logic branch when !memberHomeState.memberTagDrafts.length -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "logic branch",
+          "conditions": [
+            "!memberHomeState.memberTagDrafts.length"
+          ],
+          "expectedBehavior": [
+            "Submit or save feature data."
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-home/member-home-renderer.js:2172"
+          ],
+          "policyGapRefs": [
+            "GAP-015"
+          ]
+        },
+        {
+          "id": "CG-02-C17",
+          "title": "input -> Update enabled or disabled state.",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "input",
+          "conditions": [],
+          "expectedBehavior": [
+            "Update enabled or disabled state."
+          ],
+          "stateChanges": [
+            "input.disabled = draft.isDeleted"
+          ],
+          "dataImpact": [
+            "write feature data",
+            "delete or remove data"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-home/member-home-renderer.js:2189"
+          ],
+          "policyGapRefs": [
+            "GAP-016"
+          ]
+        },
+        {
+          "id": "CG-02-C18",
+          "title": "click on #app -> deleteButton.addEventListener(\"click\", () => {",
+          "audiences": [
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "click on #app",
+          "conditions": [],
+          "expectedBehavior": [
+            "deleteButton.addEventListener(\"click\", () => {"
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data",
+            "delete or remove data"
+          ],
+          "uiSelectors": [
+            "#app"
+          ],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-home/member-home-renderer.js:2201"
+          ],
+          "policyGapRefs": []
+        },
+        {
+          "id": "CG-02-C19",
+          "title": "click on #app when !matchingDraft \\|\\| matchingDraft.isDeleted -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "click on #app",
+          "conditions": [
+            "!matchingDraft \\|\\| matchingDraft.isDeleted",
+            "matchingDraft = memberHomeState.memberTagDrafts.find((draft) => draft.sourceTag === selectedTagName)"
+          ],
+          "expectedBehavior": [
+            "Submit or save feature data."
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data",
+            "delete or remove data",
+            "mutate form state"
+          ],
+          "uiSelectors": [
+            "#app"
+          ],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-home/member-home-renderer.js:2232"
+          ],
+          "policyGapRefs": [
+            "GAP-017"
+          ]
+        },
+        {
+          "id": "CG-02-C20",
+          "title": "logic branch when memberDetailState.isOwnerDetailModalOpen -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "logic branch",
+          "conditions": [
+            "memberDetailState.isOwnerDetailModalOpen"
+          ],
+          "expectedBehavior": [
+            "Submit or save feature data."
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-detail/member-detail-renderer.js:155"
+          ],
+          "policyGapRefs": [
+            "GAP-018"
+          ]
+        },
+        {
+          "id": "CG-02-C21",
+          "title": "logic branch when memberDetailState.isPetDetailBottomSheetOpen -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "logic branch",
+          "conditions": [
+            "memberDetailState.isPetDetailBottomSheetOpen"
+          ],
+          "expectedBehavior": [
+            "Submit or save feature data."
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-detail/member-detail-renderer.js:182"
+          ],
+          "policyGapRefs": [
+            "GAP-019"
+          ]
+        },
+        {
+          "id": "CG-02-C22",
+          "title": "click / [data-action=\"openOwnerDetail\"] when actionButton -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "click",
+          "conditions": [
+            "actionButton"
+          ],
+          "expectedBehavior": [
+            "Submit or save feature data."
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data",
+            "mutate form state"
+          ],
+          "uiSelectors": [
+            "[data-action=\"openOwnerDetail\"]"
+          ],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-detail/member-detail-renderer.js:283"
+          ],
+          "policyGapRefs": [
+            "GAP-020"
+          ]
+        },
+        {
+          "id": "CG-02-C23",
+          "title": "click / [data-action=\"openOwnerDetail\"] -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "click",
+          "conditions": [],
+          "expectedBehavior": [
+            "Submit or save feature data."
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data",
+            "mutate form state"
+          ],
+          "uiSelectors": [
+            "[data-action=\"openOwnerDetail\"]"
+          ],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-detail/member-detail-renderer.js:284"
+          ],
+          "policyGapRefs": [
+            "GAP-021"
+          ]
+        },
+        {
+          "id": "CG-02-C24",
+          "title": "click -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "click",
+          "conditions": [],
+          "expectedBehavior": [
+            "Submit or save feature data."
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data",
+            "mutate form state"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-detail/member-detail-renderer.js:430"
+          ],
+          "policyGapRefs": [
+            "GAP-022"
+          ]
+        },
+        {
+          "id": "CG-02-C25",
+          "title": "click -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "click",
+          "conditions": [],
+          "expectedBehavior": [
+            "Submit or save feature data."
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-detail/member-detail-renderer.js:729",
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-registration/member-registration-renderer.js:254",
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-registration/member-registration-renderer.js:588",
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-edit/member-edit-renderer.js:128"
+          ],
+          "policyGapRefs": [
+            "GAP-023"
+          ]
+        },
+        {
+          "id": "CG-02-C26",
+          "title": "submit when !isPetDetailDraftReady(memberDetailState.petDetailDraft) -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "submit",
+          "conditions": [
+            "!isPetDetailDraftReady(memberDetailState.petDetailDraft)"
+          ],
+          "expectedBehavior": [
+            "Submit or save feature data."
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data",
+            "mutate form state"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-detail/member-detail-renderer.js:1099"
+          ],
+          "policyGapRefs": [
+            "GAP-024"
+          ]
+        },
+        {
+          "id": "CG-02-C27",
+          "title": "submit -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "submit",
+          "conditions": [],
+          "expectedBehavior": [
+            "Submit or save feature data."
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data",
+            "mutate form state"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-detail/member-detail-renderer.js:1113",
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-edit/member-edit-renderer.js:532"
+          ],
+          "policyGapRefs": [
+            "GAP-025"
+          ]
+        },
+        {
+          "id": "CG-02-C28",
+          "title": "logic branch when hotelHomeState.isDetailPanelOpen -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "logic branch",
+          "conditions": [
+            "hotelHomeState.isDetailPanelOpen"
+          ],
+          "expectedBehavior": [
+            "Submit or save feature data."
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/hotel-home/hotel-home-renderer.js:209"
+          ],
+          "policyGapRefs": [
+            "GAP-026"
+          ]
+        },
+        {
+          "id": "CG-02-C29",
+          "title": "logic branch when platform === \"web\" -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "logic branch",
+          "conditions": [
+            "platform === \"web\"",
+            "state.selectedDate && state.isDetailPanelOpen"
+          ],
+          "expectedBehavior": [
+            "Submit or save feature data."
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data",
+            "mutate form state"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/hotel-home/hotel-home-renderer.js:242"
+          ],
+          "policyGapRefs": [
+            "GAP-027"
+          ]
+        },
+        {
+          "id": "CG-02-C30",
+          "title": "logic branch when platform === \"web\" && reservations.length > 0 -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "logic branch",
+          "conditions": [
+            "platform === \"web\" && reservations.length > 0"
+          ],
+          "expectedBehavior": [
+            "Submit or save feature data."
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/hotel-home/hotel-home-renderer.js:311"
+          ],
+          "policyGapRefs": [
+            "GAP-028"
+          ]
+        },
+        {
+          "id": "CG-02-C31",
+          "title": "logic branch when filteredReservations.length === 0 -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "logic branch",
+          "conditions": [
+            "filteredReservations.length === 0"
+          ],
+          "expectedBehavior": [
+            "Submit or save feature data."
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/hotel-home/hotel-home-renderer.js:355",
+            "../../../OneDrive/문서/prototype-member-tag/src/features/hotel-home/hotel-home-renderer.js:523"
+          ],
+          "policyGapRefs": [
+            "GAP-029"
+          ]
+        },
+        {
+          "id": "CG-02-C32",
+          "title": "state sync -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "state sync",
+          "conditions": [],
+          "expectedBehavior": [
+            "Submit or save feature data.",
+            "Update enabled or disabled state."
+          ],
+          "stateChanges": [
+            "actionButton.disabled = getSelectedReservationCount(hotelHomeState) === 0"
+          ],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/hotel-home/hotel-home-renderer.js:404"
+          ],
+          "policyGapRefs": [
+            "GAP-030",
+            "GAP-031"
+          ]
+        },
+        {
+          "id": "CG-02-C33",
+          "title": "logic branch when reservation.type === \"checkin\" -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "logic branch",
+          "conditions": [
+            "reservation.type === \"checkin\"",
+            "reservation.type === \"checkout\""
+          ],
+          "expectedBehavior": [
+            "Submit or save feature data."
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/hotel-home/hotel-home-renderer.js:577"
+          ],
+          "policyGapRefs": [
+            "GAP-032"
+          ]
+        },
+        {
+          "id": "CG-02-C34",
+          "title": "logic branch when reservation.type === \"checkout\" -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "logic branch",
+          "conditions": [
+            "reservation.type === \"checkout\""
+          ],
+          "expectedBehavior": [
+            "Submit or save feature data."
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/hotel-home/hotel-home-renderer.js:580"
+          ],
+          "policyGapRefs": [
+            "GAP-033"
+          ]
+        },
+        {
+          "id": "CG-02-C35",
+          "title": "logic branch when memberRegistrationState.isAddPetBottomSheetOpen -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "logic branch",
+          "conditions": [
+            "memberRegistrationState.isAddPetBottomSheetOpen"
+          ],
+          "expectedBehavior": [
+            "Submit or save feature data."
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-registration/member-registration-renderer.js:64"
+          ],
+          "policyGapRefs": [
+            "GAP-034"
+          ]
+        },
+        {
+          "id": "CG-02-C36",
+          "title": "click when !isPetFormReady(draftPet) -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "click",
+          "conditions": [
+            "!isPetFormReady(draftPet)"
+          ],
+          "expectedBehavior": [
+            "Submit or save feature data.",
+            "Update enabled or disabled state."
+          ],
+          "stateChanges": [
+            "submitButton.disabled = !isPetFormReady(draftPet)"
+          ],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-registration/member-registration-renderer.js:755"
+          ],
+          "policyGapRefs": [
+            "GAP-035",
+            "GAP-036"
+          ]
+        },
+        {
+          "id": "CG-02-C37",
+          "title": "click when !isPetFormReady(draftPet) -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "click",
+          "conditions": [
+            "!isPetFormReady(draftPet)"
+          ],
+          "expectedBehavior": [
+            "Submit or save feature data."
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-registration/member-registration-renderer.js:756"
+          ],
+          "policyGapRefs": [
+            "GAP-037"
+          ]
+        },
+        {
+          "id": "CG-02-C38",
+          "title": "click when !isCancelAlert -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "click",
+          "conditions": [
+            "!isCancelAlert"
+          ],
+          "expectedBehavior": [
+            "Submit or save feature data."
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-registration/member-registration-renderer.js:804"
+          ],
+          "policyGapRefs": [
+            "GAP-038"
+          ]
+        },
+        {
+          "id": "CG-02-C39",
+          "title": "logic branch when !isCancelAlert -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "logic branch",
+          "conditions": [
+            "!isCancelAlert"
+          ],
+          "expectedBehavior": [
+            "Submit or save feature data."
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-registration/member-registration-renderer.js:805"
+          ],
+          "policyGapRefs": [
+            "GAP-039"
+          ]
+        },
+        {
+          "id": "CG-02-C40",
+          "title": "click on [data-action=\"closePetSheet\"] -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "click on [data-action=\"closePetSheet\"]",
+          "conditions": [],
+          "expectedBehavior": [
+            "Submit or save feature data.",
+            "Update enabled or disabled state."
+          ],
+          "stateChanges": [
+            "submitButton.disabled = !isPetReady(draft)"
+          ],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [
+            "[data-state=\"open\"]",
+            "[data-action=\"closePetSheet\"]",
+            "[data-action=\"submitPet\"]"
+          ],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-edit/member-edit-renderer.js:165"
+          ],
+          "policyGapRefs": [
+            "GAP-040",
+            "GAP-041"
+          ]
+        },
+        {
+          "id": "CG-02-C41",
+          "title": "logic branch when !petId -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "logic branch",
+          "conditions": [
+            "!petId"
+          ],
+          "expectedBehavior": [
+            "Submit or save feature data."
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/shared/storage/member-storage.js:117"
+          ],
+          "policyGapRefs": [
+            "GAP-042"
+          ]
+        },
+        {
+          "id": "CG-02-C42",
+          "title": "logic branch when normalizedMember.pets.length === 0 -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "logic branch",
+          "conditions": [
+            "normalizedMember.pets.length === 0"
+          ],
+          "expectedBehavior": [
+            "Submit or save feature data."
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/shared/storage/member-storage.js:177"
+          ],
+          "policyGapRefs": [
+            "GAP-043"
+          ]
+        },
+        {
+          "id": "CG-02-C43",
+          "title": "logic branch when isMobileSearchOpen -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "logic branch",
+          "conditions": [
+            "isMobileSearchOpen"
+          ],
+          "expectedBehavior": [
+            "Submit or save feature data."
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/shared/components/member-tag-input.js:120"
+          ],
+          "policyGapRefs": [
+            "GAP-044"
+          ]
+        },
+        {
+          "id": "CG-02-C44",
+          "title": "logic branch when !menu.childElementCount -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "logic branch",
+          "conditions": [
+            "!menu.childElementCount"
+          ],
+          "expectedBehavior": [
+            "Submit or save feature data."
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/shared/components/member-tag-input.js:230"
+          ],
+          "policyGapRefs": [
+            "GAP-045"
+          ]
+        },
+        {
+          "id": "CG-02-C45",
+          "title": "logic branch when hasQuery && !searchResults.some((memberTagName) => normalizeMemberTagName(memberTagName) === normalizeMemberTagName(query)) -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "logic branch",
+          "conditions": [
+            "hasQuery && !searchResults.some((memberTagName) => normalizeMemberTagName(memberTagName) === normalizeMemberTagName(query))"
+          ],
+          "expectedBehavior": [
+            "Submit or save feature data."
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/shared/components/member-tag-input.js:385"
+          ],
+          "policyGapRefs": [
+            "GAP-046"
+          ]
+        },
+        {
+          "id": "CG-02-C46",
+          "title": "logic branch when !list.childElementCount -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "logic branch",
+          "conditions": [
+            "!list.childElementCount"
+          ],
+          "expectedBehavior": [
+            "Submit or save feature data."
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/shared/components/member-tag-input.js:396"
+          ],
+          "policyGapRefs": [
+            "GAP-047"
+          ]
+        },
+        {
+          "id": "CG-02-C47",
+          "title": "click when platform === \"web\" -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "click",
+          "conditions": [
+            "platform === \"web\""
+          ],
+          "expectedBehavior": [
+            "Submit or save feature data."
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/school-home/school-home-renderer.js:164"
+          ],
+          "policyGapRefs": [
+            "GAP-048"
+          ]
+        },
+        {
+          "id": "CG-02-C48",
+          "title": "logic branch when platform === \"web\" -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "logic branch",
+          "conditions": [
+            "platform === \"web\""
+          ],
+          "expectedBehavior": [
+            "Submit or save feature data."
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/school-home/school-home-renderer.js:321"
+          ],
+          "policyGapRefs": [
+            "GAP-049"
+          ]
+        },
+        {
+          "id": "CG-02-C49",
+          "title": "logic branch when reservationCount > 0 -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "logic branch",
+          "conditions": [
+            "reservationCount > 0"
+          ],
+          "expectedBehavior": [
+            "Submit or save feature data."
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/school-home/school-home-renderer.js:355"
+          ],
+          "policyGapRefs": [
+            "GAP-050"
+          ]
+        },
+        {
+          "id": "CG-02-C50",
+          "title": "state sync when platform === \"web\" -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "state sync",
+          "conditions": [
+            "platform === \"web\"",
+            "summary.isCapacityClosed"
+          ],
+          "expectedBehavior": [
+            "Submit or save feature data.",
+            "Update enabled or disabled state."
+          ],
+          "stateChanges": [
+            "cancelButton.disabled = summary.reservations.length === 0"
+          ],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/school-home/school-home-renderer.js:420"
+          ],
+          "policyGapRefs": [
+            "GAP-051",
+            "GAP-052"
+          ]
+        },
+        {
+          "id": "CG-02-C51",
+          "title": "logic branch when summary.isCapacityClosed -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "logic branch",
+          "conditions": [
+            "summary.isCapacityClosed"
+          ],
+          "expectedBehavior": [
+            "Submit or save feature data."
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/school-home/school-home-renderer.js:425"
+          ],
+          "policyGapRefs": [
+            "GAP-053"
+          ]
+        },
+        {
+          "id": "CG-02-C52",
+          "title": "state sync -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "state sync",
+          "conditions": [],
+          "expectedBehavior": [
+            "Submit or save feature data.",
+            "Update enabled or disabled state."
+          ],
+          "stateChanges": [
+            "cancelButton.disabled = summary.reservations.length === 0"
+          ],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/school-home/school-home-renderer.js:439"
+          ],
+          "policyGapRefs": [
+            "GAP-054",
+            "GAP-055"
+          ]
+        },
+        {
+          "id": "CG-02-C53",
+          "title": "logic branch when false && summary.reservations.length === 0 -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "logic branch",
+          "conditions": [
+            "false && summary.reservations.length === 0"
+          ],
+          "expectedBehavior": [
+            "Submit or save feature data."
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/school-home/school-home-renderer.js:464"
+          ],
+          "policyGapRefs": [
+            "GAP-056"
+          ]
+        },
+        {
+          "id": "CG-02-C54",
+          "title": "state sync -> Update enabled or disabled state.",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "state sync",
+          "conditions": [],
+          "expectedBehavior": [
+            "Update enabled or disabled state."
+          ],
+          "stateChanges": [
+            "allCheckbox.disabled = summary.reservations.length === 0",
+            "allCheckbox.checked = summary.reservations.length > 0 && summary.reservations.every((reservation) => {"
+          ],
+          "dataImpact": [
+            "mutate form state"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/school-home/school-home-renderer.js:474"
+          ],
+          "policyGapRefs": [
+            "GAP-057"
+          ]
+        },
+        {
+          "id": "CG-02-C55",
+          "title": "logic branch when summary.reservations.length === 0 -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "logic branch",
+          "conditions": [
+            "summary.reservations.length === 0"
+          ],
+          "expectedBehavior": [
+            "Submit or save feature data."
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/school-home/school-home-renderer.js:490",
+            "../../../OneDrive/문서/prototype-member-tag/src/features/school-home/school-home-renderer.js:542"
+          ],
+          "policyGapRefs": [
+            "GAP-058"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "CG-03",
+      "title": "Date selection",
+      "sourceFiles": [
+        "../../../OneDrive/문서/prototype-member-tag/src/features/member-home/member-home-renderer.js",
+        "../../../OneDrive/문서/prototype-member-tag/src/features/member-detail/member-detail-renderer.js",
+        "../../../OneDrive/문서/prototype-member-tag/src/features/hotel-home/hotel-home-renderer.js",
+        "../../../OneDrive/문서/prototype-member-tag/src/features/member-registration/member-registration-renderer.js",
+        "../../../OneDrive/문서/prototype-member-tag/src/features/member-edit/member-edit-renderer.js",
+        "../../../OneDrive/문서/prototype-member-tag/src/features/school-home/school-home-renderer.js"
+      ],
+      "cases": [
+        {
+          "id": "CG-03-C01",
+          "title": "input on .pet-detail-birth-input when dateParts = Array.from(row.querySelectorAll(\".pet-detail-birth-input\")).map((dateInput) => dateInput.value) -> input.addEventListener(\"input\", () => {",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "input on .pet-detail-birth-input",
+          "conditions": [
+            "dateParts = Array.from(row.querySelectorAll(\".pet-detail-birth-input\")).map((dateInput) => dateInput.value)"
+          ],
+          "expectedBehavior": [
+            "input.addEventListener(\"input\", () => {"
+          ],
+          "stateChanges": [
+            "ageOutput.textContent = getAgeOutputText(draft.birthDate)"
+          ],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [
+            ".pet-detail-birth-input"
+          ],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-home/member-home-renderer.js:1165",
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-detail/member-detail-renderer.js:982"
+          ],
+          "policyGapRefs": [
+            "GAP-059"
+          ]
+        },
+        {
+          "id": "CG-03-C02",
+          "title": "logic branch when !hotelHomeState.selectedDate -> if (!hotelHomeState.selectedDate) {",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "logic branch",
+          "conditions": [
+            "!hotelHomeState.selectedDate"
+          ],
+          "expectedBehavior": [
+            "if (!hotelHomeState.selectedDate) {"
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "mutate form state"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/hotel-home/hotel-home-renderer.js:707"
+          ],
+          "policyGapRefs": []
+        },
+        {
+          "id": "CG-03-C03",
+          "title": "input on .birth-date-input when dateParts = Array.from(birthInputs.querySelectorAll(\".birth-date-input\")).map((dateInput) => dateInput.value) -> input.addEventListener(\"input\", () => {",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "input on .birth-date-input",
+          "conditions": [
+            "dateParts = Array.from(birthInputs.querySelectorAll(\".birth-date-input\")).map((dateInput) => dateInput.value)"
+          ],
+          "expectedBehavior": [
+            "input.addEventListener(\"input\", () => {"
+          ],
+          "stateChanges": [
+            "ageOutput.textContent = getAgeOutputText(nextBirthDate)"
+          ],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [
+            ".birth-date-input"
+          ],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-registration/member-registration-renderer.js:395"
+          ],
+          "policyGapRefs": [
+            "GAP-060"
+          ]
+        },
+        {
+          "id": "CG-03-C04",
+          "title": "input on .birth-date-input when dateParts = Array.from(birthInputs.querySelectorAll(\".birth-date-input\")).map((dateInput) => dateInput.value) -> input.addEventListener(\"input\", () => {",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "input on .birth-date-input",
+          "conditions": [
+            "dateParts = Array.from(birthInputs.querySelectorAll(\".birth-date-input\")).map((dateInput) => dateInput.value)"
+          ],
+          "expectedBehavior": [
+            "input.addEventListener(\"input\", () => {"
+          ],
+          "stateChanges": [
+            "ageOutput.textContent = getAgeOutputText(draft.birthDate)"
+          ],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [
+            ".birth-date-input"
+          ],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-edit/member-edit-renderer.js:269"
+          ],
+          "policyGapRefs": [
+            "GAP-061"
+          ]
+        },
+        {
+          "id": "CG-03-C05",
+          "title": "logic branch when isHoliday && reservationCount > 0 -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "logic branch",
+          "conditions": [
+            "isHoliday && reservationCount > 0"
+          ],
+          "expectedBehavior": [
+            "Submit or save feature data."
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/school-home/school-home-renderer.js:347"
+          ],
+          "policyGapRefs": [
+            "GAP-062"
+          ]
+        },
+        {
+          "id": "CG-03-C06",
+          "title": "logic branch when summary.isHoliday && !summary.hasReservations -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "logic branch",
+          "conditions": [
+            "summary.isHoliday && !summary.hasReservations"
+          ],
+          "expectedBehavior": [
+            "Submit or save feature data."
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/school-home/school-home-renderer.js:460",
+            "../../../OneDrive/문서/prototype-member-tag/src/features/school-home/school-home-renderer.js:538"
+          ],
+          "policyGapRefs": [
+            "GAP-063"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "CG-04",
+      "title": "Option selection",
+      "sourceFiles": [
+        "../../../OneDrive/문서/prototype-member-tag/src/features/member-home/member-home-renderer.js",
+        "../../../OneDrive/문서/prototype-member-tag/src/features/member-detail/member-detail-renderer.js",
+        "../../../OneDrive/문서/prototype-member-tag/src/features/hotel-home/hotel-home-renderer.js",
+        "../../../OneDrive/문서/prototype-member-tag/src/features/hotel-home/hotel-home-state.js",
+        "../../../OneDrive/문서/prototype-member-tag/src/shared/components/member-tag-input.js"
+      ],
+      "cases": [
+        {
+          "id": "CG-04-C01",
+          "title": "change on [data-state=\"idle\"] -> input.addEventListener(\"change\", () => {",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "change on [data-state=\"idle\"]",
+          "conditions": [],
+          "expectedBehavior": [
+            "input.addEventListener(\"change\", () => {"
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data",
+            "mutate form state"
+          ],
+          "uiSelectors": [
+            ".pet-detail-radio-option",
+            "[data-state=\"idle\"]",
+            "[data-state=\"selected\"]"
+          ],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-home/member-home-renderer.js:1195",
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-detail/member-detail-renderer.js:1012"
+          ],
+          "policyGapRefs": []
+        },
+        {
+          "id": "CG-04-C02",
+          "title": "logic branch when memberHomeState.selectedMemberTagNames.length -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "logic branch",
+          "conditions": [
+            "memberHomeState.selectedMemberTagNames.length"
+          ],
+          "expectedBehavior": [
+            "Submit or save feature data."
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data",
+            "mutate form state"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-home/member-home-renderer.js:1703"
+          ],
+          "policyGapRefs": [
+            "GAP-064"
+          ]
+        },
+        {
+          "id": "CG-04-C03",
+          "title": "logic branch when memberHomeState.selectedMemberTagNames.includes(memberTagName) -> if (memberHomeState.selectedMemberTagNames.includes(memberTagName)) {",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "logic branch",
+          "conditions": [
+            "memberHomeState.selectedMemberTagNames.includes(memberTagName)"
+          ],
+          "expectedBehavior": [
+            "if (memberHomeState.selectedMemberTagNames.includes(memberTagName)) {"
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "mutate form state"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-home/member-home-renderer.js:1928"
+          ],
+          "policyGapRefs": []
+        },
+        {
+          "id": "CG-04-C04",
+          "title": "logic branch when memberHomeState.selectedMemberTagNames.length === 0 -> if (memberHomeState.selectedMemberTagNames.length === 0) {",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "logic branch",
+          "conditions": [
+            "memberHomeState.selectedMemberTagNames.length === 0"
+          ],
+          "expectedBehavior": [
+            "if (memberHomeState.selectedMemberTagNames.length === 0) {"
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "mutate form state"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-home/member-home-renderer.js:1939"
+          ],
+          "policyGapRefs": []
+        },
+        {
+          "id": "CG-04-C05",
+          "title": "logic branch when memberHomeState.selectedMemberTagNames.length === 1 -> if (memberHomeState.selectedMemberTagNames.length === 1) {",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "logic branch",
+          "conditions": [
+            "memberHomeState.selectedMemberTagNames.length === 1"
+          ],
+          "expectedBehavior": [
+            "if (memberHomeState.selectedMemberTagNames.length === 1) {"
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "mutate form state"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-home/member-home-renderer.js:1943"
+          ],
+          "policyGapRefs": []
+        },
+        {
+          "id": "CG-04-C06",
+          "title": "change when keptIds = hotelHomeState.selectedReservationIds.filter((reservationId) => { -> selectAll.addEventListener(\"change\", () => {",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "change",
+          "conditions": [
+            "keptIds = hotelHomeState.selectedReservationIds.filter((reservationId) => {"
+          ],
+          "expectedBehavior": [
+            "selectAll.addEventListener(\"change\", () => {"
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data",
+            "mutate form state"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/hotel-home/hotel-home-renderer.js:432"
+          ],
+          "policyGapRefs": []
+        },
+        {
+          "id": "CG-04-C07",
+          "title": "logic branch when !Array.isArray(selectedMemberTagNames) \\|\\| selectedMemberTagNames.length === 0 -> if (!Array.isArray(selectedMemberTagNames) \\|\\| selectedMemberTagNames.length === 0) {",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "logic branch",
+          "conditions": [
+            "!Array.isArray(selectedMemberTagNames) \\|\\| selectedMemberTagNames.length === 0"
+          ],
+          "expectedBehavior": [
+            "if (!Array.isArray(selectedMemberTagNames) \\|\\| selectedMemberTagNames.length === 0) {"
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "mutate form state"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/hotel-home/hotel-home-state.js:95"
+          ],
+          "policyGapRefs": []
+        },
+        {
+          "id": "CG-04-C08",
+          "title": "logic branch when searchInputSelector === \".member-tag-search-input\" -> if (searchInputSelector === \".member-tag-search-input\") {",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "logic branch",
+          "conditions": [
+            "searchInputSelector === \".member-tag-search-input\""
+          ],
+          "expectedBehavior": [
+            "if (searchInputSelector === \".member-tag-search-input\") {"
+          ],
+          "stateChanges": [],
+          "dataImpact": [],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/shared/components/member-tag-input.js:151"
+          ],
+          "policyGapRefs": []
+        },
+        {
+          "id": "CG-04-C09",
+          "title": "mousedown on [data-action=\"selectMemberTagSuggestion\"] when isSuggestionOpen && (suggestions.length \\|\\| query.trim()) -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "mousedown on [data-action=\"selectMemberTagSuggestion\"]",
+          "conditions": [
+            "isSuggestionOpen && (suggestions.length \\|\\| query.trim())",
+            "query.trim() && !suggestions.some((memberTagName) => normalizeMemberTagName(memberTagName) === normalizeMemberTagName(query))",
+            "!menu.childElementCount"
+          ],
+          "expectedBehavior": [
+            "Submit or save feature data."
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [
+            "[data-action=\"selectMemberTagSuggestion\"]",
+            "[data-action=\"createMemberTag\"]"
+          ],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/shared/components/member-tag-input.js:196"
+          ],
+          "policyGapRefs": [
+            "GAP-065"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "CG-05",
+      "title": "Action: submitPetDetail",
+      "sourceFiles": [
+        "../../../OneDrive/문서/prototype-member-tag/src/features/member-home/member-home-renderer.js",
+        "../../../OneDrive/문서/prototype-member-tag/src/features/member-detail/member-detail-renderer.js"
+      ],
+      "cases": [
+        {
+          "id": "CG-05-C01",
+          "title": "submit / [data-action=\"submitPetDetail\"] -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "submit",
+          "conditions": [],
+          "expectedBehavior": [
+            "Submit or save feature data."
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [
+            "[data-action=\"submitPetDetail\"]"
+          ],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-home/member-home-renderer.js:1236",
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-home/member-home-renderer.js:1237",
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-detail/member-detail-renderer.js:1070",
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-detail/member-detail-renderer.js:1071"
+          ],
+          "policyGapRefs": [
+            "GAP-066"
+          ]
+        },
+        {
+          "id": "CG-05-C02",
+          "title": "submit / [data-action='submitPetDetail'] -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "submit",
+          "conditions": [],
+          "expectedBehavior": [
+            "Submit or save feature data.",
+            "Update enabled or disabled state."
+          ],
+          "stateChanges": [
+            "button.disabled = !isReady"
+          ],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [
+            "[data-action='submitPetDetail']",
+            "[data-state]"
+          ],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-home/member-home-renderer.js:1260"
+          ],
+          "policyGapRefs": [
+            "GAP-067",
+            "GAP-068"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "CG-06",
+      "title": "Area: memberFilterRow",
+      "sourceFiles": [
+        "../../../OneDrive/문서/prototype-member-tag/src/features/member-home/member-home-renderer.js"
+      ],
+      "cases": [
+        {
+          "id": "CG-06-C01",
+          "title": "logic branch / [data-area=\"memberFilterRow\"] when !isMobileLayout() -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "logic branch",
+          "conditions": [
+            "!isMobileLayout()",
+            "memberHomeState.isFilterPanelOpen"
+          ],
+          "expectedBehavior": [
+            "Submit or save feature data."
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [
+            "[data-area=\"memberFilterRow\"]"
+          ],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-home/member-home-renderer.js:1462"
+          ],
+          "policyGapRefs": [
+            "GAP-069"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "CG-07",
+      "title": "Feature mode transition",
+      "sourceFiles": [
+        "../../../OneDrive/문서/prototype-member-tag/src/features/member-home/member-home-renderer.js",
+        "../../../OneDrive/문서/prototype-member-tag/src/features/hotel-home/hotel-home-renderer.js",
+        "../../../OneDrive/문서/prototype-member-tag/src/features/member-edit/member-edit-renderer.js",
+        "../../../OneDrive/문서/prototype-member-tag/src/features/hotel-home/hotel-home-state.js",
+        "../../../OneDrive/문서/prototype-member-tag/src/shared/components/member-tag-input.js",
+        "../../../OneDrive/문서/prototype-member-tag/src/features/school-home/school-home-renderer.js"
+      ],
+      "cases": [
+        {
+          "id": "CG-07-C01",
+          "title": "logic branch when !memberHomeState.tagFilterQuery && (!memberHomeState.selectedMemberTagNames.length \\|\\| options.clearMode !== \"selection\") -> if (!memberHomeState.tagFilterQuery && (!memberHomeState.selectedMemberTagNames.length \\|\\| options.clearMode !== \"selection\")) {",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "logic branch",
+          "conditions": [
+            "!memberHomeState.tagFilterQuery && (!memberHomeState.selectedMemberTagNames.length \\|\\| options.clearMode !== \"selection\")"
+          ],
+          "expectedBehavior": [
+            "if (!memberHomeState.tagFilterQuery && (!memberHomeState.selectedMemberTagNames.length \\|\\| options.clearMode !== \"selection\")) {"
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "mutate form state"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-home/member-home-renderer.js:1744"
+          ],
+          "policyGapRefs": []
+        },
+        {
+          "id": "CG-07-C02",
+          "title": "logic branch when hotelHomeState.isModeMenuOpen -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "logic branch",
+          "conditions": [
+            "hotelHomeState.isModeMenuOpen"
+          ],
+          "expectedBehavior": [
+            "Submit or save feature data."
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data",
+            "mutate form state"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/hotel-home/hotel-home-renderer.js:137"
+          ],
+          "policyGapRefs": [
+            "GAP-070"
+          ]
+        },
+        {
+          "id": "CG-07-C03",
+          "title": "logic branch when activeFilters.includes(filterKey) -> if (activeFilters.includes(filterKey)) {",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "logic branch",
+          "conditions": [
+            "activeFilters.includes(filterKey)"
+          ],
+          "expectedBehavior": [
+            "if (activeFilters.includes(filterKey)) {"
+          ],
+          "stateChanges": [],
+          "dataImpact": [],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/hotel-home/hotel-home-renderer.js:563"
+          ],
+          "policyGapRefs": []
+        },
+        {
+          "id": "CG-07-C04",
+          "title": "submit when memberEditState.activeSheet === \"petDetail\" -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "submit",
+          "conditions": [
+            "memberEditState.activeSheet === \"petDetail\""
+          ],
+          "expectedBehavior": [
+            "Submit or save feature data."
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-edit/member-edit-renderer.js:48"
+          ],
+          "policyGapRefs": [
+            "GAP-071"
+          ]
+        },
+        {
+          "id": "CG-07-C05",
+          "title": "submit when memberEditState.activeSheet === \"addPet\" -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "submit",
+          "conditions": [
+            "memberEditState.activeSheet === \"addPet\""
+          ],
+          "expectedBehavior": [
+            "Submit or save feature data."
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-edit/member-edit-renderer.js:49",
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-edit/member-edit-renderer.js:52"
+          ],
+          "policyGapRefs": [
+            "GAP-072"
+          ]
+        },
+        {
+          "id": "CG-07-C06",
+          "title": "submit when memberEditState.activeAlert === \"deleteAll\" -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "submit",
+          "conditions": [
+            "memberEditState.activeAlert === \"deleteAll\""
+          ],
+          "expectedBehavior": [
+            "Submit or save feature data."
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data",
+            "delete or remove data"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-edit/member-edit-renderer.js:53"
+          ],
+          "policyGapRefs": [
+            "GAP-073"
+          ]
+        },
+        {
+          "id": "CG-07-C07",
+          "title": "logic branch when !Array.isArray(activeFilters) \\|\\| activeFilters.length === 0 -> if (!Array.isArray(activeFilters) \\|\\| activeFilters.length === 0) {",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "logic branch",
+          "conditions": [
+            "!Array.isArray(activeFilters) \\|\\| activeFilters.length === 0"
+          ],
+          "expectedBehavior": [
+            "if (!Array.isArray(activeFilters) \\|\\| activeFilters.length === 0) {"
+          ],
+          "stateChanges": [],
+          "dataImpact": [],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/hotel-home/hotel-home-state.js:106"
+          ],
+          "policyGapRefs": []
+        },
+        {
+          "id": "CG-07-C08",
+          "title": "blur when container.contains(document.activeElement) \\|\\| isMobileSearchOpen -> input.addEventListener(\"blur\", () => {",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "blur",
+          "conditions": [
+            "container.contains(document.activeElement) \\|\\| isMobileSearchOpen"
+          ],
+          "expectedBehavior": [
+            "input.addEventListener(\"blur\", () => {"
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/shared/components/member-tag-input.js:182"
+          ],
+          "policyGapRefs": []
+        },
+        {
+          "id": "CG-07-C09",
+          "title": "logic branch when container.contains(document.activeElement) \\|\\| isMobileSearchOpen -> if (container.contains(document.activeElement) \\|\\| isMobileSearchOpen) {",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "logic branch",
+          "conditions": [
+            "container.contains(document.activeElement) \\|\\| isMobileSearchOpen"
+          ],
+          "expectedBehavior": [
+            "if (container.contains(document.activeElement) \\|\\| isMobileSearchOpen) {"
+          ],
+          "stateChanges": [],
+          "dataImpact": [],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/shared/components/member-tag-input.js:184"
+          ],
+          "policyGapRefs": []
+        },
+        {
+          "id": "CG-07-C10",
+          "title": "logic branch when schoolHomeState.isModeMenuOpen -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "logic branch",
+          "conditions": [
+            "schoolHomeState.isModeMenuOpen"
+          ],
+          "expectedBehavior": [
+            "Submit or save feature data."
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data",
+            "mutate form state"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/school-home/school-home-renderer.js:226"
+          ],
+          "policyGapRefs": [
+            "GAP-074"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "CG-08",
+      "title": "Logic in member-detail-renderer.js",
+      "sourceFiles": [
+        "../../../OneDrive/문서/prototype-member-tag/src/features/member-detail/member-detail-renderer.js"
+      ],
+      "cases": [
+        {
+          "id": "CG-08-C01",
+          "title": "input on [data-state] -> memoField.addEventListener(\"input\", (event) => {",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "input on [data-state]",
+          "conditions": [],
+          "expectedBehavior": [
+            "memoField.addEventListener(\"input\", (event) => {"
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [
+            "[data-state]"
+          ],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-detail/member-detail-renderer.js:261"
+          ],
+          "policyGapRefs": []
+        },
+        {
+          "id": "CG-08-C02",
+          "title": "click -> closeButton.addEventListener(\"click\", () => {",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "click",
+          "conditions": [],
+          "expectedBehavior": [
+            "closeButton.addEventListener(\"click\", () => {"
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-detail/member-detail-renderer.js:711",
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-detail/member-detail-renderer.js:847"
+          ],
+          "policyGapRefs": []
+        },
+        {
+          "id": "CG-08-C03",
+          "title": "input -> baseAddressInput.addEventListener(\"input\", (event) => {",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "input",
+          "conditions": [],
+          "expectedBehavior": [
+            "baseAddressInput.addEventListener(\"input\", (event) => {"
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-detail/member-detail-renderer.js:762"
+          ],
+          "policyGapRefs": []
+        },
+        {
+          "id": "CG-08-C04",
+          "title": "input -> detailAddressInput.addEventListener(\"input\", (event) => {",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "input",
+          "conditions": [],
+          "expectedBehavior": [
+            "detailAddressInput.addEventListener(\"input\", (event) => {"
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-detail/member-detail-renderer.js:780"
+          ],
+          "policyGapRefs": []
+        },
+        {
+          "id": "CG-08-C05",
+          "title": "logic branch when excessCount > 0 -> if (excessCount > 0) {",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "logic branch",
+          "conditions": [
+            "excessCount > 0"
+          ],
+          "expectedBehavior": [
+            "if (excessCount > 0) {"
+          ],
+          "stateChanges": [],
+          "dataImpact": [],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-detail/member-detail-renderer.js:1177"
+          ],
+          "policyGapRefs": []
+        }
+      ]
+    },
+    {
+      "id": "CG-09",
+      "title": "Action: submitOwnerDetail",
+      "sourceFiles": [
+        "../../../OneDrive/문서/prototype-member-tag/src/features/member-detail/member-detail-renderer.js"
+      ],
+      "cases": [
+        {
+          "id": "CG-09-C01",
+          "title": "submit / [data-action=\"submitOwnerDetail\"] -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "submit",
+          "conditions": [],
+          "expectedBehavior": [
+            "Submit or save feature data."
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [
+            "[data-action=\"submitOwnerDetail\"]"
+          ],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-detail/member-detail-renderer.js:723",
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-detail/member-detail-renderer.js:724"
+          ],
+          "policyGapRefs": [
+            "GAP-075"
+          ]
+        },
+        {
+          "id": "CG-09-C02",
+          "title": "submit / [data-action=\"submitOwnerDetail\"] -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "submit",
+          "conditions": [],
+          "expectedBehavior": [
+            "Submit or save feature data."
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [
+            "[data-action=\"submitOwnerDetail\"]"
+          ],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-detail/member-detail-renderer.js:727"
+          ],
+          "policyGapRefs": [
+            "GAP-076"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "CG-10",
+      "title": "Logic in hotel-home-renderer.js",
+      "sourceFiles": [
+        "../../../OneDrive/문서/prototype-member-tag/src/features/hotel-home/hotel-home-renderer.js"
+      ],
+      "cases": [
+        {
+          "id": "CG-10-C01",
+          "title": "click -> titleRow.addEventListener(\"click\", () => {",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "click",
+          "conditions": [],
+          "expectedBehavior": [
+            "titleRow.addEventListener(\"click\", () => {"
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/hotel-home/hotel-home-renderer.js:131"
+          ],
+          "policyGapRefs": []
+        },
+        {
+          "id": "CG-10-C02",
+          "title": "click -> button.addEventListener(\"click\", () => {",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "click",
+          "conditions": [],
+          "expectedBehavior": [
+            "button.addEventListener(\"click\", () => {"
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data",
+            "mutate form state"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/hotel-home/hotel-home-renderer.js:315"
+          ],
+          "policyGapRefs": []
+        },
+        {
+          "id": "CG-10-C03",
+          "title": "click -> closeButton.addEventListener(\"click\", () => {",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "click",
+          "conditions": [],
+          "expectedBehavior": [
+            "closeButton.addEventListener(\"click\", () => {"
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data",
+            "mutate form state"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/hotel-home/hotel-home-renderer.js:387"
+          ],
+          "policyGapRefs": []
+        },
+        {
+          "id": "CG-10-C04",
+          "title": "change -> checkbox.addEventListener(\"change\", () => {",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "change",
+          "conditions": [],
+          "expectedBehavior": [
+            "checkbox.addEventListener(\"change\", () => {"
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data",
+            "mutate form state"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/hotel-home/hotel-home-renderer.js:473"
+          ],
+          "policyGapRefs": []
+        },
+        {
+          "id": "CG-10-C05",
+          "title": "click -> button.addEventListener(\"click\", () => {",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "click",
+          "conditions": [],
+          "expectedBehavior": [
+            "button.addEventListener(\"click\", () => {"
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/hotel-home/hotel-home-renderer.js:550"
+          ],
+          "policyGapRefs": []
+        },
+        {
+          "id": "CG-10-C06",
+          "title": "click when nextMonth = shiftMonth(hotelHomeState.currentMonth, direction === \"prev\" ? -1 : 1) -> button.addEventListener(\"click\", () => {",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "click",
+          "conditions": [
+            "nextMonth = shiftMonth(hotelHomeState.currentMonth, direction === \"prev\" ? -1 : 1)"
+          ],
+          "expectedBehavior": [
+            "button.addEventListener(\"click\", () => {"
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data",
+            "mutate form state"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/hotel-home/hotel-home-renderer.js:647"
+          ],
+          "policyGapRefs": []
+        }
+      ]
+    },
+    {
+      "id": "CG-11",
+      "title": "Logic in member-registration-renderer.js",
+      "sourceFiles": [
+        "../../../OneDrive/문서/prototype-member-tag/src/features/member-registration/member-registration-renderer.js"
+      ],
+      "cases": [
+        {
+          "id": "CG-11-C01",
+          "title": "click when isMobileLayout() -> button.addEventListener(\"click\", () => {",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "click",
+          "conditions": [
+            "isMobileLayout()"
+          ],
+          "expectedBehavior": [
+            "button.addEventListener(\"click\", () => {"
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-registration/member-registration-renderer.js:178"
+          ],
+          "policyGapRefs": []
+        },
+        {
+          "id": "CG-11-C02",
+          "title": "logic branch when isMobileLayout() -> if (isMobileLayout()) {",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "logic branch",
+          "conditions": [
+            "isMobileLayout()"
+          ],
+          "expectedBehavior": [
+            "if (isMobileLayout()) {"
+          ],
+          "stateChanges": [],
+          "dataImpact": [],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-registration/member-registration-renderer.js:179"
+          ],
+          "policyGapRefs": []
+        },
+        {
+          "id": "CG-11-C03",
+          "title": "click -> closeButton.addEventListener(\"click\", () => {",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "click",
+          "conditions": [],
+          "expectedBehavior": [
+            "closeButton.addEventListener(\"click\", () => {"
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-registration/member-registration-renderer.js:736"
+          ],
+          "policyGapRefs": []
+        }
+      ]
+    },
+    {
+      "id": "CG-12",
+      "title": "Action: submitAddPet",
+      "sourceFiles": [
+        "../../../OneDrive/문서/prototype-member-tag/src/features/member-registration/member-registration-renderer.js"
+      ],
+      "cases": [
+        {
+          "id": "CG-12-C01",
+          "title": "submit / [data-action=\"submitAddPet\"] -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "submit",
+          "conditions": [],
+          "expectedBehavior": [
+            "Submit or save feature data."
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [
+            "[data-action=\"submitAddPet\"]"
+          ],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-registration/member-registration-renderer.js:749",
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-registration/member-registration-renderer.js:750"
+          ],
+          "policyGapRefs": [
+            "GAP-077"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "CG-13",
+      "title": "Action: submitPet",
+      "sourceFiles": [
+        "../../../OneDrive/문서/prototype-member-tag/src/features/member-edit/member-edit-renderer.js"
+      ],
+      "cases": [
+        {
+          "id": "CG-13-C01",
+          "title": "submit / [data-action=\"submitPet\"] -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "submit",
+          "conditions": [],
+          "expectedBehavior": [
+            "Submit or save feature data."
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [
+            "[data-action=\"submitPet\"]"
+          ],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-edit/member-edit-renderer.js:186",
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-edit/member-edit-renderer.js:187"
+          ],
+          "policyGapRefs": [
+            "GAP-078"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "CG-14",
+      "title": "Logic in member-edit-renderer.js",
+      "sourceFiles": [
+        "../../../OneDrive/문서/prototype-member-tag/src/features/member-edit/member-edit-renderer.js"
+      ],
+      "cases": [
+        {
+          "id": "CG-14-C01",
+          "title": "click -> backButton.addEventListener(\"click\", () => {",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "click",
+          "conditions": [],
+          "expectedBehavior": [
+            "backButton.addEventListener(\"click\", () => {"
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-edit/member-edit-renderer.js:427"
+          ],
+          "policyGapRefs": []
+        }
+      ]
+    },
+    {
+      "id": "CG-15",
+      "title": "Action: submitGuardianEdit",
+      "sourceFiles": [
+        "../../../OneDrive/문서/prototype-member-tag/src/features/member-edit/member-edit-renderer.js"
+      ],
+      "cases": [
+        {
+          "id": "CG-15-C01",
+          "title": "submit / [data-action=\"submitGuardianEdit\"] -> Submit or save feature data.",
+          "audiences": [
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "submit",
+          "conditions": [],
+          "expectedBehavior": [
+            "Submit or save feature data."
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [
+            "[data-action=\"submitGuardianEdit\"]"
+          ],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/member-edit/member-edit-renderer.js:520"
+          ],
+          "policyGapRefs": [
+            "GAP-079"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "CG-16",
+      "title": "Logic in hotel-home-state.js",
+      "sourceFiles": [
+        "../../../OneDrive/문서/prototype-member-tag/src/features/hotel-home/hotel-home-state.js"
+      ],
+      "cases": [
+        {
+          "id": "CG-16-C01",
+          "title": "logic branch when searchTerm -> if (searchTerm) {",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "logic branch",
+          "conditions": [
+            "searchTerm"
+          ],
+          "expectedBehavior": [
+            "if (searchTerm) {"
+          ],
+          "stateChanges": [],
+          "dataImpact": [],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/hotel-home/hotel-home-state.js:75"
+          ],
+          "policyGapRefs": []
+        }
+      ]
+    },
+    {
+      "id": "CG-17",
+      "title": "Logic in member-tag-input.js",
+      "sourceFiles": [
+        "../../../OneDrive/문서/prototype-member-tag/src/shared/components/member-tag-input.js"
+      ],
+      "cases": [
+        {
+          "id": "CG-17-C01",
+          "title": "logic branch when !trimmedTagName \\|\\| selectedTagSet.has(normalizeMemberTagName(trimmedTagName)) -> if (!trimmedTagName \\|\\| selectedTagSet.has(normalizeMemberTagName(trimmedTagName))) {",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "logic branch",
+          "conditions": [
+            "!trimmedTagName \\|\\| selectedTagSet.has(normalizeMemberTagName(trimmedTagName))"
+          ],
+          "expectedBehavior": [
+            "if (!trimmedTagName \\|\\| selectedTagSet.has(normalizeMemberTagName(trimmedTagName))) {"
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "mutate form state"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/shared/components/member-tag-input.js:29"
+          ],
+          "policyGapRefs": []
+        },
+        {
+          "id": "CG-17-C02",
+          "title": "logic branch when isSelected -> if (isSelected) {",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "logic branch",
+          "conditions": [
+            "isSelected"
+          ],
+          "expectedBehavior": [
+            "if (isSelected) {"
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "mutate form state"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/shared/components/member-tag-input.js:69"
+          ],
+          "policyGapRefs": []
+        },
+        {
+          "id": "CG-17-C03",
+          "title": "logic branch when !isMobileSearchOpen -> if (!isMobileSearchOpen) {",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "logic branch",
+          "conditions": [
+            "!isMobileSearchOpen"
+          ],
+          "expectedBehavior": [
+            "if (!isMobileSearchOpen) {"
+          ],
+          "stateChanges": [],
+          "dataImpact": [],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/shared/components/member-tag-input.js:116"
+          ],
+          "policyGapRefs": []
+        },
+        {
+          "id": "CG-17-C04",
+          "title": "logic branch when shouldFocusSearchInput -> if (shouldFocusSearchInput) {",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "logic branch",
+          "conditions": [
+            "shouldFocusSearchInput"
+          ],
+          "expectedBehavior": [
+            "if (shouldFocusSearchInput) {"
+          ],
+          "stateChanges": [],
+          "dataImpact": [],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/shared/components/member-tag-input.js:128"
+          ],
+          "policyGapRefs": []
+        },
+        {
+          "id": "CG-17-C05",
+          "title": "compositionend -> input.addEventListener(\"compositionend\", (event) => {",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "compositionend",
+          "conditions": [],
+          "expectedBehavior": [
+            "input.addEventListener(\"compositionend\", (event) => {"
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/shared/components/member-tag-input.js:139"
+          ],
+          "policyGapRefs": []
+        },
+        {
+          "id": "CG-17-C06",
+          "title": "input when isComposing -> input.addEventListener(\"input\", (event) => {",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "input",
+          "conditions": [
+            "isComposing",
+            "searchInputSelector === \".member-tag-search-input\""
+          ],
+          "expectedBehavior": [
+            "input.addEventListener(\"input\", (event) => {"
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/shared/components/member-tag-input.js:147"
+          ],
+          "policyGapRefs": []
+        },
+        {
+          "id": "CG-17-C07",
+          "title": "logic branch when isComposing -> if (isComposing) {",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "logic branch",
+          "conditions": [
+            "isComposing",
+            "searchInputSelector === \".member-tag-search-input\""
+          ],
+          "expectedBehavior": [
+            "if (isComposing) {"
+          ],
+          "stateChanges": [],
+          "dataImpact": [],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/shared/components/member-tag-input.js:150"
+          ],
+          "policyGapRefs": []
+        },
+        {
+          "id": "CG-17-C08",
+          "title": "keydown when event.key !== \"Enter\" \\|\\| isComposing -> input.addEventListener(\"keydown\", (event) => {",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "keydown",
+          "conditions": [
+            "event.key !== \"Enter\" \\|\\| isComposing"
+          ],
+          "expectedBehavior": [
+            "input.addEventListener(\"keydown\", (event) => {"
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/shared/components/member-tag-input.js:159"
+          ],
+          "policyGapRefs": []
+        },
+        {
+          "id": "CG-17-C09",
+          "title": "focus when isMobileLayout() && !isMobileSearchOpen -> input.addEventListener(\"focus\", () => {",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "focus",
+          "conditions": [
+            "isMobileLayout() && !isMobileSearchOpen",
+            "isSuggestionOpen"
+          ],
+          "expectedBehavior": [
+            "input.addEventListener(\"focus\", () => {"
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/shared/components/member-tag-input.js:167"
+          ],
+          "policyGapRefs": []
+        },
+        {
+          "id": "CG-17-C10",
+          "title": "logic branch when isMobileLayout() && !isMobileSearchOpen -> if (isMobileLayout() && !isMobileSearchOpen) {",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "logic branch",
+          "conditions": [
+            "isMobileLayout() && !isMobileSearchOpen"
+          ],
+          "expectedBehavior": [
+            "if (isMobileLayout() && !isMobileSearchOpen) {"
+          ],
+          "stateChanges": [],
+          "dataImpact": [],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/shared/components/member-tag-input.js:168"
+          ],
+          "policyGapRefs": []
+        },
+        {
+          "id": "CG-17-C11",
+          "title": "click -> backButton.addEventListener(\"click\", () => {",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "click",
+          "conditions": [],
+          "expectedBehavior": [
+            "backButton.addEventListener(\"click\", () => {"
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/shared/components/member-tag-input.js:250"
+          ],
+          "policyGapRefs": []
+        }
+      ]
+    },
+    {
+      "id": "CG-18",
+      "title": "Logic in school-home-renderer.js",
+      "sourceFiles": [
+        "../../../OneDrive/문서/prototype-member-tag/src/features/school-home/school-home-renderer.js"
+      ],
+      "cases": [
+        {
+          "id": "CG-18-C01",
+          "title": "click -> todayButton.addEventListener(\"click\", () => {",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "click",
+          "conditions": [],
+          "expectedBehavior": [
+            "todayButton.addEventListener(\"click\", () => {"
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/school-home/school-home-renderer.js:175"
+          ],
+          "policyGapRefs": []
+        },
+        {
+          "id": "CG-18-C02",
+          "title": "change -> allCheckbox.addEventListener(\"change\", () => {",
+          "audiences": [
+            {
+              "platform": "Web",
+              "user": "비즈"
+            },
+            {
+              "platform": "App",
+              "user": "비즈"
+            }
+          ],
+          "platforms": [
+            "Web",
+            "App"
+          ],
+          "users": [
+            "비즈"
+          ],
+          "trigger": "change",
+          "conditions": [],
+          "expectedBehavior": [
+            "allCheckbox.addEventListener(\"change\", () => {"
+          ],
+          "stateChanges": [],
+          "dataImpact": [
+            "write feature data",
+            "mutate form state"
+          ],
+          "uiSelectors": [],
+          "sourceRefs": [
+            "../../../OneDrive/문서/prototype-member-tag/src/features/school-home/school-home-renderer.js:478"
+          ],
+          "policyGapRefs": []
+        }
+      ]
+    }
+  ],
+  "policyGaps": [
+    {
+      "id": "GAP-001",
+      "caseId": "CG-02-C02",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-002",
+      "caseId": "CG-02-C03",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-003",
+      "caseId": "CG-02-C04",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-004",
+      "caseId": "CG-02-C05",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-005",
+      "caseId": "CG-02-C06",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-006",
+      "caseId": "CG-02-C07",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-007",
+      "caseId": "CG-02-C08",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-008",
+      "caseId": "CG-02-C09",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-009",
+      "caseId": "CG-02-C10",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-010",
+      "caseId": "CG-02-C11",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-011",
+      "caseId": "CG-02-C12",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-012",
+      "caseId": "CG-02-C13",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-013",
+      "caseId": "CG-02-C14",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-014",
+      "caseId": "CG-02-C15",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-015",
+      "caseId": "CG-02-C16",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-016",
+      "caseId": "CG-02-C17",
+      "type": "state",
+      "question": "Confirm disabled-state feedback for this flow.",
+      "reason": "Code toggles disabled state but the user-facing reason may not be explicit.",
+      "suggestedDefault": "Keep the control disabled without tooltip unless the UX spec requires explanatory copy.",
+      "userDecision": "Keep the control disabled without tooltip unless the UX spec requires explanatory copy.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-017",
+      "caseId": "CG-02-C19",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-018",
+      "caseId": "CG-02-C20",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-019",
+      "caseId": "CG-02-C21",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-020",
+      "caseId": "CG-02-C22",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-021",
+      "caseId": "CG-02-C23",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-022",
+      "caseId": "CG-02-C24",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-023",
+      "caseId": "CG-02-C25",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-024",
+      "caseId": "CG-02-C26",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-025",
+      "caseId": "CG-02-C27",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-026",
+      "caseId": "CG-02-C28",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-027",
+      "caseId": "CG-02-C29",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-028",
+      "caseId": "CG-02-C30",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-029",
+      "caseId": "CG-02-C31",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-030",
+      "caseId": "CG-02-C32",
+      "type": "state",
+      "question": "Confirm disabled-state feedback for this flow.",
+      "reason": "Code toggles disabled state but the user-facing reason may not be explicit.",
+      "suggestedDefault": "Keep the control disabled without tooltip unless the UX spec requires explanatory copy.",
+      "userDecision": "Keep the control disabled without tooltip unless the UX spec requires explanatory copy.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-031",
+      "caseId": "CG-02-C32",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-032",
+      "caseId": "CG-02-C33",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-033",
+      "caseId": "CG-02-C34",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-034",
+      "caseId": "CG-02-C35",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-035",
+      "caseId": "CG-02-C36",
+      "type": "state",
+      "question": "Confirm disabled-state feedback for this flow.",
+      "reason": "Code toggles disabled state but the user-facing reason may not be explicit.",
+      "suggestedDefault": "Keep the control disabled without tooltip unless the UX spec requires explanatory copy.",
+      "userDecision": "Keep the control disabled without tooltip unless the UX spec requires explanatory copy.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-036",
+      "caseId": "CG-02-C36",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-037",
+      "caseId": "CG-02-C37",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-038",
+      "caseId": "CG-02-C38",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-039",
+      "caseId": "CG-02-C39",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-040",
+      "caseId": "CG-02-C40",
+      "type": "state",
+      "question": "Confirm disabled-state feedback for this flow.",
+      "reason": "Code toggles disabled state but the user-facing reason may not be explicit.",
+      "suggestedDefault": "Keep the control disabled without tooltip unless the UX spec requires explanatory copy.",
+      "userDecision": "Keep the control disabled without tooltip unless the UX spec requires explanatory copy.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-041",
+      "caseId": "CG-02-C40",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-042",
+      "caseId": "CG-02-C41",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-043",
+      "caseId": "CG-02-C42",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-044",
+      "caseId": "CG-02-C43",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-045",
+      "caseId": "CG-02-C44",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-046",
+      "caseId": "CG-02-C45",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-047",
+      "caseId": "CG-02-C46",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-048",
+      "caseId": "CG-02-C47",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-049",
+      "caseId": "CG-02-C48",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-050",
+      "caseId": "CG-02-C49",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-051",
+      "caseId": "CG-02-C50",
+      "type": "state",
+      "question": "Confirm disabled-state feedback for this flow.",
+      "reason": "Code toggles disabled state but the user-facing reason may not be explicit.",
+      "suggestedDefault": "Keep the control disabled without tooltip unless the UX spec requires explanatory copy.",
+      "userDecision": "Keep the control disabled without tooltip unless the UX spec requires explanatory copy.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-052",
+      "caseId": "CG-02-C50",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-053",
+      "caseId": "CG-02-C51",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-054",
+      "caseId": "CG-02-C52",
+      "type": "state",
+      "question": "Confirm disabled-state feedback for this flow.",
+      "reason": "Code toggles disabled state but the user-facing reason may not be explicit.",
+      "suggestedDefault": "Keep the control disabled without tooltip unless the UX spec requires explanatory copy.",
+      "userDecision": "Keep the control disabled without tooltip unless the UX spec requires explanatory copy.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-055",
+      "caseId": "CG-02-C52",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-056",
+      "caseId": "CG-02-C53",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-057",
+      "caseId": "CG-02-C54",
+      "type": "state",
+      "question": "Confirm disabled-state feedback for this flow.",
+      "reason": "Code toggles disabled state but the user-facing reason may not be explicit.",
+      "suggestedDefault": "Keep the control disabled without tooltip unless the UX spec requires explanatory copy.",
+      "userDecision": "Keep the control disabled without tooltip unless the UX spec requires explanatory copy.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-058",
+      "caseId": "CG-02-C55",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-059",
+      "caseId": "CG-03-C01",
+      "type": "copy",
+      "question": "Confirm final user-facing copy for this state.",
+      "reason": "Code changes visible text but copy may be prototype-only.",
+      "suggestedDefault": "Use current prototype copy as default.",
+      "userDecision": "Use current prototype copy as default.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-060",
+      "caseId": "CG-03-C03",
+      "type": "copy",
+      "question": "Confirm final user-facing copy for this state.",
+      "reason": "Code changes visible text but copy may be prototype-only.",
+      "suggestedDefault": "Use current prototype copy as default.",
+      "userDecision": "Use current prototype copy as default.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-061",
+      "caseId": "CG-03-C04",
+      "type": "copy",
+      "question": "Confirm final user-facing copy for this state.",
+      "reason": "Code changes visible text but copy may be prototype-only.",
+      "suggestedDefault": "Use current prototype copy as default.",
+      "userDecision": "Use current prototype copy as default.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-062",
+      "caseId": "CG-03-C05",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-063",
+      "caseId": "CG-03-C06",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-064",
+      "caseId": "CG-04-C02",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-065",
+      "caseId": "CG-04-C09",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-066",
+      "caseId": "CG-05-C01",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-067",
+      "caseId": "CG-05-C02",
+      "type": "state",
+      "question": "Confirm disabled-state feedback for this flow.",
+      "reason": "Code toggles disabled state but the user-facing reason may not be explicit.",
+      "suggestedDefault": "Keep the control disabled without tooltip unless the UX spec requires explanatory copy.",
+      "userDecision": "Keep the control disabled without tooltip unless the UX spec requires explanatory copy.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-068",
+      "caseId": "CG-05-C02",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-069",
+      "caseId": "CG-06-C01",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-070",
+      "caseId": "CG-07-C02",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-071",
+      "caseId": "CG-07-C04",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-072",
+      "caseId": "CG-07-C05",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-073",
+      "caseId": "CG-07-C06",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-074",
+      "caseId": "CG-07-C10",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-075",
+      "caseId": "CG-09-C01",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-076",
+      "caseId": "CG-09-C02",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-077",
+      "caseId": "CG-12-C01",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-078",
+      "caseId": "CG-13-C01",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    },
+    {
+      "id": "GAP-079",
+      "caseId": "CG-15-C01",
+      "type": "exception",
+      "question": "Confirm failure handling for submit/save or partial processing.",
+      "reason": "Submit or save branch is detected but failure handling policy is not guaranteed.",
+      "suggestedDefault": "Keep the current surface open and show an error toast.",
+      "userDecision": "Keep the current surface open and show an error toast.",
+      "status": "Default Applied"
+    }
+  ]
+}

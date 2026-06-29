@@ -1,0 +1,2075 @@
+{
+  "version": 3,
+  "feature": "회원 태그",
+  "generatedFrom": "case-inventory.json",
+  "cards": [
+    {
+      "meta": {
+        "platform": "Web",
+        "user": "비즈",
+        "screenName": "회원 태그",
+        "screenPath": "회원 태그 / 회원 태그",
+        "caseName": "회원 태그"
+      },
+      "descriptionBlocks": [
+        {
+          "marker": "P",
+          "componentType": "Policy",
+          "title": "회원 태그",
+          "body": [
+            "확정된 추가 서비스 정책 없음"
+          ]
+        },
+        {
+          "marker": "1",
+          "componentType": "Section",
+          "title": "회원 태그",
+          "body": [
+            "기능 관련 화면 영역을 표시한다."
+          ]
+        },
+        {
+          "marker": "2",
+          "componentType": "Button",
+          "title": "주요 동작",
+          "body": [
+            "사용자는 기능의 주요 동작을 실행할 수 있다."
+          ]
+        },
+        {
+          "marker": "3",
+          "componentType": "State",
+          "title": "상태 처리",
+          "body": [
+            "화면 상태는 사용자 동작과 저장 결과에 맞춰 갱신된다."
+          ]
+        },
+        {
+          "marker": "4",
+          "componentType": "Value",
+          "title": "데이터 반영",
+          "body": [
+            "저장 동작은 기능 데이터를 갱신한다.",
+            "입력 변경은 화면의 임시 상태에 반영된다."
+          ]
+        }
+      ],
+      "id": "S-01",
+      "frameName": "1"
+    },
+    {
+      "meta": {
+        "platform": "App",
+        "user": "비즈",
+        "screenName": "회원 태그",
+        "screenPath": "회원 태그 / 회원 태그",
+        "caseName": "회원 태그"
+      },
+      "descriptionBlocks": [
+        {
+          "marker": "P",
+          "componentType": "Policy",
+          "title": "회원 태그",
+          "body": [
+            "확정된 추가 서비스 정책 없음"
+          ]
+        },
+        {
+          "marker": "1",
+          "componentType": "Section",
+          "title": "회원 태그",
+          "body": [
+            "기능 관련 화면 영역을 표시한다."
+          ]
+        },
+        {
+          "marker": "2",
+          "componentType": "Input",
+          "title": "주요 동작",
+          "body": [
+            "사용자는 기능의 주요 동작을 실행할 수 있다.",
+            "입력 또는 선택 조건에 맞는 결과를 표시한다."
+          ]
+        },
+        {
+          "marker": "3",
+          "componentType": "State",
+          "title": "상태 처리",
+          "body": [
+            "화면 상태는 사용자 동작과 저장 결과에 맞춰 갱신된다."
+          ]
+        },
+        {
+          "marker": "4",
+          "componentType": "Value",
+          "title": "데이터 반영",
+          "body": [
+            "저장 동작은 기능 데이터를 갱신한다.",
+            "입력 변경은 화면의 임시 상태에 반영된다."
+          ]
+        }
+      ],
+      "id": "S-02",
+      "frameName": "2"
+    },
+    {
+      "meta": {
+        "platform": "Web",
+        "user": "비즈",
+        "screenName": "저장 및 반영",
+        "screenPath": "회원 태그 / 저장 및 반영",
+        "caseName": "저장 및 반영"
+      },
+      "descriptionBlocks": [
+        {
+          "marker": "P",
+          "componentType": "Policy",
+          "title": "회원 태그",
+          "body": [
+            "확정된 추가 서비스 정책 없음"
+          ]
+        },
+        {
+          "marker": "1",
+          "componentType": "Section",
+          "title": "저장 및 반영",
+          "body": [
+            "기능 관련 화면 영역을 표시한다."
+          ]
+        },
+        {
+          "marker": "2",
+          "componentType": "Button",
+          "title": "open Owner Detail",
+          "body": [
+            "사용자는 open Owner Detail, close Pet Sheet, submit Pet 동작을 실행할 수 있다.",
+            "변경 내용을 저장한다.",
+            "조건에 따라 관련 컨트롤의 활성 상태를 갱신한다."
+          ]
+        },
+        {
+          "marker": "3",
+          "componentType": "State",
+          "title": "상태 처리",
+          "body": [
+            "조건을 만족하지 않으면 관련 컨트롤을 비활성화한다.",
+            "선택 상태를 화면에 반영한다.",
+            "Keep the control disabled without tooltip unless the UX spec requires explanatory copy."
+          ]
+        },
+        {
+          "marker": "4",
+          "componentType": "Value",
+          "title": "데이터 반영",
+          "body": [
+            "저장 동작은 기능 데이터를 갱신한다.",
+            "삭제 동작은 선택한 데이터를 제거한다.",
+            "입력 변경은 화면의 임시 상태에 반영된다."
+          ]
+        },
+        {
+          "marker": "5",
+          "componentType": "Toast",
+          "title": "사용자 피드백",
+          "body": [
+            "Keep the current surface open and show an error toast."
+          ]
+        }
+      ],
+      "id": "S-03",
+      "frameName": "3"
+    },
+    {
+      "meta": {
+        "platform": "App",
+        "user": "비즈",
+        "screenName": "저장 및 반영",
+        "screenPath": "회원 태그 / 저장 및 반영",
+        "caseName": "저장 및 반영"
+      },
+      "descriptionBlocks": [
+        {
+          "marker": "P",
+          "componentType": "Policy",
+          "title": "회원 태그",
+          "body": [
+            "확정된 추가 서비스 정책 없음"
+          ]
+        },
+        {
+          "marker": "1",
+          "componentType": "Section",
+          "title": "저장 및 반영",
+          "body": [
+            "기능 관련 화면 영역을 표시한다."
+          ]
+        },
+        {
+          "marker": "2",
+          "componentType": "Option",
+          "title": "open Owner Detail",
+          "body": [
+            "사용자는 open Owner Detail, close Pet Sheet, submit Pet 동작을 실행할 수 있다.",
+            "변경 내용을 저장한다.",
+            "선택한 항목을 삭제하거나 제거한다.",
+            "조건에 따라 관련 컨트롤의 활성 상태를 갱신한다."
+          ]
+        },
+        {
+          "marker": "3",
+          "componentType": "State",
+          "title": "상태 처리",
+          "body": [
+            "조건을 만족하지 않으면 관련 컨트롤을 비활성화한다.",
+            "선택 상태를 화면에 반영한다.",
+            "Keep the control disabled without tooltip unless the UX spec requires explanatory copy."
+          ]
+        },
+        {
+          "marker": "4",
+          "componentType": "Value",
+          "title": "데이터 반영",
+          "body": [
+            "저장 동작은 기능 데이터를 갱신한다.",
+            "삭제 동작은 선택한 데이터를 제거한다.",
+            "입력 변경은 화면의 임시 상태에 반영된다."
+          ]
+        },
+        {
+          "marker": "5",
+          "componentType": "Toast",
+          "title": "사용자 피드백",
+          "body": [
+            "Keep the current surface open and show an error toast."
+          ]
+        }
+      ],
+      "id": "S-04",
+      "frameName": "4"
+    },
+    {
+      "meta": {
+        "platform": "Web",
+        "user": "비즈",
+        "screenName": "Date selection",
+        "screenPath": "회원 태그 / Date selection",
+        "caseName": "Date selection"
+      },
+      "descriptionBlocks": [
+        {
+          "marker": "P",
+          "componentType": "Policy",
+          "title": "회원 태그",
+          "body": [
+            "확정된 추가 서비스 정책 없음"
+          ]
+        },
+        {
+          "marker": "1",
+          "componentType": "Section",
+          "title": "Date selection",
+          "body": [
+            "기능 관련 화면 영역을 표시한다."
+          ]
+        },
+        {
+          "marker": "2",
+          "componentType": "Button",
+          "title": "주요 동작",
+          "body": [
+            "사용자는 기능의 주요 동작을 실행할 수 있다.",
+            "변경 내용을 저장한다.",
+            "Use current prototype copy as default."
+          ]
+        },
+        {
+          "marker": "3",
+          "componentType": "State",
+          "title": "상태 처리",
+          "body": [
+            "화면 상태는 사용자 동작과 저장 결과에 맞춰 갱신된다."
+          ]
+        },
+        {
+          "marker": "4",
+          "componentType": "Value",
+          "title": "데이터 반영",
+          "body": [
+            "저장 동작은 기능 데이터를 갱신한다.",
+            "입력 변경은 화면의 임시 상태에 반영된다."
+          ]
+        },
+        {
+          "marker": "5",
+          "componentType": "Toast",
+          "title": "사용자 피드백",
+          "body": [
+            "Keep the current surface open and show an error toast."
+          ]
+        }
+      ],
+      "id": "S-05",
+      "frameName": "5"
+    },
+    {
+      "meta": {
+        "platform": "App",
+        "user": "비즈",
+        "screenName": "Date selection",
+        "screenPath": "회원 태그 / Date selection",
+        "caseName": "Date selection"
+      },
+      "descriptionBlocks": [
+        {
+          "marker": "P",
+          "componentType": "Policy",
+          "title": "회원 태그",
+          "body": [
+            "확정된 추가 서비스 정책 없음"
+          ]
+        },
+        {
+          "marker": "1",
+          "componentType": "Section",
+          "title": "Date selection",
+          "body": [
+            "기능 관련 화면 영역을 표시한다."
+          ]
+        },
+        {
+          "marker": "2",
+          "componentType": "Button",
+          "title": "주요 동작",
+          "body": [
+            "사용자는 기능의 주요 동작을 실행할 수 있다.",
+            "변경 내용을 저장한다.",
+            "Use current prototype copy as default."
+          ]
+        },
+        {
+          "marker": "3",
+          "componentType": "State",
+          "title": "상태 처리",
+          "body": [
+            "화면 상태는 사용자 동작과 저장 결과에 맞춰 갱신된다."
+          ]
+        },
+        {
+          "marker": "4",
+          "componentType": "Value",
+          "title": "데이터 반영",
+          "body": [
+            "저장 동작은 기능 데이터를 갱신한다.",
+            "입력 변경은 화면의 임시 상태에 반영된다."
+          ]
+        },
+        {
+          "marker": "5",
+          "componentType": "Toast",
+          "title": "사용자 피드백",
+          "body": [
+            "Keep the current surface open and show an error toast."
+          ]
+        }
+      ],
+      "id": "S-06",
+      "frameName": "6"
+    },
+    {
+      "meta": {
+        "platform": "Web",
+        "user": "비즈",
+        "screenName": "Option selection",
+        "screenPath": "회원 태그 / Option selection",
+        "caseName": "Option selection"
+      },
+      "descriptionBlocks": [
+        {
+          "marker": "P",
+          "componentType": "Policy",
+          "title": "회원 태그",
+          "body": [
+            "확정된 추가 서비스 정책 없음"
+          ]
+        },
+        {
+          "marker": "1",
+          "componentType": "Section",
+          "title": "Option selection",
+          "body": [
+            "기능 관련 화면 영역을 표시한다."
+          ]
+        },
+        {
+          "marker": "2",
+          "componentType": "Input",
+          "title": "select Member Tag Suggestion",
+          "body": [
+            "사용자는 select Member Tag Suggestion, create Member Tag 동작을 실행할 수 있다.",
+            "변경 내용을 저장한다.",
+            "입력 또는 선택 조건에 맞는 결과를 표시한다."
+          ]
+        },
+        {
+          "marker": "3",
+          "componentType": "State",
+          "title": "상태 처리",
+          "body": [
+            "화면 상태는 사용자 동작과 저장 결과에 맞춰 갱신된다."
+          ]
+        },
+        {
+          "marker": "4",
+          "componentType": "Value",
+          "title": "데이터 반영",
+          "body": [
+            "저장 동작은 기능 데이터를 갱신한다.",
+            "입력 변경은 화면의 임시 상태에 반영된다."
+          ]
+        },
+        {
+          "marker": "5",
+          "componentType": "Toast",
+          "title": "사용자 피드백",
+          "body": [
+            "Keep the current surface open and show an error toast."
+          ]
+        }
+      ],
+      "id": "S-07",
+      "frameName": "7"
+    },
+    {
+      "meta": {
+        "platform": "App",
+        "user": "비즈",
+        "screenName": "Option selection",
+        "screenPath": "회원 태그 / Option selection",
+        "caseName": "Option selection"
+      },
+      "descriptionBlocks": [
+        {
+          "marker": "P",
+          "componentType": "Policy",
+          "title": "회원 태그",
+          "body": [
+            "확정된 추가 서비스 정책 없음"
+          ]
+        },
+        {
+          "marker": "1",
+          "componentType": "Section",
+          "title": "Option selection",
+          "body": [
+            "기능 관련 화면 영역을 표시한다."
+          ]
+        },
+        {
+          "marker": "2",
+          "componentType": "Input",
+          "title": "select Member Tag Suggestion",
+          "body": [
+            "사용자는 select Member Tag Suggestion, create Member Tag 동작을 실행할 수 있다.",
+            "변경 내용을 저장한다.",
+            "입력 또는 선택 조건에 맞는 결과를 표시한다."
+          ]
+        },
+        {
+          "marker": "3",
+          "componentType": "State",
+          "title": "상태 처리",
+          "body": [
+            "화면 상태는 사용자 동작과 저장 결과에 맞춰 갱신된다."
+          ]
+        },
+        {
+          "marker": "4",
+          "componentType": "Value",
+          "title": "데이터 반영",
+          "body": [
+            "저장 동작은 기능 데이터를 갱신한다.",
+            "입력 변경은 화면의 임시 상태에 반영된다."
+          ]
+        },
+        {
+          "marker": "5",
+          "componentType": "Toast",
+          "title": "사용자 피드백",
+          "body": [
+            "Keep the current surface open and show an error toast."
+          ]
+        }
+      ],
+      "id": "S-08",
+      "frameName": "8"
+    },
+    {
+      "meta": {
+        "platform": "Web",
+        "user": "비즈",
+        "screenName": "Action: submitPetDetail",
+        "screenPath": "회원 태그 / Action: submitPetDetail",
+        "caseName": "Action: submitPetDetail"
+      },
+      "descriptionBlocks": [
+        {
+          "marker": "P",
+          "componentType": "Policy",
+          "title": "회원 태그",
+          "body": [
+            "확정된 추가 서비스 정책 없음"
+          ]
+        },
+        {
+          "marker": "1",
+          "componentType": "Section",
+          "title": "Action: submitPetDetail",
+          "body": [
+            "기능 관련 화면 영역을 표시한다."
+          ]
+        },
+        {
+          "marker": "2",
+          "componentType": "Button",
+          "title": "submit Pet Detail",
+          "body": [
+            "사용자는 submit Pet Detail 동작을 실행할 수 있다.",
+            "변경 내용을 저장한다.",
+            "조건에 따라 관련 컨트롤의 활성 상태를 갱신한다."
+          ]
+        },
+        {
+          "marker": "3",
+          "componentType": "State",
+          "title": "상태 처리",
+          "body": [
+            "조건을 만족하지 않으면 관련 컨트롤을 비활성화한다.",
+            "Keep the control disabled without tooltip unless the UX spec requires explanatory copy."
+          ]
+        },
+        {
+          "marker": "4",
+          "componentType": "Value",
+          "title": "데이터 반영",
+          "body": [
+            "저장 동작은 기능 데이터를 갱신한다."
+          ]
+        },
+        {
+          "marker": "5",
+          "componentType": "Toast",
+          "title": "사용자 피드백",
+          "body": [
+            "Keep the current surface open and show an error toast."
+          ]
+        }
+      ],
+      "id": "S-09",
+      "frameName": "9"
+    },
+    {
+      "meta": {
+        "platform": "App",
+        "user": "비즈",
+        "screenName": "Action: submitPetDetail",
+        "screenPath": "회원 태그 / Action: submitPetDetail",
+        "caseName": "Action: submitPetDetail"
+      },
+      "descriptionBlocks": [
+        {
+          "marker": "P",
+          "componentType": "Policy",
+          "title": "회원 태그",
+          "body": [
+            "확정된 추가 서비스 정책 없음"
+          ]
+        },
+        {
+          "marker": "1",
+          "componentType": "Section",
+          "title": "Action: submitPetDetail",
+          "body": [
+            "기능 관련 화면 영역을 표시한다."
+          ]
+        },
+        {
+          "marker": "2",
+          "componentType": "Button",
+          "title": "submit Pet Detail",
+          "body": [
+            "사용자는 submit Pet Detail 동작을 실행할 수 있다.",
+            "변경 내용을 저장한다.",
+            "조건에 따라 관련 컨트롤의 활성 상태를 갱신한다."
+          ]
+        },
+        {
+          "marker": "3",
+          "componentType": "State",
+          "title": "상태 처리",
+          "body": [
+            "조건을 만족하지 않으면 관련 컨트롤을 비활성화한다.",
+            "Keep the control disabled without tooltip unless the UX spec requires explanatory copy."
+          ]
+        },
+        {
+          "marker": "4",
+          "componentType": "Value",
+          "title": "데이터 반영",
+          "body": [
+            "저장 동작은 기능 데이터를 갱신한다."
+          ]
+        },
+        {
+          "marker": "5",
+          "componentType": "Toast",
+          "title": "사용자 피드백",
+          "body": [
+            "Keep the current surface open and show an error toast."
+          ]
+        }
+      ],
+      "id": "S-10",
+      "frameName": "10"
+    },
+    {
+      "meta": {
+        "platform": "Web",
+        "user": "비즈",
+        "screenName": "memberFilterRow",
+        "screenPath": "회원 태그 / memberFilterRow",
+        "caseName": "Area: memberFilterRow"
+      },
+      "descriptionBlocks": [
+        {
+          "marker": "P",
+          "componentType": "Policy",
+          "title": "회원 태그",
+          "body": [
+            "확정된 추가 서비스 정책 없음"
+          ]
+        },
+        {
+          "marker": "1",
+          "componentType": "Section",
+          "title": "memberFilterRow",
+          "body": [
+            "주요 영역은 member Filter Row이다."
+          ]
+        },
+        {
+          "marker": "2",
+          "componentType": "Button",
+          "title": "주요 동작",
+          "body": [
+            "사용자는 기능의 주요 동작을 실행할 수 있다.",
+            "변경 내용을 저장한다."
+          ]
+        },
+        {
+          "marker": "3",
+          "componentType": "State",
+          "title": "상태 처리",
+          "body": [
+            "화면 상태는 사용자 동작과 저장 결과에 맞춰 갱신된다."
+          ]
+        },
+        {
+          "marker": "4",
+          "componentType": "Value",
+          "title": "데이터 반영",
+          "body": [
+            "저장 동작은 기능 데이터를 갱신한다."
+          ]
+        },
+        {
+          "marker": "5",
+          "componentType": "Toast",
+          "title": "사용자 피드백",
+          "body": [
+            "Keep the current surface open and show an error toast."
+          ]
+        }
+      ],
+      "id": "S-11",
+      "frameName": "11"
+    },
+    {
+      "meta": {
+        "platform": "App",
+        "user": "비즈",
+        "screenName": "memberFilterRow",
+        "screenPath": "회원 태그 / memberFilterRow",
+        "caseName": "Area: memberFilterRow"
+      },
+      "descriptionBlocks": [
+        {
+          "marker": "P",
+          "componentType": "Policy",
+          "title": "회원 태그",
+          "body": [
+            "확정된 추가 서비스 정책 없음"
+          ]
+        },
+        {
+          "marker": "1",
+          "componentType": "Section",
+          "title": "memberFilterRow",
+          "body": [
+            "주요 영역은 member Filter Row이다."
+          ]
+        },
+        {
+          "marker": "2",
+          "componentType": "Button",
+          "title": "주요 동작",
+          "body": [
+            "사용자는 기능의 주요 동작을 실행할 수 있다.",
+            "변경 내용을 저장한다."
+          ]
+        },
+        {
+          "marker": "3",
+          "componentType": "State",
+          "title": "상태 처리",
+          "body": [
+            "화면 상태는 사용자 동작과 저장 결과에 맞춰 갱신된다."
+          ]
+        },
+        {
+          "marker": "4",
+          "componentType": "Value",
+          "title": "데이터 반영",
+          "body": [
+            "저장 동작은 기능 데이터를 갱신한다."
+          ]
+        },
+        {
+          "marker": "5",
+          "componentType": "Toast",
+          "title": "사용자 피드백",
+          "body": [
+            "Keep the current surface open and show an error toast."
+          ]
+        }
+      ],
+      "id": "S-12",
+      "frameName": "12"
+    },
+    {
+      "meta": {
+        "platform": "Web",
+        "user": "비즈",
+        "screenName": "Feature mode transition",
+        "screenPath": "회원 태그 / Feature mode transition",
+        "caseName": "Feature mode transition"
+      },
+      "descriptionBlocks": [
+        {
+          "marker": "P",
+          "componentType": "Policy",
+          "title": "회원 태그",
+          "body": [
+            "확정된 추가 서비스 정책 없음"
+          ]
+        },
+        {
+          "marker": "1",
+          "componentType": "Section",
+          "title": "Feature mode transition",
+          "body": [
+            "기능 관련 화면 영역을 표시한다."
+          ]
+        },
+        {
+          "marker": "2",
+          "componentType": "Input",
+          "title": "주요 동작",
+          "body": [
+            "사용자는 기능의 주요 동작을 실행할 수 있다.",
+            "변경 내용을 저장한다.",
+            "입력 또는 선택 조건에 맞는 결과를 표시한다."
+          ]
+        },
+        {
+          "marker": "3",
+          "componentType": "State",
+          "title": "상태 처리",
+          "body": [
+            "화면 상태는 사용자 동작과 저장 결과에 맞춰 갱신된다."
+          ]
+        },
+        {
+          "marker": "4",
+          "componentType": "Value",
+          "title": "데이터 반영",
+          "body": [
+            "저장 동작은 기능 데이터를 갱신한다.",
+            "삭제 동작은 선택한 데이터를 제거한다.",
+            "입력 변경은 화면의 임시 상태에 반영된다."
+          ]
+        },
+        {
+          "marker": "5",
+          "componentType": "Toast",
+          "title": "사용자 피드백",
+          "body": [
+            "Keep the current surface open and show an error toast."
+          ]
+        }
+      ],
+      "id": "S-13",
+      "frameName": "13"
+    },
+    {
+      "meta": {
+        "platform": "App",
+        "user": "비즈",
+        "screenName": "Feature mode transition",
+        "screenPath": "회원 태그 / Feature mode transition",
+        "caseName": "Feature mode transition"
+      },
+      "descriptionBlocks": [
+        {
+          "marker": "P",
+          "componentType": "Policy",
+          "title": "회원 태그",
+          "body": [
+            "확정된 추가 서비스 정책 없음"
+          ]
+        },
+        {
+          "marker": "1",
+          "componentType": "Section",
+          "title": "Feature mode transition",
+          "body": [
+            "기능 관련 화면 영역을 표시한다."
+          ]
+        },
+        {
+          "marker": "2",
+          "componentType": "Input",
+          "title": "주요 동작",
+          "body": [
+            "사용자는 기능의 주요 동작을 실행할 수 있다.",
+            "변경 내용을 저장한다.",
+            "입력 또는 선택 조건에 맞는 결과를 표시한다."
+          ]
+        },
+        {
+          "marker": "3",
+          "componentType": "State",
+          "title": "상태 처리",
+          "body": [
+            "화면 상태는 사용자 동작과 저장 결과에 맞춰 갱신된다."
+          ]
+        },
+        {
+          "marker": "4",
+          "componentType": "Value",
+          "title": "데이터 반영",
+          "body": [
+            "저장 동작은 기능 데이터를 갱신한다.",
+            "삭제 동작은 선택한 데이터를 제거한다.",
+            "입력 변경은 화면의 임시 상태에 반영된다."
+          ]
+        },
+        {
+          "marker": "5",
+          "componentType": "Toast",
+          "title": "사용자 피드백",
+          "body": [
+            "Keep the current surface open and show an error toast."
+          ]
+        }
+      ],
+      "id": "S-14",
+      "frameName": "14"
+    },
+    {
+      "meta": {
+        "platform": "Web",
+        "user": "비즈",
+        "screenName": "회원 태그",
+        "screenPath": "회원 태그 / 회원 태그",
+        "caseName": "회원 태그"
+      },
+      "descriptionBlocks": [
+        {
+          "marker": "P",
+          "componentType": "Policy",
+          "title": "회원 태그",
+          "body": [
+            "확정된 추가 서비스 정책 없음"
+          ]
+        },
+        {
+          "marker": "1",
+          "componentType": "Section",
+          "title": "회원 태그",
+          "body": [
+            "기능 관련 화면 영역을 표시한다."
+          ]
+        },
+        {
+          "marker": "2",
+          "componentType": "Button",
+          "title": "주요 동작",
+          "body": [
+            "사용자는 기능의 주요 동작을 실행할 수 있다."
+          ]
+        },
+        {
+          "marker": "3",
+          "componentType": "State",
+          "title": "상태 처리",
+          "body": [
+            "화면 상태는 사용자 동작과 저장 결과에 맞춰 갱신된다."
+          ]
+        },
+        {
+          "marker": "4",
+          "componentType": "Value",
+          "title": "데이터 반영",
+          "body": [
+            "저장 동작은 기능 데이터를 갱신한다."
+          ]
+        }
+      ],
+      "id": "S-15",
+      "frameName": "15"
+    },
+    {
+      "meta": {
+        "platform": "App",
+        "user": "비즈",
+        "screenName": "회원 태그",
+        "screenPath": "회원 태그 / 회원 태그",
+        "caseName": "회원 태그"
+      },
+      "descriptionBlocks": [
+        {
+          "marker": "P",
+          "componentType": "Policy",
+          "title": "회원 태그",
+          "body": [
+            "확정된 추가 서비스 정책 없음"
+          ]
+        },
+        {
+          "marker": "1",
+          "componentType": "Section",
+          "title": "회원 태그",
+          "body": [
+            "기능 관련 화면 영역을 표시한다."
+          ]
+        },
+        {
+          "marker": "2",
+          "componentType": "Button",
+          "title": "주요 동작",
+          "body": [
+            "사용자는 기능의 주요 동작을 실행할 수 있다."
+          ]
+        },
+        {
+          "marker": "3",
+          "componentType": "State",
+          "title": "상태 처리",
+          "body": [
+            "화면 상태는 사용자 동작과 저장 결과에 맞춰 갱신된다."
+          ]
+        },
+        {
+          "marker": "4",
+          "componentType": "Value",
+          "title": "데이터 반영",
+          "body": [
+            "저장 동작은 기능 데이터를 갱신한다."
+          ]
+        }
+      ],
+      "id": "S-16",
+      "frameName": "16"
+    },
+    {
+      "meta": {
+        "platform": "Web",
+        "user": "비즈",
+        "screenName": "Action: submitOwnerDetail",
+        "screenPath": "회원 태그 / Action: submitOwnerDetail",
+        "caseName": "Action: submitOwnerDetail"
+      },
+      "descriptionBlocks": [
+        {
+          "marker": "P",
+          "componentType": "Policy",
+          "title": "회원 태그",
+          "body": [
+            "확정된 추가 서비스 정책 없음"
+          ]
+        },
+        {
+          "marker": "1",
+          "componentType": "Section",
+          "title": "Action: submitOwnerDetail",
+          "body": [
+            "기능 관련 화면 영역을 표시한다."
+          ]
+        },
+        {
+          "marker": "2",
+          "componentType": "Button",
+          "title": "submit Owner Detail",
+          "body": [
+            "사용자는 submit Owner Detail 동작을 실행할 수 있다.",
+            "변경 내용을 저장한다."
+          ]
+        },
+        {
+          "marker": "3",
+          "componentType": "State",
+          "title": "상태 처리",
+          "body": [
+            "화면 상태는 사용자 동작과 저장 결과에 맞춰 갱신된다."
+          ]
+        },
+        {
+          "marker": "4",
+          "componentType": "Value",
+          "title": "데이터 반영",
+          "body": [
+            "저장 동작은 기능 데이터를 갱신한다."
+          ]
+        },
+        {
+          "marker": "5",
+          "componentType": "Toast",
+          "title": "사용자 피드백",
+          "body": [
+            "Keep the current surface open and show an error toast."
+          ]
+        }
+      ],
+      "id": "S-17",
+      "frameName": "17"
+    },
+    {
+      "meta": {
+        "platform": "App",
+        "user": "비즈",
+        "screenName": "Action: submitOwnerDetail",
+        "screenPath": "회원 태그 / Action: submitOwnerDetail",
+        "caseName": "Action: submitOwnerDetail"
+      },
+      "descriptionBlocks": [
+        {
+          "marker": "P",
+          "componentType": "Policy",
+          "title": "회원 태그",
+          "body": [
+            "확정된 추가 서비스 정책 없음"
+          ]
+        },
+        {
+          "marker": "1",
+          "componentType": "Section",
+          "title": "Action: submitOwnerDetail",
+          "body": [
+            "기능 관련 화면 영역을 표시한다."
+          ]
+        },
+        {
+          "marker": "2",
+          "componentType": "Button",
+          "title": "submit Owner Detail",
+          "body": [
+            "사용자는 submit Owner Detail 동작을 실행할 수 있다.",
+            "변경 내용을 저장한다."
+          ]
+        },
+        {
+          "marker": "3",
+          "componentType": "State",
+          "title": "상태 처리",
+          "body": [
+            "화면 상태는 사용자 동작과 저장 결과에 맞춰 갱신된다."
+          ]
+        },
+        {
+          "marker": "4",
+          "componentType": "Value",
+          "title": "데이터 반영",
+          "body": [
+            "저장 동작은 기능 데이터를 갱신한다."
+          ]
+        },
+        {
+          "marker": "5",
+          "componentType": "Toast",
+          "title": "사용자 피드백",
+          "body": [
+            "Keep the current surface open and show an error toast."
+          ]
+        }
+      ],
+      "id": "S-18",
+      "frameName": "18"
+    },
+    {
+      "meta": {
+        "platform": "Web",
+        "user": "비즈",
+        "screenName": "회원 태그",
+        "screenPath": "회원 태그 / 회원 태그",
+        "caseName": "회원 태그"
+      },
+      "descriptionBlocks": [
+        {
+          "marker": "P",
+          "componentType": "Policy",
+          "title": "회원 태그",
+          "body": [
+            "확정된 추가 서비스 정책 없음"
+          ]
+        },
+        {
+          "marker": "1",
+          "componentType": "Section",
+          "title": "회원 태그",
+          "body": [
+            "기능 관련 화면 영역을 표시한다."
+          ]
+        },
+        {
+          "marker": "2",
+          "componentType": "Button",
+          "title": "주요 동작",
+          "body": [
+            "사용자는 기능의 주요 동작을 실행할 수 있다."
+          ]
+        },
+        {
+          "marker": "3",
+          "componentType": "State",
+          "title": "상태 처리",
+          "body": [
+            "화면 상태는 사용자 동작과 저장 결과에 맞춰 갱신된다."
+          ]
+        },
+        {
+          "marker": "4",
+          "componentType": "Value",
+          "title": "데이터 반영",
+          "body": [
+            "저장 동작은 기능 데이터를 갱신한다.",
+            "입력 변경은 화면의 임시 상태에 반영된다."
+          ]
+        }
+      ],
+      "id": "S-19",
+      "frameName": "19"
+    },
+    {
+      "meta": {
+        "platform": "App",
+        "user": "비즈",
+        "screenName": "회원 태그",
+        "screenPath": "회원 태그 / 회원 태그",
+        "caseName": "회원 태그"
+      },
+      "descriptionBlocks": [
+        {
+          "marker": "P",
+          "componentType": "Policy",
+          "title": "회원 태그",
+          "body": [
+            "확정된 추가 서비스 정책 없음"
+          ]
+        },
+        {
+          "marker": "1",
+          "componentType": "Section",
+          "title": "회원 태그",
+          "body": [
+            "기능 관련 화면 영역을 표시한다."
+          ]
+        },
+        {
+          "marker": "2",
+          "componentType": "Button",
+          "title": "주요 동작",
+          "body": [
+            "사용자는 기능의 주요 동작을 실행할 수 있다."
+          ]
+        },
+        {
+          "marker": "3",
+          "componentType": "State",
+          "title": "상태 처리",
+          "body": [
+            "화면 상태는 사용자 동작과 저장 결과에 맞춰 갱신된다."
+          ]
+        },
+        {
+          "marker": "4",
+          "componentType": "Value",
+          "title": "데이터 반영",
+          "body": [
+            "저장 동작은 기능 데이터를 갱신한다.",
+            "입력 변경은 화면의 임시 상태에 반영된다."
+          ]
+        }
+      ],
+      "id": "S-20",
+      "frameName": "20"
+    },
+    {
+      "meta": {
+        "platform": "Web",
+        "user": "비즈",
+        "screenName": "회원 태그",
+        "screenPath": "회원 태그 / 회원 태그",
+        "caseName": "회원 태그"
+      },
+      "descriptionBlocks": [
+        {
+          "marker": "P",
+          "componentType": "Policy",
+          "title": "회원 태그",
+          "body": [
+            "확정된 추가 서비스 정책 없음"
+          ]
+        },
+        {
+          "marker": "1",
+          "componentType": "Section",
+          "title": "회원 태그",
+          "body": [
+            "기능 관련 화면 영역을 표시한다."
+          ]
+        },
+        {
+          "marker": "2",
+          "componentType": "Button",
+          "title": "주요 동작",
+          "body": [
+            "사용자는 기능의 주요 동작을 실행할 수 있다."
+          ]
+        },
+        {
+          "marker": "3",
+          "componentType": "State",
+          "title": "상태 처리",
+          "body": [
+            "화면 상태는 사용자 동작과 저장 결과에 맞춰 갱신된다."
+          ]
+        },
+        {
+          "marker": "4",
+          "componentType": "Value",
+          "title": "데이터 반영",
+          "body": [
+            "저장 동작은 기능 데이터를 갱신한다."
+          ]
+        }
+      ],
+      "id": "S-21",
+      "frameName": "21"
+    },
+    {
+      "meta": {
+        "platform": "App",
+        "user": "비즈",
+        "screenName": "회원 태그",
+        "screenPath": "회원 태그 / 회원 태그",
+        "caseName": "회원 태그"
+      },
+      "descriptionBlocks": [
+        {
+          "marker": "P",
+          "componentType": "Policy",
+          "title": "회원 태그",
+          "body": [
+            "확정된 추가 서비스 정책 없음"
+          ]
+        },
+        {
+          "marker": "1",
+          "componentType": "Section",
+          "title": "회원 태그",
+          "body": [
+            "기능 관련 화면 영역을 표시한다."
+          ]
+        },
+        {
+          "marker": "2",
+          "componentType": "Button",
+          "title": "주요 동작",
+          "body": [
+            "사용자는 기능의 주요 동작을 실행할 수 있다."
+          ]
+        },
+        {
+          "marker": "3",
+          "componentType": "State",
+          "title": "상태 처리",
+          "body": [
+            "화면 상태는 사용자 동작과 저장 결과에 맞춰 갱신된다."
+          ]
+        },
+        {
+          "marker": "4",
+          "componentType": "Value",
+          "title": "데이터 반영",
+          "body": [
+            "저장 동작은 기능 데이터를 갱신한다."
+          ]
+        }
+      ],
+      "id": "S-22",
+      "frameName": "22"
+    },
+    {
+      "meta": {
+        "platform": "Web",
+        "user": "비즈",
+        "screenName": "Action: submitAddPet",
+        "screenPath": "회원 태그 / Action: submitAddPet",
+        "caseName": "Action: submitAddPet"
+      },
+      "descriptionBlocks": [
+        {
+          "marker": "P",
+          "componentType": "Policy",
+          "title": "회원 태그",
+          "body": [
+            "확정된 추가 서비스 정책 없음"
+          ]
+        },
+        {
+          "marker": "1",
+          "componentType": "Section",
+          "title": "Action: submitAddPet",
+          "body": [
+            "기능 관련 화면 영역을 표시한다."
+          ]
+        },
+        {
+          "marker": "2",
+          "componentType": "Button",
+          "title": "submit Add Pet",
+          "body": [
+            "사용자는 submit Add Pet 동작을 실행할 수 있다.",
+            "변경 내용을 저장한다."
+          ]
+        },
+        {
+          "marker": "3",
+          "componentType": "State",
+          "title": "상태 처리",
+          "body": [
+            "화면 상태는 사용자 동작과 저장 결과에 맞춰 갱신된다."
+          ]
+        },
+        {
+          "marker": "4",
+          "componentType": "Value",
+          "title": "데이터 반영",
+          "body": [
+            "저장 동작은 기능 데이터를 갱신한다."
+          ]
+        },
+        {
+          "marker": "5",
+          "componentType": "Toast",
+          "title": "사용자 피드백",
+          "body": [
+            "Keep the current surface open and show an error toast."
+          ]
+        }
+      ],
+      "id": "S-23",
+      "frameName": "23"
+    },
+    {
+      "meta": {
+        "platform": "App",
+        "user": "비즈",
+        "screenName": "Action: submitAddPet",
+        "screenPath": "회원 태그 / Action: submitAddPet",
+        "caseName": "Action: submitAddPet"
+      },
+      "descriptionBlocks": [
+        {
+          "marker": "P",
+          "componentType": "Policy",
+          "title": "회원 태그",
+          "body": [
+            "확정된 추가 서비스 정책 없음"
+          ]
+        },
+        {
+          "marker": "1",
+          "componentType": "Section",
+          "title": "Action: submitAddPet",
+          "body": [
+            "기능 관련 화면 영역을 표시한다."
+          ]
+        },
+        {
+          "marker": "2",
+          "componentType": "Button",
+          "title": "submit Add Pet",
+          "body": [
+            "사용자는 submit Add Pet 동작을 실행할 수 있다.",
+            "변경 내용을 저장한다."
+          ]
+        },
+        {
+          "marker": "3",
+          "componentType": "State",
+          "title": "상태 처리",
+          "body": [
+            "화면 상태는 사용자 동작과 저장 결과에 맞춰 갱신된다."
+          ]
+        },
+        {
+          "marker": "4",
+          "componentType": "Value",
+          "title": "데이터 반영",
+          "body": [
+            "저장 동작은 기능 데이터를 갱신한다."
+          ]
+        },
+        {
+          "marker": "5",
+          "componentType": "Toast",
+          "title": "사용자 피드백",
+          "body": [
+            "Keep the current surface open and show an error toast."
+          ]
+        }
+      ],
+      "id": "S-24",
+      "frameName": "24"
+    },
+    {
+      "meta": {
+        "platform": "Web",
+        "user": "비즈",
+        "screenName": "Action: submitPet",
+        "screenPath": "회원 태그 / Action: submitPet",
+        "caseName": "Action: submitPet"
+      },
+      "descriptionBlocks": [
+        {
+          "marker": "P",
+          "componentType": "Policy",
+          "title": "회원 태그",
+          "body": [
+            "확정된 추가 서비스 정책 없음"
+          ]
+        },
+        {
+          "marker": "1",
+          "componentType": "Section",
+          "title": "Action: submitPet",
+          "body": [
+            "기능 관련 화면 영역을 표시한다."
+          ]
+        },
+        {
+          "marker": "2",
+          "componentType": "Button",
+          "title": "submit Pet",
+          "body": [
+            "사용자는 submit Pet 동작을 실행할 수 있다.",
+            "변경 내용을 저장한다."
+          ]
+        },
+        {
+          "marker": "3",
+          "componentType": "State",
+          "title": "상태 처리",
+          "body": [
+            "화면 상태는 사용자 동작과 저장 결과에 맞춰 갱신된다."
+          ]
+        },
+        {
+          "marker": "4",
+          "componentType": "Value",
+          "title": "데이터 반영",
+          "body": [
+            "저장 동작은 기능 데이터를 갱신한다."
+          ]
+        },
+        {
+          "marker": "5",
+          "componentType": "Toast",
+          "title": "사용자 피드백",
+          "body": [
+            "Keep the current surface open and show an error toast."
+          ]
+        }
+      ],
+      "id": "S-25",
+      "frameName": "25"
+    },
+    {
+      "meta": {
+        "platform": "App",
+        "user": "비즈",
+        "screenName": "Action: submitPet",
+        "screenPath": "회원 태그 / Action: submitPet",
+        "caseName": "Action: submitPet"
+      },
+      "descriptionBlocks": [
+        {
+          "marker": "P",
+          "componentType": "Policy",
+          "title": "회원 태그",
+          "body": [
+            "확정된 추가 서비스 정책 없음"
+          ]
+        },
+        {
+          "marker": "1",
+          "componentType": "Section",
+          "title": "Action: submitPet",
+          "body": [
+            "기능 관련 화면 영역을 표시한다."
+          ]
+        },
+        {
+          "marker": "2",
+          "componentType": "Button",
+          "title": "submit Pet",
+          "body": [
+            "사용자는 submit Pet 동작을 실행할 수 있다.",
+            "변경 내용을 저장한다."
+          ]
+        },
+        {
+          "marker": "3",
+          "componentType": "State",
+          "title": "상태 처리",
+          "body": [
+            "화면 상태는 사용자 동작과 저장 결과에 맞춰 갱신된다."
+          ]
+        },
+        {
+          "marker": "4",
+          "componentType": "Value",
+          "title": "데이터 반영",
+          "body": [
+            "저장 동작은 기능 데이터를 갱신한다."
+          ]
+        },
+        {
+          "marker": "5",
+          "componentType": "Toast",
+          "title": "사용자 피드백",
+          "body": [
+            "Keep the current surface open and show an error toast."
+          ]
+        }
+      ],
+      "id": "S-26",
+      "frameName": "26"
+    },
+    {
+      "meta": {
+        "platform": "Web",
+        "user": "비즈",
+        "screenName": "회원 태그",
+        "screenPath": "회원 태그 / 회원 태그",
+        "caseName": "회원 태그"
+      },
+      "descriptionBlocks": [
+        {
+          "marker": "P",
+          "componentType": "Policy",
+          "title": "회원 태그",
+          "body": [
+            "확정된 추가 서비스 정책 없음"
+          ]
+        },
+        {
+          "marker": "1",
+          "componentType": "Section",
+          "title": "회원 태그",
+          "body": [
+            "기능 관련 화면 영역을 표시한다."
+          ]
+        },
+        {
+          "marker": "2",
+          "componentType": "Button",
+          "title": "주요 동작",
+          "body": [
+            "사용자는 기능의 주요 동작을 실행할 수 있다."
+          ]
+        },
+        {
+          "marker": "3",
+          "componentType": "State",
+          "title": "상태 처리",
+          "body": [
+            "화면 상태는 사용자 동작과 저장 결과에 맞춰 갱신된다."
+          ]
+        },
+        {
+          "marker": "4",
+          "componentType": "Value",
+          "title": "데이터 반영",
+          "body": [
+            "저장 동작은 기능 데이터를 갱신한다."
+          ]
+        }
+      ],
+      "id": "S-27",
+      "frameName": "27"
+    },
+    {
+      "meta": {
+        "platform": "App",
+        "user": "비즈",
+        "screenName": "회원 태그",
+        "screenPath": "회원 태그 / 회원 태그",
+        "caseName": "회원 태그"
+      },
+      "descriptionBlocks": [
+        {
+          "marker": "P",
+          "componentType": "Policy",
+          "title": "회원 태그",
+          "body": [
+            "확정된 추가 서비스 정책 없음"
+          ]
+        },
+        {
+          "marker": "1",
+          "componentType": "Section",
+          "title": "회원 태그",
+          "body": [
+            "기능 관련 화면 영역을 표시한다."
+          ]
+        },
+        {
+          "marker": "2",
+          "componentType": "Button",
+          "title": "주요 동작",
+          "body": [
+            "사용자는 기능의 주요 동작을 실행할 수 있다."
+          ]
+        },
+        {
+          "marker": "3",
+          "componentType": "State",
+          "title": "상태 처리",
+          "body": [
+            "화면 상태는 사용자 동작과 저장 결과에 맞춰 갱신된다."
+          ]
+        },
+        {
+          "marker": "4",
+          "componentType": "Value",
+          "title": "데이터 반영",
+          "body": [
+            "저장 동작은 기능 데이터를 갱신한다."
+          ]
+        }
+      ],
+      "id": "S-28",
+      "frameName": "28"
+    },
+    {
+      "meta": {
+        "platform": "App",
+        "user": "비즈",
+        "screenName": "Action: submitGuardianEdit",
+        "screenPath": "회원 태그 / Action: submitGuardianEdit",
+        "caseName": "Action: submitGuardianEdit"
+      },
+      "descriptionBlocks": [
+        {
+          "marker": "P",
+          "componentType": "Policy",
+          "title": "회원 태그",
+          "body": [
+            "확정된 추가 서비스 정책 없음"
+          ]
+        },
+        {
+          "marker": "1",
+          "componentType": "Section",
+          "title": "Action: submitGuardianEdit",
+          "body": [
+            "기능 관련 화면 영역을 표시한다."
+          ]
+        },
+        {
+          "marker": "2",
+          "componentType": "Button",
+          "title": "submit Guardian Edit",
+          "body": [
+            "사용자는 submit Guardian Edit 동작을 실행할 수 있다.",
+            "변경 내용을 저장한다."
+          ]
+        },
+        {
+          "marker": "3",
+          "componentType": "State",
+          "title": "상태 처리",
+          "body": [
+            "화면 상태는 사용자 동작과 저장 결과에 맞춰 갱신된다."
+          ]
+        },
+        {
+          "marker": "4",
+          "componentType": "Value",
+          "title": "데이터 반영",
+          "body": [
+            "저장 동작은 기능 데이터를 갱신한다."
+          ]
+        },
+        {
+          "marker": "5",
+          "componentType": "Toast",
+          "title": "사용자 피드백",
+          "body": [
+            "Keep the current surface open and show an error toast."
+          ]
+        }
+      ],
+      "id": "S-29",
+      "frameName": "29"
+    },
+    {
+      "meta": {
+        "platform": "Web",
+        "user": "비즈",
+        "screenName": "회원 태그",
+        "screenPath": "회원 태그 / 회원 태그",
+        "caseName": "회원 태그"
+      },
+      "descriptionBlocks": [
+        {
+          "marker": "P",
+          "componentType": "Policy",
+          "title": "회원 태그",
+          "body": [
+            "확정된 추가 서비스 정책 없음"
+          ]
+        },
+        {
+          "marker": "1",
+          "componentType": "Section",
+          "title": "회원 태그",
+          "body": [
+            "기능 관련 화면 영역을 표시한다."
+          ]
+        },
+        {
+          "marker": "2",
+          "componentType": "Input",
+          "title": "주요 동작",
+          "body": [
+            "사용자는 기능의 주요 동작을 실행할 수 있다.",
+            "입력 또는 선택 조건에 맞는 결과를 표시한다."
+          ]
+        },
+        {
+          "marker": "3",
+          "componentType": "State",
+          "title": "상태 처리",
+          "body": [
+            "화면 상태는 사용자 동작과 저장 결과에 맞춰 갱신된다."
+          ]
+        },
+        {
+          "marker": "4",
+          "componentType": "Value",
+          "title": "데이터 반영",
+          "body": [
+            "화면 동작 결과를 관련 데이터에 반영한다."
+          ]
+        }
+      ],
+      "id": "S-30",
+      "frameName": "30"
+    },
+    {
+      "meta": {
+        "platform": "App",
+        "user": "비즈",
+        "screenName": "회원 태그",
+        "screenPath": "회원 태그 / 회원 태그",
+        "caseName": "회원 태그"
+      },
+      "descriptionBlocks": [
+        {
+          "marker": "P",
+          "componentType": "Policy",
+          "title": "회원 태그",
+          "body": [
+            "확정된 추가 서비스 정책 없음"
+          ]
+        },
+        {
+          "marker": "1",
+          "componentType": "Section",
+          "title": "회원 태그",
+          "body": [
+            "기능 관련 화면 영역을 표시한다."
+          ]
+        },
+        {
+          "marker": "2",
+          "componentType": "Input",
+          "title": "주요 동작",
+          "body": [
+            "사용자는 기능의 주요 동작을 실행할 수 있다.",
+            "입력 또는 선택 조건에 맞는 결과를 표시한다."
+          ]
+        },
+        {
+          "marker": "3",
+          "componentType": "State",
+          "title": "상태 처리",
+          "body": [
+            "화면 상태는 사용자 동작과 저장 결과에 맞춰 갱신된다."
+          ]
+        },
+        {
+          "marker": "4",
+          "componentType": "Value",
+          "title": "데이터 반영",
+          "body": [
+            "화면 동작 결과를 관련 데이터에 반영한다."
+          ]
+        }
+      ],
+      "id": "S-31",
+      "frameName": "31"
+    },
+    {
+      "meta": {
+        "platform": "Web",
+        "user": "비즈",
+        "screenName": "회원 태그",
+        "screenPath": "회원 태그 / 회원 태그",
+        "caseName": "회원 태그"
+      },
+      "descriptionBlocks": [
+        {
+          "marker": "P",
+          "componentType": "Policy",
+          "title": "회원 태그",
+          "body": [
+            "확정된 추가 서비스 정책 없음"
+          ]
+        },
+        {
+          "marker": "1",
+          "componentType": "Section",
+          "title": "회원 태그",
+          "body": [
+            "기능 관련 화면 영역을 표시한다."
+          ]
+        },
+        {
+          "marker": "2",
+          "componentType": "Input",
+          "title": "주요 동작",
+          "body": [
+            "사용자는 기능의 주요 동작을 실행할 수 있다.",
+            "입력 또는 선택 조건에 맞는 결과를 표시한다."
+          ]
+        },
+        {
+          "marker": "3",
+          "componentType": "State",
+          "title": "상태 처리",
+          "body": [
+            "화면 상태는 사용자 동작과 저장 결과에 맞춰 갱신된다."
+          ]
+        },
+        {
+          "marker": "4",
+          "componentType": "Value",
+          "title": "데이터 반영",
+          "body": [
+            "저장 동작은 기능 데이터를 갱신한다.",
+            "입력 변경은 화면의 임시 상태에 반영된다."
+          ]
+        }
+      ],
+      "id": "S-32",
+      "frameName": "32"
+    },
+    {
+      "meta": {
+        "platform": "App",
+        "user": "비즈",
+        "screenName": "회원 태그",
+        "screenPath": "회원 태그 / 회원 태그",
+        "caseName": "회원 태그"
+      },
+      "descriptionBlocks": [
+        {
+          "marker": "P",
+          "componentType": "Policy",
+          "title": "회원 태그",
+          "body": [
+            "확정된 추가 서비스 정책 없음"
+          ]
+        },
+        {
+          "marker": "1",
+          "componentType": "Section",
+          "title": "회원 태그",
+          "body": [
+            "기능 관련 화면 영역을 표시한다."
+          ]
+        },
+        {
+          "marker": "2",
+          "componentType": "Input",
+          "title": "주요 동작",
+          "body": [
+            "사용자는 기능의 주요 동작을 실행할 수 있다.",
+            "입력 또는 선택 조건에 맞는 결과를 표시한다."
+          ]
+        },
+        {
+          "marker": "3",
+          "componentType": "State",
+          "title": "상태 처리",
+          "body": [
+            "화면 상태는 사용자 동작과 저장 결과에 맞춰 갱신된다."
+          ]
+        },
+        {
+          "marker": "4",
+          "componentType": "Value",
+          "title": "데이터 반영",
+          "body": [
+            "저장 동작은 기능 데이터를 갱신한다.",
+            "입력 변경은 화면의 임시 상태에 반영된다."
+          ]
+        }
+      ],
+      "id": "S-33",
+      "frameName": "33"
+    },
+    {
+      "meta": {
+        "platform": "Web",
+        "user": "비즈",
+        "screenName": "회원 태그",
+        "screenPath": "회원 태그 / 회원 태그",
+        "caseName": "회원 태그"
+      },
+      "descriptionBlocks": [
+        {
+          "marker": "P",
+          "componentType": "Policy",
+          "title": "회원 태그",
+          "body": [
+            "확정된 추가 서비스 정책 없음"
+          ]
+        },
+        {
+          "marker": "1",
+          "componentType": "Section",
+          "title": "회원 태그",
+          "body": [
+            "기능 관련 화면 영역을 표시한다."
+          ]
+        },
+        {
+          "marker": "2",
+          "componentType": "Button",
+          "title": "주요 동작",
+          "body": [
+            "사용자는 기능의 주요 동작을 실행할 수 있다."
+          ]
+        },
+        {
+          "marker": "3",
+          "componentType": "State",
+          "title": "상태 처리",
+          "body": [
+            "화면 상태는 사용자 동작과 저장 결과에 맞춰 갱신된다."
+          ]
+        },
+        {
+          "marker": "4",
+          "componentType": "Value",
+          "title": "데이터 반영",
+          "body": [
+            "저장 동작은 기능 데이터를 갱신한다.",
+            "입력 변경은 화면의 임시 상태에 반영된다."
+          ]
+        }
+      ],
+      "id": "S-34",
+      "frameName": "34"
+    },
+    {
+      "meta": {
+        "platform": "App",
+        "user": "비즈",
+        "screenName": "회원 태그",
+        "screenPath": "회원 태그 / 회원 태그",
+        "caseName": "회원 태그"
+      },
+      "descriptionBlocks": [
+        {
+          "marker": "P",
+          "componentType": "Policy",
+          "title": "회원 태그",
+          "body": [
+            "확정된 추가 서비스 정책 없음"
+          ]
+        },
+        {
+          "marker": "1",
+          "componentType": "Section",
+          "title": "회원 태그",
+          "body": [
+            "기능 관련 화면 영역을 표시한다."
+          ]
+        },
+        {
+          "marker": "2",
+          "componentType": "Button",
+          "title": "주요 동작",
+          "body": [
+            "사용자는 기능의 주요 동작을 실행할 수 있다."
+          ]
+        },
+        {
+          "marker": "3",
+          "componentType": "State",
+          "title": "상태 처리",
+          "body": [
+            "화면 상태는 사용자 동작과 저장 결과에 맞춰 갱신된다."
+          ]
+        },
+        {
+          "marker": "4",
+          "componentType": "Value",
+          "title": "데이터 반영",
+          "body": [
+            "저장 동작은 기능 데이터를 갱신한다.",
+            "입력 변경은 화면의 임시 상태에 반영된다."
+          ]
+        }
+      ],
+      "id": "S-35",
+      "frameName": "35"
+    }
+  ]
+}

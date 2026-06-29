@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "feature": "회원 태그",
+  "generatedAt": "2026-05-29T05:39:45.181Z",
+  "status": "ready",
+  "schemaChecks": [],
+  "unresolvedPolicyGapCount": 0,
+  "outputPaths": {
+    "featureProfile": "C:\\Users\\kebi\\OneDrive\\문서\\prototype-member-tag\\case-inventory-output\\feature-profile.json",
+    "caseInventory": "C:\\Users\\kebi\\OneDrive\\문서\\prototype-member-tag\\case-inventory-output\\case-inventory.json",
+    "caseInventoryMarkdown": "C:\\Users\\kebi\\OneDrive\\문서\\prototype-member-tag\\case-inventory-output\\case-inventory.md",
+    "policyGaps": "C:\\Users\\kebi\\OneDrive\\문서\\prototype-member-tag\\case-inventory-output\\policy-gaps.md",
+    "featureSpec": "C:\\Users\\kebi\\OneDrive\\문서\\prototype-member-tag\\case-inventory-output\\feature-spec.md",
+    "figmaCardData": "C:\\Users\\kebi\\OneDrive\\문서\\prototype-member-tag\\case-inventory-output\\figma-card-data.json",
+    "notionTestcases": "C:\\Users\\kebi\\OneDrive\\문서\\prototype-member-tag\\case-inventory-output\\notion-testcases.json"
+  },
+  "figmaReady": true,
+  "notionReady": true,
+  "errors": []
+}

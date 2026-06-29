@@ -264,6 +264,5 @@ export function applyCatalogDrafts(catalog, drafts) {
       return !sourceTag || !currentTagSet.has(sourceTag) || draft?.isDeleted;
     })
     .map((draft) => draft.nextTag);
-
   return sortMemberTagNames([...editedTags, ...newTags]).slice(0, MAX_MEMBER_TAG_CATALOG_SIZE);
 }

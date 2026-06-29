@@ -1,4 +1,4 @@
-﻿import { createEmptyStateElement } from "../../shared/components/empty-state.js";
+import { createEmptyStateElement } from "../../shared/components/empty-state.js";
 import { createHeaderIconButton } from "../../shared/components/header-icon-button.js";
 import { renderMemberTagChips } from "../../shared/components/member-tag-chips.js";
 import { createBusinessNavigation, createDefaultAppBottomNavigation } from "../../shared/components/navigation.js";
