@@ -244,15 +244,6 @@ function createSettingsSaveBar(state) {
     className: "settings-save-bar",
     dataset: { area: "settingsSaveBar", state: "dirty" },
   });
-  const resetButton = createElement("button", {
-    className: "secondary-button settings-reset-button",
-    type: "button",
-    textContent: "초기화",
-    dataset: { action: "resetMemberTagSettings" },
-  });
-  resetButton.addEventListener("click", () => {
-    resetWebDrafts(state);
-  });
   const saveButton = createElement("button", {
     className: "primary-button settings-save-button",
     type: "button",
@@ -262,7 +253,6 @@ function createSettingsSaveBar(state) {
   saveButton.addEventListener("click", () => {
     saveWebDrafts(state);
   });
-  bar.append(resetButton);
   bar.append(saveButton);
   return bar;
 }
@@ -1076,16 +1066,6 @@ function saveWebDrafts(state) {
   rerender(state);
 }
 
-function resetWebDrafts(state) {
-  state.draftMemberTagCatalog = [...state.memberTagCatalog];
-  state.memberTagDrafts = [];
-  state.deletedDraftMemberTagNames = [];
-  state.openMemberTagMenuTagName = "";
-  state.activeMemberTagSheetTagName = "";
-  state.memberTagSheetDraftName = "";
-  clearDeleteReplacementState(state);
-  rerender(state);
-}
 
 function requestWebNavigation(state, href) {
   if (!hasMemberTagDraftChanges(state)) {

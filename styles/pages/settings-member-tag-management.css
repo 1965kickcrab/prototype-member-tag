@@ -191,7 +191,6 @@
   border-radius: var(--radius-3);
   box-shadow: 0 -6px 18px rgba(0, 0, 0, 0.08);
 }
-.settings-reset-button,
 .settings-save-button {
   min-width: 96px;
 }
