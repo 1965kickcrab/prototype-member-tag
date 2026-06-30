@@ -645,7 +645,7 @@ function createDeleteReplacementSelector(state, sourceTag) {
     className: "member-tag-delete-replacement-picker member-tag-search-stack",
     dataset: { state: state.isDeleteReplacementListOpen ? "open" : "closed" },
   });
-  picker.append(createDeleteReplacementSearch(state));
+  picker.append(createDeleteReplacementSelectControl(state));
   if (state.isDeleteReplacementListOpen) {
     picker.append(createDeleteReplacementOptionList(state));
   }
@@ -653,40 +653,46 @@ function createDeleteReplacementSelector(state, sourceTag) {
   return selector;
 }
 
-function createDeleteReplacementSearch(state) {
-  let isComposing = false;
+function createDeleteReplacementSelectControl(state) {
   const displayValue = state.isDeleteReplacementListOpen
-    ? state.deleteReplacementQuery || state.deleteReplacementTagName || "선택 안함"
+    ? state.deleteReplacementTagName || "선택 안함"
     : state.deleteReplacementTagName || "선택 안함";
   const control = createElement("div", {
     className: "member-tag-search-control member-tag-delete-replacement-control",
     dataset: { state: state.isDeleteReplacementListOpen ? "open" : "closed" },
   });
+  const button = createElement("button", {
+    className: "member-tag-delete-replacement-select-button",
+    type: "button",
+    textContent: displayValue,
+    dataset: { action: "toggleDeleteReplacementList" },
+  });
+  button.addEventListener("click", () => {
+    state.isDeleteReplacementListOpen = !state.isDeleteReplacementListOpen;
+    if (!state.isDeleteReplacementListOpen) {
+      state.deleteReplacementQuery = "";
+    }
+    rerender(state);
+    if (state.isDeleteReplacementListOpen) {
+      focusDeleteReplacementSearch();
+    }
+  });
+  control.append(button);
+  return control;
+}
+
+function createDeleteReplacementSearch(state) {
+  let isComposing = false;
+  const control = createElement("div", {
+    className: "member-tag-search-control member-tag-delete-replacement-search-control",
+    dataset: { state: "input" },
+  });
   const input = createElement("input", {
     className: "member-tag-search-input member-tag-delete-replacement-search",
     type: "text",
-    value: displayValue,
+    value: state.deleteReplacementQuery || "",
     placeholder: "태그 검색",
     dataset: { field: "deleteReplacementTagSearch" },
-  });
-  input.addEventListener("focus", () => {
-    if (state.isDeleteReplacementListOpen) {
-      return;
-    }
-
-    state.isDeleteReplacementListOpen = true;
-    state.deleteReplacementQuery = "";
-    rerender(state);
-    focusDeleteReplacementSearch();
-  });
-  input.addEventListener("click", () => {
-    if (state.isDeleteReplacementListOpen) {
-      return;
-    }
-
-    state.isDeleteReplacementListOpen = true;
-    rerender(state);
-    focusDeleteReplacementSearch();
   });
   input.addEventListener("compositionstart", () => {
     isComposing = true;
@@ -719,13 +725,19 @@ function createDeleteReplacementOptionList(state) {
     className: "tag-multi-select-menu member-tag-delete-replacement-list",
     dataset: { area: "deleteReplacementOptionList" },
   });
+  list.append(createDeleteReplacementSearch(state));
+
+  const optionList = createElement("div", {
+    className: "member-tag-data-list",
+    dataset: { area: "deleteReplacementOptionDataList" },
+  });
   const query = normalizeMemberTagInput(state.deleteReplacementQuery);
   const normalizedQuery = normalizeMemberTagName(query);
   const selectedTagName = normalizeMemberTagName(state.deleteReplacementTagName);
   const sourceTagName = normalizeMemberTagName(state.pendingDeleteMemberTagName);
   const originalSourceTagName = normalizeMemberTagName(findOriginalSourceForDraft(state, state.pendingDeleteMemberTagName));
 
-  list.append(createDeleteReplacementOption(state, {
+  optionList.append(createDeleteReplacementOption(state, {
     label: "선택 안함",
     value: "",
     selected: !selectedTagName,
@@ -733,7 +745,7 @@ function createDeleteReplacementOptionList(state) {
 
   const activeCatalog = getActiveMemberTagCatalog(state);
   if (selectedTagName && !hasMemberTag(activeCatalog, state.deleteReplacementTagName)) {
-    list.append(createDeleteReplacementOption(state, {
+    optionList.append(createDeleteReplacementOption(state, {
       label: `"${state.deleteReplacementTagName}" 추가`,
       value: state.deleteReplacementTagName,
       selected: true,
@@ -748,7 +760,7 @@ function createDeleteReplacementOptionList(state) {
   });
 
   availableTags.forEach((memberTagName) => {
-    list.append(createDeleteReplacementOption(state, {
+    optionList.append(createDeleteReplacementOption(state, {
       label: memberTagName,
       value: memberTagName,
       selected: normalizeMemberTagName(memberTagName) === selectedTagName,
@@ -760,13 +772,14 @@ function createDeleteReplacementOptionList(state) {
     && normalizeMemberTagName(query) !== originalSourceTagName
     && !hasMemberTag(activeCatalog, query);
   if (canCreateTag) {
-    list.append(createDeleteReplacementOption(state, {
+    optionList.append(createDeleteReplacementOption(state, {
       label: `"${query}" 추가`,
       value: query,
       selected: normalizeMemberTagName(query) === selectedTagName,
     }));
   }
 
+  list.append(optionList);
   return list;
 }
 
@@ -929,10 +942,10 @@ function openDeleteReplacementModal(state, memberTagName, options = {}) {
   state.pendingDeleteMemberTagName = memberTagName;
   state.deleteReplacementTagName = "";
   state.deleteReplacementQuery = "";
+  state.isDeleteReplacementListOpen = false;
   state.isDeleteReplacementModalOpen = true;
   applyMutationOptions(state, options);
   rerender(state);
-  focusDeleteReplacementSearch();
 }
 
 function closeDeleteReplacementModal(state) {

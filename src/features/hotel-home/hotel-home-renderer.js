@@ -343,6 +343,9 @@ function createCalendarDateButton(hotelHomeState, cell, platform) {
   }
 
   button.addEventListener("click", () => {
+    if (hasActiveReservationFilters(hotelHomeState)) {
+      resetReservationFilters(hotelHomeState);
+    }
     hotelHomeState.currentMonth = cell.dateKey.slice(0, 7);
     hotelHomeState.selectedDate = cell.dateKey;
     hotelHomeState.isDetailPanelOpen = platform === "web";
@@ -874,9 +877,10 @@ function createMonthMoveButton(direction, hotelHomeState, label) {
   }));
   button.addEventListener("click", () => {
     const nextMonth = shiftMonth(hotelHomeState.currentMonth, direction === "prev" ? -1 : 1);
+    const shouldKeepDetailPanelOpen = hotelHomeState.isDetailPanelOpen && hasActiveReservationFilters(hotelHomeState);
     hotelHomeState.currentMonth = nextMonth;
     hotelHomeState.selectedDate = "";
-    hotelHomeState.isDetailPanelOpen = false;
+    hotelHomeState.isDetailPanelOpen = shouldKeepDetailPanelOpen;
     hotelHomeState.selectedReservationIds = [];
     rerender(hotelHomeState);
   });
@@ -936,12 +940,21 @@ function hasReservationDetailFilter(hotelHomeState) {
   );
 }
 
+function resetReservationFilters(hotelHomeState) {
+  hotelHomeState.searchTerm = "";
+  hotelHomeState.selectedReservationMember = null;
+  hotelHomeState.selectedMemberTagNames = [];
+  hotelHomeState.tagFilterQuery = "";
+  hotelHomeState.isReservationSearchMenuOpen = false;
+  hotelHomeState.isTagMenuOpen = false;
+  hotelHomeState.activeFilters = FILTER_OPTIONS.map((filterOption) => filterOption.key);
+}
+
 function openFilteredHotelDetailPanel(hotelHomeState) {
   hotelHomeState.isDetailPanelOpen = hasReservationDetailFilter(hotelHomeState);
   hotelHomeState.selectedDate = "";
   hotelHomeState.selectedReservationIds = [];
   hotelHomeState.isReservationSearchMenuOpen = false;
-  hotelHomeState.isTagMenuOpen = false;
   rerender(hotelHomeState);
 }
 

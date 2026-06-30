@@ -748,6 +748,21 @@
   min-height: 40px;
 }
 
+.member-tag-delete-replacement-select-button {
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-text);
+  font: inherit;
+  text-align: left;
+  padding: 0;
+}
+
+.member-tag-delete-replacement-search-control {
+  min-height: 40px;
+}
+
 .member-tag-delete-replacement-list {
   top: calc(100% + var(--space-1));
   right: 0;
