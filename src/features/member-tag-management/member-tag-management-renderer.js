@@ -16,7 +16,6 @@ import {
 import { createElement } from "../../shared/utils/dom.js";
 import {
   getActiveMemberTagCatalog,
-  getCreatableMemberTagName,
   getVisibleMemberTags,
   hasMemberTagDraftChanges,
 } from "./member-tag-management-state.js";
@@ -60,11 +59,15 @@ function createAppScreen(state) {
     className: "member-tag-management-screen",
     dataset: { screen: "memberTagManagement", platform: "app" },
   });
-  screen.append(createAppHeader());
+  screen.append(createAppHeader(state));
   screen.append(createBody(state));
 
   if (state.activeMemberTagSheetTagName) {
     screen.append(createMemberTagEditBottomSheet(state));
+  }
+
+  if (state.isMemberTagCreateSheetOpen) {
+    screen.append(createMemberTagCreateSheet(state));
   }
 
   if (state.isDeleteReplacementModalOpen) {
@@ -78,7 +81,7 @@ function createAppScreen(state) {
   return screen;
 }
 
-function createAppHeader() {
+function createAppHeader(state) {
   const header = createElement("header", { className: "member-tag-management-page-header" });
   const backButton = createElement("button", {
     className: "member-tag-management-back-button",
@@ -96,7 +99,16 @@ function createAppHeader() {
   });
   header.append(backButton);
   header.append(createElement("h1", { textContent: "태그 관리" }));
-  header.append(createElement("span", { className: "header-spacer" }));
+  const createButton = createElement("button", {
+    className: "text-button is-primary member-tag-management-header-create-button",
+    type: "button",
+    textContent: "태그 등록",
+    dataset: { action: "openMemberTagCreateSheet" },
+  });
+  createButton.addEventListener("click", () => {
+    openMemberTagCreateSheet(state);
+  });
+  header.append(createButton);
   return header;
 }
 
@@ -283,6 +295,10 @@ function createDiscardChangesAlert(state) {
           state.deletedDraftMemberTagNames = [];
           state.editingMemberTagName = "";
           state.isCreatingMemberTag = false;
+          state.memberTagCreateDraftName = "";
+          state.memberTagCreateErrorMessage = "";
+          state.memberTagEditDraftName = "";
+          state.memberTagEditErrorMessage = "";
           clearDeleteReplacementState(state);
           state.isDiscardAlertOpen = false;
           state.pendingNavigationHref = "";
@@ -396,19 +412,17 @@ function createMemberTagList(state) {
   const visibleMemberTags = getVisibleMemberTags(state);
   const activeCatalog = getActiveMemberTagCatalog(state);
   const hasQuery = Boolean(String(state.memberTagManagementQuery || "").trim());
-  const creatableTagName = getCreatableMemberTagName(state);
-  const canCreateTag = state.mode === "app" && Boolean(creatableTagName);
   const hasCreateDraft = state.mode === "web" && state.isCreatingMemberTag;
   const list = createElement("div", {
     className: "member-tag-management-list",
     dataset: {
       area: "memberTagManagementList",
-      state: visibleMemberTags.length || canCreateTag || hasCreateDraft ? "list" : hasQuery ? "searchEmpty" : "empty",
+      state: visibleMemberTags.length || hasCreateDraft ? "list" : hasQuery ? "searchEmpty" : "empty",
     },
   });
 
-  if (!activeCatalog.length && !canCreateTag && !hasCreateDraft) {
-    list.append(createEmptyStateElement({ title: "등록된 태그가 없습니다" }));
+  if (!activeCatalog.length && !hasCreateDraft) {
+    list.append(createEmptyStateElement({ title: "등록된 태그가 없습니다." }));
     return list;
   }
 
@@ -416,11 +430,7 @@ function createMemberTagList(state) {
     list.append(createMemberTagRow(state, ""));
   }
 
-  if (canCreateTag) {
-    list.append(createMemberTagCreateRow(state, creatableTagName));
-  }
-
-  if (!visibleMemberTags.length && !canCreateTag && !hasCreateDraft) {
+  if (!visibleMemberTags.length && !hasCreateDraft) {
     list.append(createEmptyStateElement({ title: "검색 결과가 없습니다." }));
     return list;
   }
@@ -429,22 +439,6 @@ function createMemberTagList(state) {
     list.append(createMemberTagRow(state, memberTagName));
   });
   return list;
-}
-
-function createMemberTagCreateRow(state, memberTagName) {
-  const row = createElement("button", {
-    className: "member-tag-management-row member-tag-management-create-row",
-    type: "button",
-    textContent: `"${memberTagName}" 추가`,
-    dataset: { action: "createMemberTag", entity: "memberTag", entityId: memberTagName },
-  });
-  row.addEventListener("click", () => {
-    applyMemberTagCreate(state, memberTagName, {
-      clearQuery: true,
-      closeMenu: true,
-    });
-  });
-  return row;
 }
 
 function createMemberTagRow(state, memberTagName) {
@@ -505,10 +499,15 @@ function getMemberTagRowInputValue(memberTagName, replacementTagName) {
 }
 
 function createWebMemberTagInput(state, memberTagName, replacementTagName, isDeleted) {
+  const errorMessage = getWebMemberTagInputError(state, memberTagName);
+  const field = createElement("div", {
+    className: "member-tag-management-field",
+    dataset: { field: "memberTagField" },
+  });
   const input = createElement("input", {
     className: "member-tag-management-input",
     type: "text",
-    value: getMemberTagRowInputValue(memberTagName, replacementTagName),
+    value: getWebMemberTagInputValue(state, memberTagName, replacementTagName),
     placeholder: "태그명",
     dataset: { field: "memberTag" },
   });
@@ -516,6 +515,16 @@ function createWebMemberTagInput(state, memberTagName, replacementTagName, isDel
   input.disabled = isDeleted;
   input.addEventListener("input", (event) => {
     event.target.value = limitMemberTagInputLength(event.target.value);
+    setWebMemberTagInputDraft(state, memberTagName, event.target.value);
+    clearWebMemberTagInputError(state, memberTagName);
+    field.dataset.state = "idle";
+    const visibleErrorMessage = field.querySelector("[data-field='memberTagError']");
+    if (visibleErrorMessage) {
+      visibleErrorMessage.remove();
+    }
+  });
+  input.addEventListener("blur", (event) => {
+    validateWebMemberTagInput(state, memberTagName, event.target.value, { rerenderOnError: true });
   });
   input.addEventListener("keydown", (event) => {
     if (event.key === "Enter") {
@@ -529,7 +538,16 @@ function createWebMemberTagInput(state, memberTagName, replacementTagName, isDel
       cancelWebMemberTagEdit(state);
     }
   });
-  return input;
+  field.append(input);
+  if (errorMessage) {
+    field.dataset.state = "error";
+    field.append(createElement("p", {
+      className: "member-tag-management-error-message",
+      textContent: errorMessage,
+      dataset: { field: "memberTagError" },
+    }));
+  }
+  return field;
 }
 
 function createWebMemberTagReadView(state, memberTagName, replacementTagName) {
@@ -606,9 +624,90 @@ function createWebDeleteToggleButton(state, memberTagName, isDeleted) {
 
 function openMemberTagEditSheet(state, memberTagName) {
   state.activeMemberTagSheetTagName = memberTagName;
+  state.isMemberTagCreateSheetOpen = false;
   state.memberTagSheetDraftName = memberTagName;
   rerender(state);
   focusMemberTagSheetInput();
+}
+
+function openMemberTagCreateSheet(state) {
+  state.activeMemberTagSheetTagName = "";
+  state.isMemberTagCreateSheetOpen = true;
+  state.memberTagSheetDraftName = "";
+  rerender(state);
+  focusMemberTagSheetInput();
+}
+
+function createMemberTagCreateSheet(state) {
+  const isReady = Boolean(normalizeMemberTagInput(state.memberTagSheetDraftName));
+  const overlay = createElement("section", {
+    className: "member-tag-edit-sheet-overlay",
+    dataset: { area: "memberTagCreateSheet", modal: "memberTagCreateSheet", state: "open" },
+  });
+  overlay.addEventListener("click", (event) => {
+    if (event.target !== overlay) {
+      return;
+    }
+
+    closeMemberTagCreateSheet(state);
+  });
+
+  const sheet = createElement("div", { className: "member-tag-edit-sheet member-tag-create-sheet" });
+  sheet.append(createElement("div", { className: "member-tag-edit-sheet-handle" }));
+
+  const header = createElement("header", { className: "member-tag-edit-sheet-header" });
+  header.append(createElement("span", { className: "member-tag-edit-sheet-spacer" }));
+  header.append(createElement("h2", { textContent: "태그 등록" }));
+  const doneButton = createElement("button", {
+    className: getMemberTagCreateButtonClassName(isReady),
+    type: "button",
+    textContent: "등록",
+    dataset: { action: "createMemberTag", state: isReady ? "enabled" : "disabled" },
+  });
+  doneButton.disabled = !isReady;
+  header.append(doneButton);
+  sheet.append(header);
+
+  const input = createElement("input", {
+    className: "member-tag-edit-input",
+    type: "text",
+    value: state.memberTagSheetDraftName || "",
+    placeholder: "태그명",
+    dataset: { field: "memberTag" },
+  });
+  input.maxLength = MAX_MEMBER_TAG_NAME_LENGTH;
+  input.addEventListener("input", (event) => {
+    state.memberTagSheetDraftName = limitMemberTagInputLength(event.target.value);
+    event.target.value = state.memberTagSheetDraftName;
+    syncMemberTagCreateButton(doneButton, state.memberTagSheetDraftName);
+  });
+  input.addEventListener("keydown", (event) => {
+    if (event.key !== "Enter") {
+      return;
+    }
+
+    event.preventDefault();
+    commitMemberTagCreateSheet(state, input.value);
+  });
+  doneButton.addEventListener("click", () => {
+    commitMemberTagCreateSheet(state, input.value);
+  });
+  sheet.append(input);
+  overlay.append(sheet);
+  return overlay;
+}
+
+function getMemberTagCreateButtonClassName(isReady) {
+  return isReady
+    ? "text-button is-primary member-tag-edit-done-button"
+    : "text-button member-tag-edit-done-button";
+}
+
+function syncMemberTagCreateButton(button, memberTagName) {
+  const isReady = Boolean(normalizeMemberTagInput(memberTagName));
+  button.className = getMemberTagCreateButtonClassName(isReady);
+  button.disabled = !isReady;
+  button.dataset.state = isReady ? "enabled" : "disabled";
 }
 
 function createMemberTagEditBottomSheet(state) {
@@ -683,7 +782,6 @@ function createDeleteReplacementModal(state) {
     className: "alert-dialog member-tag-delete-replacement-dialog",
     area: "memberTagDeleteReplacementDialog",
     modal: "memberTagDeleteReplacementDialog",
-    title: "태그 삭제",
     contentNode: content,
     actions: [
       {
@@ -902,6 +1000,12 @@ function closeMemberTagEditSheet(state) {
   rerender(state);
 }
 
+function closeMemberTagCreateSheet(state) {
+  state.isMemberTagCreateSheetOpen = false;
+  state.memberTagSheetDraftName = "";
+  rerender(state);
+}
+
 function focusMemberTagSheetInput() {
   window.setTimeout(() => {
     const input = document.querySelector(".member-tag-edit-input");
@@ -929,6 +1033,13 @@ function commitMemberTagRename(state, sourceTag, nextTagName, options = {}) {
   applyMemberTagRename(state, sourceTag, trimmedTagName, options);
 }
 
+function commitMemberTagCreateSheet(state, memberTagName) {
+  applyMemberTagCreate(state, memberTagName, {
+    clearQuery: true,
+    closeCreateSheet: true,
+  });
+}
+
 function startWebMemberTagCreate(state) {
   if (getActiveMemberTagCatalog(state).length >= MAX_MEMBER_TAG_CATALOG_SIZE) {
     state.toastMessage = MEMBER_TAG_MAX_CATALOG_MESSAGE;
@@ -937,6 +1048,10 @@ function startWebMemberTagCreate(state) {
   }
 
   state.isCreatingMemberTag = true;
+  state.memberTagCreateDraftName = "";
+  state.memberTagCreateErrorMessage = "";
+  state.memberTagEditDraftName = "";
+  state.memberTagEditErrorMessage = "";
   state.editingMemberTagName = "";
   rerender(state);
   focusEditingMemberTagInput();
@@ -944,12 +1059,20 @@ function startWebMemberTagCreate(state) {
 
 function startWebMemberTagEdit(state, memberTagName) {
   state.isCreatingMemberTag = false;
+  state.memberTagCreateDraftName = "";
+  state.memberTagCreateErrorMessage = "";
+  state.memberTagEditDraftName = memberTagName;
+  state.memberTagEditErrorMessage = "";
   state.editingMemberTagName = memberTagName;
   rerender(state);
   focusEditingMemberTagInput();
 }
 
 function commitWebMemberTagRow(state, sourceTag, nextTagName) {
+  if (!validateWebMemberTagInput(state, sourceTag, nextTagName, { rerenderOnError: true })) {
+    return;
+  }
+
   if (!sourceTag) {
     applyMemberTagCreate(state, nextTagName, {
       clearQuery: true,
@@ -965,8 +1088,66 @@ function commitWebMemberTagRow(state, sourceTag, nextTagName) {
 
 function cancelWebMemberTagEdit(state) {
   state.isCreatingMemberTag = false;
+  state.memberTagCreateDraftName = "";
+  state.memberTagCreateErrorMessage = "";
+  state.memberTagEditDraftName = "";
+  state.memberTagEditErrorMessage = "";
   state.editingMemberTagName = "";
   rerender(state);
+}
+
+function getWebMemberTagInputValue(state, sourceTag, replacementTagName) {
+  if (!sourceTag) {
+    return state.memberTagCreateDraftName || "";
+  }
+
+  return state.memberTagEditDraftName;
+}
+
+function getWebMemberTagInputError(state, sourceTag) {
+  return sourceTag ? state.memberTagEditErrorMessage : state.memberTagCreateErrorMessage;
+}
+
+function setWebMemberTagInputDraft(state, sourceTag, nextTagName) {
+  if (sourceTag) {
+    state.memberTagEditDraftName = nextTagName;
+    return;
+  }
+
+  state.memberTagCreateDraftName = nextTagName;
+}
+
+function clearWebMemberTagInputError(state, sourceTag) {
+  if (sourceTag) {
+    state.memberTagEditErrorMessage = "";
+    return;
+  }
+
+  state.memberTagCreateErrorMessage = "";
+}
+
+function validateWebMemberTagInput(state, sourceTag, memberTagName, options = {}) {
+  const nextTag = normalizeMemberTagInput(memberTagName);
+  setWebMemberTagInputDraft(state, sourceTag, limitMemberTagInputLength(String(memberTagName || "")));
+  const normalizedSourceTag = normalizeMemberTagName(sourceTag);
+  const normalizedNextTag = normalizeMemberTagName(nextTag);
+  const isDuplicate = Boolean(normalizedNextTag) && getActiveMemberTagCatalog(state).some((currentTagName) => {
+    const normalizedCurrentTag = normalizeMemberTagName(currentTagName);
+    return normalizedCurrentTag === normalizedNextTag && (!normalizedSourceTag || normalizedCurrentTag !== normalizedSourceTag);
+  });
+
+  if (sourceTag) {
+    state.memberTagEditErrorMessage = isDuplicate ? MEMBER_TAG_DUPLICATE_MESSAGE : "";
+  } else {
+    state.memberTagCreateErrorMessage = isDuplicate ? MEMBER_TAG_DUPLICATE_MESSAGE : "";
+  }
+
+  if (isDuplicate && options.rerenderOnError) {
+    rerender(state);
+    return false;
+  }
+
+  return !isDuplicate;
 }
 
 function focusEditingMemberTagInput() {
@@ -1191,9 +1372,18 @@ function applyMutationOptions(state, options = {}) {
     state.memberTagSheetDraftName = "";
   }
 
+  if (options.closeCreateSheet) {
+    state.isMemberTagCreateSheetOpen = false;
+    state.memberTagSheetDraftName = "";
+  }
+
   if (options.closeInlineEditor) {
     state.editingMemberTagName = "";
     state.isCreatingMemberTag = false;
+    state.memberTagCreateDraftName = "";
+    state.memberTagCreateErrorMessage = "";
+    state.memberTagEditDraftName = "";
+    state.memberTagEditErrorMessage = "";
   }
 
   if (options.toastMessage) {
@@ -1213,6 +1403,10 @@ function saveWebDrafts(state) {
   state.deletedDraftMemberTagNames = [];
   state.editingMemberTagName = "";
   state.isCreatingMemberTag = false;
+  state.memberTagCreateDraftName = "";
+  state.memberTagCreateErrorMessage = "";
+  state.memberTagEditDraftName = "";
+  state.memberTagEditErrorMessage = "";
   clearDeleteReplacementState(state);
   state.toastMessage = MEMBER_TAG_SAVE_MESSAGE;
   rerender(state);

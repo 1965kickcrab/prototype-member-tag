@@ -13,8 +13,13 @@ export function createMemberTagManagementState(options = {}) {
     memberTagManagementQuery: "",
     editingMemberTagName: "",
     isCreatingMemberTag: false,
+    memberTagCreateDraftName: "",
+    memberTagCreateErrorMessage: "",
+    memberTagEditDraftName: "",
+    memberTagEditErrorMessage: "",
     openMemberTagMenuTagName: "",
     activeMemberTagSheetTagName: "",
+    isMemberTagCreateSheetOpen: false,
     memberTagSheetDraftName: "",
     pendingDeleteMemberTagName: "",
     deleteReplacementTagName: "",
@@ -51,21 +56,6 @@ export function getVisibleMemberTags(state) {
   return memberTags.filter((memberTagName) => {
     return normalizeMemberTagName(memberTagName).includes(query);
   });
-}
-
-export function getCreatableMemberTagName(state) {
-  const tagName = String(state.memberTagManagementQuery || "").trim().replace(/\s+/g, " ");
-  const normalizedTagName = normalizeMemberTagName(tagName);
-
-  if (!normalizedTagName) {
-    return "";
-  }
-
-  const isExistingTag = getActiveMemberTagCatalog(state).some((memberTagName) => {
-    return normalizeMemberTagName(memberTagName) === normalizedTagName;
-  });
-
-  return isExistingTag ? "" : tagName;
 }
 
 function areCatalogsEqual(firstCatalog, secondCatalog) {

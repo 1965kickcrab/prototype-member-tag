@@ -26,6 +26,22 @@
   color: var(--color-primary);
 }
 
+.text-button {
+  border: 0;
+  background: transparent;
+  color: var(--color-text-muted);
+}
+
+.text-button.is-primary {
+  color: var(--color-primary);
+}
+
+.text-button:disabled,
+.text-button[data-state="disabled"] {
+  color: var(--color-placeholder);
+  cursor: not-allowed;
+}
+
 .icon-button {
   width: 36px;
   height: 36px;
