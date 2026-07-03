@@ -108,14 +108,10 @@
   flex: 0 0 auto;
 }
 
-.reset-filter-button,
-.text-button {
+.reset-filter-button {
   border: 0;
   background: transparent;
   color: var(--color-text-muted);
-}
-
-.reset-filter-button {
   margin-left: auto;
   font-weight: 700;
 }

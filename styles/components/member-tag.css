@@ -473,7 +473,7 @@
 
 .member-tag-management-page-header {
   display: grid;
-  grid-template-columns: 44px 1fr 44px;
+  grid-template-columns: 76px minmax(0, 1fr) 76px;
   align-items: center;
   border-bottom: 1px solid var(--color-border-light);
   padding: 0 var(--space-2);
@@ -505,6 +505,13 @@
 .member-tag-management-back-icon {
   width: 24px;
   height: 24px;
+}
+
+.member-tag-management-header-create-button {
+  min-width: 68px;
+  min-height: 36px;
+  justify-self: end;
+  white-space: nowrap;
 }
 
 .member-tag-management-page-body {
@@ -607,6 +614,28 @@
   border: 1px solid var(--color-border);
   border-radius: var(--radius-2);
   padding: 0 var(--space-3);
+}
+
+.member-tag-management-field {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: var(--space-1);
+}
+
+.member-tag-management-field .member-tag-management-input {
+  width: 100%;
+}
+
+.member-tag-management-field[data-state="error"] .member-tag-management-input {
+  border-color: var(--color-input-error);
+}
+
+.member-tag-management-error-message {
+  margin: 0;
+  color: var(--color-warning);
+  font-size: 12px;
+  font-weight: 700;
 }
 
 .member-tag-management-read {
