@@ -1,4 +1,4 @@
-import { createEmptyStateElement } from "../../shared/components/empty-state.js";
+﻿import { createEmptyStateElement } from "../../shared/components/empty-state.js";
 import { createHeaderIconButton } from "../../shared/components/header-icon-button.js";
 import { renderMemberTagChips } from "../../shared/components/member-tag-chips.js";
 import { createBusinessNavigation, createDefaultAppBottomNavigation } from "../../shared/components/navigation.js";
@@ -2377,7 +2377,7 @@ function openMemberDetail(memberHomeState, member) {
 
 function createMemberEmptyState(listState) {
   return createEmptyStateElement({
-    title: listState === "searchEmpty" ? "조건과 일치하는 결과가 없습니다." : "",
+    title: listState === "searchEmpty" ? "검색 결과가 없습니다." : "",
     description: listState === "searchEmpty" ? "" : "등록된 회원이 없습니다",
   });
 }
@@ -2503,7 +2503,7 @@ function createMemberTagManagementList(memberHomeState) {
   }
 
   if (!visibleMemberTags.length && !canCreateTag) {
-    list.append(createElement("p", { className: "empty-inline", textContent: "조건과 일치하는 결과가 없습니다" }));
+    list.append(createElement("p", { className: "empty-inline", textContent: "검색 결과가 없습니다" }));
     return list;
   }
 

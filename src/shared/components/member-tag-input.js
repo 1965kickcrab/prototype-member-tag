@@ -508,7 +508,7 @@ export function initTagInput({
     }
 
     if (!list.childElementCount) {
-      list.append(createTagEmptyState(hasQuery ? "조건과 일치하는 결과가 없습니다" : "등록된 태그가 없습니다"));
+      list.append(createTagEmptyState(hasQuery ? "검색 결과가 없습니다" : "등록된 태그가 없습니다"));
     }
   }
 
