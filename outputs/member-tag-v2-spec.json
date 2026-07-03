@@ -1,0 +1,1092 @@
+{
+  "featureName": "회원 태그 기능 명세 (v2)",
+  "layout": {
+    "caseFrame": {
+      "width": 3480,
+      "direction": "horizontal",
+      "gap": 40
+    },
+    "screen": {
+      "width": 2600,
+      "gap": 40,
+      "defaultFrameHeight": 960
+    },
+    "asis": {
+      "width": 1280,
+      "height": 960,
+      "label": "AS-IS",
+      "frameName": "Frame 1"
+    },
+    "tobe": {
+      "width": 1280,
+      "height": 960,
+      "label": "TO-BE",
+      "frameName": "Frame 3"
+    },
+    "specPanel": {
+      "width": 840,
+      "name": "Spec Panel"
+    },
+    "verticalCaseGap": 80
+  },
+  "layoutProfiles": {
+    "web": {
+      "caseFrame": {
+        "width": 3480,
+        "direction": "horizontal",
+        "gap": 40
+      },
+      "screen": {
+        "width": 2600,
+        "gap": 40,
+        "defaultFrameHeight": 960
+      },
+      "asis": {
+        "width": 1280,
+        "height": 960,
+        "label": "AS-IS",
+        "frameName": "Frame 1"
+      },
+      "tobe": {
+        "width": 1280,
+        "height": 960,
+        "label": "TO-BE",
+        "frameName": "Frame 3"
+      },
+      "specPanel": {
+        "width": 840,
+        "name": "Spec Panel"
+      },
+      "verticalCaseGap": 80
+    },
+    "app": {
+      "caseFrame": {
+        "width": 1770,
+        "direction": "horizontal",
+        "gap": 40
+      },
+      "screen": {
+        "width": 890,
+        "gap": 40,
+        "defaultFrameHeight": 860
+      },
+      "asis": {
+        "width": 425,
+        "height": 860,
+        "label": "AS-IS",
+        "frameName": "Frame 1"
+      },
+      "tobe": {
+        "width": 425,
+        "height": 860,
+        "label": "TO-BE",
+        "frameName": "Frame 3"
+      },
+      "specPanel": {
+        "width": 840,
+        "name": "Spec Panel"
+      },
+      "verticalCaseGap": 80
+    }
+  },
+  "cases": [
+    {
+      "id": 1,
+      "name": "반려견 정보 영역에서 태그를 입력하거나 기존 태그를 선택한다",
+      "screen": {
+        "name": "Screen",
+        "asis": {
+          "label": "AS-IS",
+          "source": {
+            "type": "placeholder",
+            "nodeId": "",
+            "imagePath": "",
+            "description": "반려견 정보 영역에서 태그를 입력하거나 기존 태그를 선택한다 screen placeholder"
+          },
+          "frame": {
+            "width": 1280,
+            "height": 960
+          }
+        },
+        "tobe": {
+          "label": "TO-BE",
+          "source": {
+            "type": "placeholder",
+            "nodeId": "",
+            "imagePath": "",
+            "description": "반려견 정보 영역에서 태그를 입력하거나 기존 태그를 선택한다 screen placeholder"
+          },
+          "frame": {
+            "width": 1280,
+            "height": 960
+          },
+          "annotations": [
+            {
+              "marker": "1",
+              "targetDescriptionId": 1,
+              "x": 64,
+              "y": 120,
+              "note": "반려견 정보 태그 필드"
+            },
+            {
+              "marker": "2",
+              "targetDescriptionId": 2,
+              "x": 384,
+              "y": 120,
+              "note": "태그 입력 필드"
+            },
+            {
+              "marker": "3",
+              "targetDescriptionId": 3,
+              "x": 704,
+              "y": 120,
+              "note": "추천 태그 목록과 선택 태그 칩"
+            }
+          ]
+        }
+      },
+      "specPanel": {
+        "metaCase": {
+          "platform": "web",
+          "user": "비즈",
+          "screenName": "회원 등록",
+          "screenPath": "회원 > 회원 등록",
+          "caseName": "반려견 정보 영역에서 태그를 입력하거나 기존 태그를 선택한다"
+        },
+        "descriptions": [
+          {
+            "id": 1,
+            "marker": "1",
+            "type": "Section",
+            "title": "반려견 정보 태그 필드",
+            "body": [
+              "반려견 정보 입력 영역에 `태그` 라벨과 태그 입력 컨트롤을 표시한다.",
+              "선택된 태그가 있으면 입력 영역 앞에 태그 칩 목록을 표시한다.",
+              "선택된 태그가 없으면 선택 영역에 `태그` placeholder를 표시한다."
+            ]
+          },
+          {
+            "id": 2,
+            "marker": "2",
+            "type": "Input",
+            "title": "태그 입력 필드",
+            "body": [
+              "입력 필드의 placeholder는 `태그 입력`이다.",
+              "입력 필드에 포커스하면 추천 태그 목록을 표시한다.",
+              "입력값이 있으면 저장된 태그 중 선택되지 않은 태그를 실시간으로 필터링한다.",
+              "추천 태그는 시작 일치, 한글 초성/부분 조합 일치, 포함 일치 순서로 우선 노출한다.",
+              "입력값과 동일한 태그가 없으면 `\"입력값\" 추가` 항목을 표시한다."
+            ]
+          },
+          {
+            "id": 3,
+            "marker": "3",
+            "type": "Option",
+            "title": "추천 태그 목록과 선택 태그 칩",
+            "body": [
+              "추천 태그를 선택하면 해당 태그가 선택 태그 칩 목록에 추가된다.",
+              "선택 태그 칩의 삭제 버튼을 누르면 해당 태그가 선택 목록에서 제거된다.",
+              "선택 가능한 태그가 없으면 `추천 태그가 없습니다`를 표시한다."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": 2,
+      "name": "모바일 전체 화면에서 태그를 조회하고 다중 선택한다",
+      "screen": {
+        "name": "Screen",
+        "asis": {
+          "label": "AS-IS",
+          "source": {
+            "type": "placeholder",
+            "nodeId": "",
+            "imagePath": "",
+            "description": "모바일 전체 화면에서 태그를 조회하고 다중 선택한다 screen placeholder"
+          },
+          "frame": {
+            "width": 425,
+            "height": 860
+          }
+        },
+        "tobe": {
+          "label": "TO-BE",
+          "source": {
+            "type": "placeholder",
+            "nodeId": "",
+            "imagePath": "",
+            "description": "모바일 전체 화면에서 태그를 조회하고 다중 선택한다 screen placeholder"
+          },
+          "frame": {
+            "width": 425,
+            "height": 860
+          },
+          "annotations": [
+            {
+              "marker": "1",
+              "targetDescriptionId": 1,
+              "x": 64,
+              "y": 120,
+              "note": "태그 입력 컨트롤"
+            },
+            {
+              "marker": "2",
+              "targetDescriptionId": 2,
+              "x": 184,
+              "y": 120,
+              "note": "태그 검색 입력 필드"
+            },
+            {
+              "marker": "3",
+              "targetDescriptionId": 3,
+              "x": 304,
+              "y": 120,
+              "note": "태그 체크 옵션 목록"
+            }
+          ]
+        }
+      },
+      "specPanel": {
+        "metaCase": {
+          "platform": "app",
+          "user": "비즈",
+          "screenName": "태그 검색",
+          "screenPath": "회원 > 회원 등록 > 태그",
+          "caseName": "모바일 전체 화면에서 태그를 조회하고 다중 선택한다"
+        },
+        "descriptions": [
+          {
+            "id": 1,
+            "marker": "1",
+            "type": "Navigation",
+            "title": "태그 입력 컨트롤",
+            "body": [
+              "모바일에서 태그 입력 컨트롤을 누르면 `태그` 타이틀의 전체 화면 검색 화면으로 이동한다.",
+              "상단 뒤로가기 버튼을 누르면 현재 선택된 태그 상태를 유지하고 이전 화면으로 돌아간다."
+            ]
+          },
+          {
+            "id": 2,
+            "marker": "2",
+            "type": "Input",
+            "title": "태그 검색 입력 필드",
+            "body": [
+              "검색 입력 필드의 placeholder는 `태그 입력 또는 조회`이다.",
+              "검색어를 입력하면 저장된 태그 목록을 실시간으로 필터링한다.",
+              "검색어와 동일한 저장 태그가 없으면 `\"검색어\" 추가` 항목을 목록에 표시한다."
+            ]
+          },
+          {
+            "id": 3,
+            "marker": "3",
+            "type": "Option",
+            "title": "태그 체크 옵션 목록",
+            "body": [
+              "저장된 태그는 체크 옵션 목록으로 표시한다.",
+              "옵션을 선택하면 체크 상태가 되고, 다시 선택하면 선택 해제된다.",
+              "선택된 태그는 검색 입력 영역 위에 칩으로 표시한다.",
+              "선택 태그 칩의 삭제 버튼을 누르면 해당 태그가 선택 해제된다.",
+              "선택된 태그 전체 삭제 버튼을 누르면 모든 선택 태그가 해제된다.",
+              "저장된 태그가 없으면 `등록된 태그가 없습니다`를 표시한다.",
+              "검색 결과가 없으면 `조건과 일치하는 결과가 없습니다`를 표시한다."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": 3,
+      "name": "회원 목록에서 태그를 다중 선택해 회원을 필터링한다",
+      "screen": {
+        "name": "Screen",
+        "asis": {
+          "label": "AS-IS",
+          "source": {
+            "type": "placeholder",
+            "nodeId": "",
+            "imagePath": "",
+            "description": "회원 목록에서 태그를 다중 선택해 회원을 필터링한다 screen placeholder"
+          },
+          "frame": {
+            "width": 1280,
+            "height": 960
+          }
+        },
+        "tobe": {
+          "label": "TO-BE",
+          "source": {
+            "type": "placeholder",
+            "nodeId": "",
+            "imagePath": "",
+            "description": "회원 목록에서 태그를 다중 선택해 회원을 필터링한다 screen placeholder"
+          },
+          "frame": {
+            "width": 1280,
+            "height": 960
+          },
+          "annotations": [
+            {
+              "marker": "1",
+              "targetDescriptionId": 1,
+              "x": 64,
+              "y": 120,
+              "note": "목록 상단 필터 영역"
+            },
+            {
+              "marker": "2",
+              "targetDescriptionId": 2,
+              "x": 384,
+              "y": 120,
+              "note": "태그 필터 드롭다운"
+            },
+            {
+              "marker": "3",
+              "targetDescriptionId": 3,
+              "x": 704,
+              "y": 120,
+              "note": "회원 목록"
+            }
+          ]
+        }
+      },
+      "specPanel": {
+        "metaCase": {
+          "platform": "web",
+          "user": "비즈",
+          "screenName": "회원 목록",
+          "screenPath": "회원 > 회원 목록",
+          "caseName": "회원 목록에서 태그를 다중 선택해 회원을 필터링한다"
+        },
+        "descriptions": [
+          {
+            "id": 1,
+            "marker": "1",
+            "type": "Section",
+            "title": "목록 상단 필터 영역",
+            "body": [
+              "목록 상단 필터 영역에 `태그` 필터 버튼을 표시한다.",
+              "선택된 태그가 없으면 버튼 텍스트는 `태그`이다.",
+              "태그를 1개 선택하면 선택한 태그명을 버튼에 표시한다.",
+              "태그를 2개 이상 선택하면 첫 번째 태그명과 추가 선택 개수를 함께 표시한다."
+            ]
+          },
+          {
+            "id": 2,
+            "marker": "2",
+            "type": "Option",
+            "title": "태그 필터 드롭다운",
+            "body": [
+              "필터 버튼을 누르면 태그 다중 선택 드롭다운을 표시한다.",
+              "드롭다운 상단 검색 필드의 placeholder는 `태그 입력 또는 조회`이다.",
+              "검색어를 입력하면 저장된 태그 목록을 실시간으로 필터링한다.",
+              "태그 옵션을 선택하거나 해제할 때마다 회원 목록 결과가 즉시 갱신된다.",
+              "`초기화` 버튼을 누르면 선택된 모든 태그 조건이 해제된다.",
+              "저장된 태그가 없으면 `등록된 태그가 없습니다`를 표시한다.",
+              "검색 결과가 없으면 `조건과 일치하는 결과가 없습니다`를 표시한다."
+            ]
+          },
+          {
+            "id": 3,
+            "marker": "3",
+            "type": "List",
+            "title": "회원 목록",
+            "body": [
+              "선택한 모든 태그를 포함한 회원만 목록에 표시한다.",
+              "회원의 필터 대상 태그는 반려견 태그 목록을 기준으로 한다.",
+              "조건과 일치하는 회원이 없으면 `조건과 일치하는 결과가 없습니다.`를 표시한다.",
+              "회원 행에는 반려견 태그 칩을 최대 3개까지 표시하고, 초과분은 `+N` 칩으로 표시한다."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": 4,
+      "name": "모바일 바텀시트에서 태그를 선택해 회원 목록을 필터링한다",
+      "screen": {
+        "name": "Screen",
+        "asis": {
+          "label": "AS-IS",
+          "source": {
+            "type": "placeholder",
+            "nodeId": "",
+            "imagePath": "",
+            "description": "모바일 바텀시트에서 태그를 선택해 회원 목록을 필터링한다 screen placeholder"
+          },
+          "frame": {
+            "width": 425,
+            "height": 860
+          }
+        },
+        "tobe": {
+          "label": "TO-BE",
+          "source": {
+            "type": "placeholder",
+            "nodeId": "",
+            "imagePath": "",
+            "description": "모바일 바텀시트에서 태그를 선택해 회원 목록을 필터링한다 screen placeholder"
+          },
+          "frame": {
+            "width": 425,
+            "height": 860
+          },
+          "annotations": [
+            {
+              "marker": "1",
+              "targetDescriptionId": 1,
+              "x": 64,
+              "y": 120,
+              "note": "회원 목록 필터 영역"
+            },
+            {
+              "marker": "2",
+              "targetDescriptionId": 2,
+              "x": 184,
+              "y": 120,
+              "note": "태그 검색과 옵션 목록"
+            }
+          ]
+        }
+      },
+      "specPanel": {
+        "metaCase": {
+          "platform": "app",
+          "user": "비즈",
+          "screenName": "회원 목록",
+          "screenPath": "회원 > 회원 목록",
+          "caseName": "모바일 바텀시트에서 태그를 선택해 회원 목록을 필터링한다"
+        },
+        "descriptions": [
+          {
+            "id": 1,
+            "marker": "1",
+            "type": "Navigation",
+            "title": "회원 목록 필터 영역",
+            "body": [
+              "모바일 회원 목록의 태그 필터 버튼을 누르면 `태그` 타이틀의 바텀시트를 연다.",
+              "바텀시트의 닫기 버튼을 누르면 바텀시트를 닫고 현재 선택 상태를 목록에 반영한다.",
+              "바텀시트의 설정 버튼을 누르면 `태그 관리` 화면으로 이동한다."
+            ]
+          },
+          {
+            "id": 2,
+            "marker": "2",
+            "type": "Option",
+            "title": "태그 검색과 옵션 목록",
+            "body": [
+              "검색 필드의 placeholder는 `태그 입력 또는 조회`이다.",
+              "태그를 선택하거나 해제할 때마다 목록 필터 결과가 즉시 갱신된다.",
+              "선택된 태그는 칩으로 표시한다.",
+              "선택 태그 칩의 삭제 버튼을 누르면 해당 태그가 선택 해제된다.",
+              "전체 삭제 버튼을 누르면 모든 선택 태그가 해제된다."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": 5,
+      "name": "저장된 태그를 조회, 추가, 수정, 삭제하고 일괄 저장한다",
+      "screen": {
+        "name": "Screen",
+        "asis": {
+          "label": "AS-IS",
+          "source": {
+            "type": "placeholder",
+            "nodeId": "",
+            "imagePath": "",
+            "description": "저장된 태그를 조회, 추가, 수정, 삭제하고 일괄 저장한다 screen placeholder"
+          },
+          "frame": {
+            "width": 1280,
+            "height": 960
+          }
+        },
+        "tobe": {
+          "label": "TO-BE",
+          "source": {
+            "type": "placeholder",
+            "nodeId": "",
+            "imagePath": "",
+            "description": "저장된 태그를 조회, 추가, 수정, 삭제하고 일괄 저장한다 screen placeholder"
+          },
+          "frame": {
+            "width": 1280,
+            "height": 960
+          },
+          "annotations": [
+            {
+              "marker": "1",
+              "targetDescriptionId": 1,
+              "x": 64,
+              "y": 120,
+              "note": "태그 관리 본문"
+            },
+            {
+              "marker": "2",
+              "targetDescriptionId": 2,
+              "x": 384,
+              "y": 120,
+              "note": "태그 관리 검색 필드"
+            },
+            {
+              "marker": "3",
+              "targetDescriptionId": 3,
+              "x": 704,
+              "y": 120,
+              "note": "개별 태그 행"
+            },
+            {
+              "marker": "4",
+              "targetDescriptionId": 4,
+              "x": 64,
+              "y": 260,
+              "note": "하단 저장 영역과 이탈 경고"
+            }
+          ]
+        }
+      },
+      "specPanel": {
+        "metaCase": {
+          "platform": "web",
+          "user": "비즈",
+          "screenName": "태그 관리",
+          "screenPath": "설정 > 태그 관리",
+          "caseName": "저장된 태그를 조회, 추가, 수정, 삭제하고 일괄 저장한다"
+        },
+        "descriptions": [
+          {
+            "id": 1,
+            "marker": "1",
+            "type": "Section",
+            "title": "태그 관리 본문",
+            "body": [
+              "화면 제목은 `태그 관리`이다.",
+              "설명 문구는 `회원 태그를 등록하고 관리합니다.`이다.",
+              "저장된 전체 태그를 정렬된 목록으로 표시한다.",
+              "저장된 태그가 없으면 `등록된 태그가 없습니다`를 표시한다."
+            ]
+          },
+          {
+            "id": 2,
+            "marker": "2",
+            "type": "Input",
+            "title": "태그 관리 검색 필드",
+            "body": [
+              "검색 필드의 placeholder는 `태그 입력 또는 조회`이다.",
+              "검색어를 입력하면 저장된 태그 중 검색어를 포함하는 태그만 표시한다.",
+              "검색어와 동일한 태그가 없으면 `\"검색어\" 추가` 항목을 표시한다.",
+              "`\"검색어\" 추가` 항목을 누르면 태그 목록에 임시 추가하고 검색어를 초기화한다.",
+              "검색 결과가 없으면 `조건과 일치하는 결과가 없습니다`를 표시한다."
+            ]
+          },
+          {
+            "id": 3,
+            "marker": "3",
+            "type": "State",
+            "title": "개별 태그 행",
+            "body": [
+              "각 태그 행은 `태그명` placeholder를 가진 입력 필드로 태그명을 수정할 수 있다.",
+              "태그명을 변경한 뒤 포커스를 해제하거나 Enter를 입력하면 수정사항을 임시 반영한다.",
+              "삭제 버튼을 누르면 해당 행은 삭제 예정 상태가 되고 입력 필드는 비활성화된다.",
+              "삭제 예정 상태에서는 삭제 버튼이 `복구` 버튼으로 전환된다.",
+              "`복구` 버튼을 누르면 삭제 예정 상태가 해제되고 입력 필드가 다시 활성화된다."
+            ]
+          },
+          {
+            "id": 4,
+            "marker": "4",
+            "type": "Button",
+            "title": "하단 저장 영역과 이탈 경고",
+            "body": [
+              "추가, 수정, 삭제 변경사항이 있으면 하단 저장 영역을 표시한다.",
+              "`저장` 버튼을 누르면 변경사항을 일괄 저장한다.",
+              "저장에 성공하면 `저장했습니다.` 토스트를 표시한다.",
+              "저장하지 않은 변경사항이 있는 상태에서 다른 메뉴로 이동하면 `변경을 취소하시겠습니까?\\n변경한 설정은 저장되지 않습니다.` 경고를 표시한다.",
+              "경고에서 `변경 취소`를 선택하면 변경사항을 저장하지 않고 이동한다.",
+              "경고에서 `닫기`를 선택하면 태그 관리 화면에 머문다."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": 6,
+      "name": "모바일 태그 관리 화면에서 태그를 즉시 추가, 수정, 삭제한다",
+      "screen": {
+        "name": "Screen",
+        "asis": {
+          "label": "AS-IS",
+          "source": {
+            "type": "placeholder",
+            "nodeId": "",
+            "imagePath": "",
+            "description": "모바일 태그 관리 화면에서 태그를 즉시 추가, 수정, 삭제한다 screen placeholder"
+          },
+          "frame": {
+            "width": 425,
+            "height": 860
+          }
+        },
+        "tobe": {
+          "label": "TO-BE",
+          "source": {
+            "type": "placeholder",
+            "nodeId": "",
+            "imagePath": "",
+            "description": "모바일 태그 관리 화면에서 태그를 즉시 추가, 수정, 삭제한다 screen placeholder"
+          },
+          "frame": {
+            "width": 425,
+            "height": 860
+          },
+          "annotations": [
+            {
+              "marker": "1",
+              "targetDescriptionId": 1,
+              "x": 64,
+              "y": 120,
+              "note": "태그 관리 목록"
+            },
+            {
+              "marker": "2",
+              "targetDescriptionId": 2,
+              "x": 184,
+              "y": 120,
+              "note": "태그 검색 결과의 추가 항목"
+            },
+            {
+              "marker": "3",
+              "targetDescriptionId": 3,
+              "x": 304,
+              "y": 120,
+              "note": "태그 수정 바텀시트"
+            },
+            {
+              "marker": "4",
+              "targetDescriptionId": 4,
+              "x": 64,
+              "y": 216,
+              "note": "태그 수정 바텀시트 삭제 버튼"
+            }
+          ]
+        }
+      },
+      "specPanel": {
+        "metaCase": {
+          "platform": "app",
+          "user": "비즈",
+          "screenName": "태그 관리",
+          "screenPath": "더보기 > 태그 관리",
+          "caseName": "모바일 태그 관리 화면에서 태그를 즉시 추가, 수정, 삭제한다"
+        },
+        "descriptions": [
+          {
+            "id": 1,
+            "marker": "1",
+            "type": "List",
+            "title": "태그 관리 목록",
+            "body": [
+              "화면 제목은 `태그 관리`이다.",
+              "저장된 전체 태그를 목록으로 표시한다.",
+              "각 태그 행의 더보기 버튼을 누르면 `태그 수정` 바텀시트를 연다.",
+              "검색 필드에 입력하면 해당 이름을 포함하는 태그만 표시한다.",
+              "저장된 태그가 없으면 `등록된 태그가 없습니다`를 표시한다."
+            ]
+          },
+          {
+            "id": 2,
+            "marker": "2",
+            "type": "Button",
+            "title": "태그 검색 결과의 추가 항목",
+            "body": [
+              "검색어와 동일한 태그가 없으면 `\"검색어\" 추가` 항목을 표시한다.",
+              "`\"검색어\" 추가` 항목을 누르면 태그를 즉시 저장하고 검색어를 초기화한다.",
+              "추가에 성공하면 `저장했습니다.` 토스트를 표시한다."
+            ]
+          },
+          {
+            "id": 3,
+            "marker": "3",
+            "type": "Input",
+            "title": "태그 수정 바텀시트",
+            "body": [
+              "바텀시트 제목은 `태그 수정`이다.",
+              "입력 필드의 placeholder는 `태그명`이다.",
+              "`완료` 버튼을 누르면 변경한 태그명을 즉시 저장한다.",
+              "저장에 성공하면 `저장했습니다.` 토스트를 표시하고 바텀시트를 닫는다."
+            ]
+          },
+          {
+            "id": 4,
+            "marker": "4",
+            "type": "Button",
+            "title": "태그 수정 바텀시트 삭제 버튼",
+            "body": [
+              "바텀시트 하단에 `삭제` 버튼을 표시한다.",
+              "`삭제` 버튼을 누르면 해당 태그를 즉시 삭제한다.",
+              "삭제에 성공하면 `삭제했습니다.` 토스트를 표시하고 바텀시트를 닫는다."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": 7,
+      "name": "회원 상세에서 반려견 태그를 확인하고 수정한다",
+      "screen": {
+        "name": "Screen",
+        "asis": {
+          "label": "AS-IS",
+          "source": {
+            "type": "placeholder",
+            "nodeId": "",
+            "imagePath": "",
+            "description": "회원 상세에서 반려견 태그를 확인하고 수정한다 screen placeholder"
+          },
+          "frame": {
+            "width": 1280,
+            "height": 960
+          }
+        },
+        "tobe": {
+          "label": "TO-BE",
+          "source": {
+            "type": "placeholder",
+            "nodeId": "",
+            "imagePath": "",
+            "description": "회원 상세에서 반려견 태그를 확인하고 수정한다 screen placeholder"
+          },
+          "frame": {
+            "width": 1280,
+            "height": 960
+          },
+          "annotations": [
+            {
+              "marker": "1",
+              "targetDescriptionId": 1,
+              "x": 64,
+              "y": 120,
+              "note": "반려견 기본 정보와 보호자 정보"
+            },
+            {
+              "marker": "2",
+              "targetDescriptionId": 2,
+              "x": 384,
+              "y": 120,
+              "note": "반려견 정보 수정"
+            }
+          ]
+        }
+      },
+      "specPanel": {
+        "metaCase": {
+          "platform": "web",
+          "user": "비즈",
+          "screenName": "회원 상세",
+          "screenPath": "회원 > 회원 상세",
+          "caseName": "회원 상세에서 반려견 태그를 확인하고 수정한다"
+        },
+        "descriptions": [
+          {
+            "id": 1,
+            "marker": "1",
+            "type": "Section",
+            "title": "반려견 기본 정보와 보호자 정보",
+            "body": [
+              "등록된 태그가 있으면 상세 화면의 관련 정보 영역에 태그 칩 목록을 표시한다.",
+              "등록된 태그가 없으면 태그 칩 영역을 표시하지 않는다."
+            ]
+          },
+          {
+            "id": 2,
+            "marker": "2",
+            "type": "Navigation",
+            "title": "반려견 정보 수정",
+            "body": [
+              "`수정` 버튼을 누르면 반려견 수정 화면 또는 팝업을 연다.",
+              "수정 화면의 `태그` 필드에서 태그 입력 컨트롤로 태그를 다시 선택할 수 있다.",
+              "`수정` 버튼을 누르면 변경한 태그가 저장된다.",
+              "저장에 성공하면 `정보를 수정했습니다.` 토스트를 표시한다."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": 8,
+      "name": "모바일 회원 수정 화면에서 보호자 또는 반려견 태그를 수정한다",
+      "screen": {
+        "name": "Screen",
+        "asis": {
+          "label": "AS-IS",
+          "source": {
+            "type": "placeholder",
+            "nodeId": "",
+            "imagePath": "",
+            "description": "모바일 회원 수정 화면에서 보호자 또는 반려견 태그를 수정한다 screen placeholder"
+          },
+          "frame": {
+            "width": 425,
+            "height": 860
+          }
+        },
+        "tobe": {
+          "label": "TO-BE",
+          "source": {
+            "type": "placeholder",
+            "nodeId": "",
+            "imagePath": "",
+            "description": "모바일 회원 수정 화면에서 보호자 또는 반려견 태그를 수정한다 screen placeholder"
+          },
+          "frame": {
+            "width": 425,
+            "height": 860
+          },
+          "annotations": [
+            {
+              "marker": "1",
+              "targetDescriptionId": 1,
+              "x": 64,
+              "y": 120,
+              "note": "보호자 정보 수정"
+            },
+            {
+              "marker": "2",
+              "targetDescriptionId": 2,
+              "x": 184,
+              "y": 120,
+              "note": "반려견 상세 정보 바텀시트"
+            }
+          ]
+        }
+      },
+      "specPanel": {
+        "metaCase": {
+          "platform": "app",
+          "user": "비즈",
+          "screenName": "회원 수정",
+          "screenPath": "회원 > 회원 상세 > 회원 수정",
+          "caseName": "모바일 회원 수정 화면에서 보호자 또는 반려견 태그를 수정한다"
+        },
+        "descriptions": [
+          {
+            "id": 1,
+            "marker": "1",
+            "type": "Navigation",
+            "title": "보호자 정보 수정",
+            "body": [
+              "보호자 정보 영역의 `수정` 버튼을 누르면 보호자 정보 수정 화면으로 이동한다.",
+              "수정 화면의 `태그` 입력 컨트롤을 누르면 모바일 태그 검색 화면으로 이동한다.",
+              "`수정` 버튼을 누르면 변경한 태그가 저장되고 상세 화면으로 돌아간다.",
+              "저장에 성공하면 `정보를 수정했습니다.` 토스트를 표시한다."
+            ]
+          },
+          {
+            "id": 2,
+            "marker": "2",
+            "type": "Navigation",
+            "title": "반려견 상세 정보 바텀시트",
+            "body": [
+              "반려견 카드를 누르면 반려견 상세 정보 바텀시트를 연다.",
+              "바텀시트의 `태그` 입력 컨트롤에서 반려견 태그를 수정할 수 있다.",
+              "`수정` 또는 `추가` 완료 동작을 실행하면 변경한 태그를 저장한다.",
+              "저장에 성공하면 `정보를 수정했습니다.` 토스트를 표시한다."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": 9,
+      "name": "유치원 예약 목록에서 회원 태그로 예약을 필터링한다",
+      "screen": {
+        "name": "Screen",
+        "asis": {
+          "label": "AS-IS",
+          "source": {
+            "type": "placeholder",
+            "nodeId": "",
+            "imagePath": "",
+            "description": "유치원 예약 목록에서 회원 태그로 예약을 필터링한다 screen placeholder"
+          },
+          "frame": {
+            "width": 1280,
+            "height": 960
+          }
+        },
+        "tobe": {
+          "label": "TO-BE",
+          "source": {
+            "type": "placeholder",
+            "nodeId": "",
+            "imagePath": "",
+            "description": "유치원 예약 목록에서 회원 태그로 예약을 필터링한다 screen placeholder"
+          },
+          "frame": {
+            "width": 1280,
+            "height": 960
+          },
+          "annotations": [
+            {
+              "marker": "1",
+              "targetDescriptionId": 1,
+              "x": 64,
+              "y": 120,
+              "note": "예약 목록 필터 영역"
+            },
+            {
+              "marker": "2",
+              "targetDescriptionId": 2,
+              "x": 384,
+              "y": 120,
+              "note": "유치원 예약 목록"
+            }
+          ]
+        }
+      },
+      "specPanel": {
+        "metaCase": {
+          "platform": "web",
+          "user": "비즈",
+          "screenName": "유치원 예약 필터",
+          "screenPath": "유치원",
+          "caseName": "유치원 예약 목록에서 회원 태그로 예약을 필터링한다"
+        },
+        "descriptions": [
+          {
+            "id": 1,
+            "marker": "1",
+            "type": "Section",
+            "title": "예약 목록 필터 영역",
+            "body": [
+              "예약 목록 필터 영역에 `태그` 필터 버튼을 표시한다.",
+              "태그 필터의 검색, 선택, 초기화 동작은 회원 목록 태그 필터와 동일하다."
+            ]
+          },
+          {
+            "id": 2,
+            "marker": "2",
+            "type": "List",
+            "title": "유치원 예약 목록",
+            "body": [
+              "선택한 모든 태그를 포함한 예약만 목록에 표시한다.",
+              "예약의 필터 대상 태그는 해당 반려견의 태그 목록을 기준으로 한다.",
+              "조건과 일치하는 예약이 없으면 `조건과 일치하는 결과가 없습니다`를 표시한다."
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": 10,
+      "name": "호텔 예약 목록에서 검색어, 예약 유형, 회원 태그 조건을 함께 적용한다",
+      "screen": {
+        "name": "Screen",
+        "asis": {
+          "label": "AS-IS",
+          "source": {
+            "type": "placeholder",
+            "nodeId": "",
+            "imagePath": "",
+            "description": "호텔 예약 목록에서 검색어, 예약 유형, 회원 태그 조건을 함께 적용한다 screen placeholder"
+          },
+          "frame": {
+            "width": 1280,
+            "height": 960
+          }
+        },
+        "tobe": {
+          "label": "TO-BE",
+          "source": {
+            "type": "placeholder",
+            "nodeId": "",
+            "imagePath": "",
+            "description": "호텔 예약 목록에서 검색어, 예약 유형, 회원 태그 조건을 함께 적용한다 screen placeholder"
+          },
+          "frame": {
+            "width": 1280,
+            "height": 960
+          },
+          "annotations": [
+            {
+              "marker": "1",
+              "targetDescriptionId": 1,
+              "x": 64,
+              "y": 120,
+              "note": "호텔 예약 필터 영역"
+            },
+            {
+              "marker": "2",
+              "targetDescriptionId": 2,
+              "x": 384,
+              "y": 120,
+              "note": "호텔 예약 목록"
+            }
+          ]
+        }
+      },
+      "specPanel": {
+        "metaCase": {
+          "platform": "web",
+          "user": "비즈",
+          "screenName": "호텔 예약 필터",
+          "screenPath": "호텔",
+          "caseName": "호텔 예약 목록에서 검색어, 예약 유형, 회원 태그 조건을 함께 적용한다"
+        },
+        "descriptions": [
+          {
+            "id": 1,
+            "marker": "1",
+            "type": "Section",
+            "title": "호텔 예약 필터 영역",
+            "body": [
+              "호텔 예약 관리 화면 상단에 `태그` 필터 버튼을 표시한다.",
+              "태그 필터의 검색, 선택, 초기화 동작은 회원 목록 태그 필터와 동일하다."
+            ]
+          },
+          {
+            "id": 2,
+            "marker": "2",
+            "type": "List",
+            "title": "호텔 예약 목록",
+            "body": [
+              "검색어 조건, 예약 유형 조건, 선택한 태그 조건을 모두 만족하는 예약만 목록에 표시한다.",
+              "선택한 모든 태그를 포함한 예약만 목록에 표시한다.",
+              "조건과 일치하는 예약이 없으면 `조건과 일치하는 결과가 없습니다`를 표시한다.",
+              "affected scope: 회원 등록, 회원 수정, 태그 관리, 예약 필터",
+              "confirmed policy: 한 회원 또는 한 반려견에 동시에 지정할 수 있는 태그는 최대 10개이다.",
+              "confirmed policy: 전체 태그 카탈로그에는 최대 20개까지 태그를 등록할 수 있다.",
+              "confirmed policy: 태그명은 앞뒤 공백을 제거하고 연속 공백을 한 칸으로 정규화한다.",
+              "confirmed policy: 태그 중복 비교는 대소문자와 중복 공백 차이를 무시한다.",
+              "confirmed policy: 저장되는 태그 목록은 한국어 정렬 기준으로 정렬한다.",
+              "affected scope: 태그 입력 추천, 태그 관리 검색, 회원 목록 필터, 예약 목록 필터",
+              "confirmed policy: 추천 태그는 선택되지 않은 저장 태그만 대상으로 한다.",
+              "confirmed policy: 태그 추천은 시작 일치, 한글 초성/부분 조합 일치, 포함 일치 순서로 정렬한다.",
+              "confirmed policy: 다중 태그 필터는 선택한 모든 태그를 포함해야 통과하는 AND 조건이다.",
+              "confirmed policy: 유치원/호텔 예약 필터는 예약에 연결된 반려견 태그 목록을 기준으로 한다.",
+              "affected scope: 태그 관리, 회원 상세, 회원 등록/수정, 예약 목록",
+              "confirmed policy: 태그명을 수정하면 기존 회원과 반려견에 연결된 동일 태그명이 함께 갱신된다.",
+              "confirmed policy: 태그를 삭제하면 기존 회원과 반려견에 연결된 동일 태그명이 함께 제거된다.",
+              "confirmed policy: Web 태그 관리는 변경사항을 임시 보관한 뒤 `저장` 버튼으로 일괄 반영한다.",
+              "confirmed policy: App 태그 관리는 추가, 수정, 삭제 동작을 즉시 저장한다."
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "allowedDescriptionTypes": [
+    "Section",
+    "Input",
+    "Option",
+    "Button",
+    "Navigation",
+    "List",
+    "State",
+    "Toast",
+    "Value",
+    "Card"
+  ]
+}
