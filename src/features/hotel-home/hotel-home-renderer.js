@@ -794,7 +794,7 @@ function createReservationSearchResultList(reservations, featureName) {
   });
 
   if (!reservations.length) {
-    list.append(createEmptyStateElement({ title: "조건과 일치하는 결과가 없습니다." }));
+    list.append(createEmptyStateElement({ title: "등록된 예약이 없습니다." }));
     return list;
   }
 
@@ -907,7 +907,7 @@ function createGroupBadge(label, count) {
 
 function createDetailEmptyState(hotelHomeState) {
   const emptyState = createEmptyStateElement({
-    title: hasActiveReservationFilters(hotelHomeState) ? "조건과 일치하는 결과가 없습니다." : "등록된 예약이 없습니다.",
+    title: "등록된 예약이 없습니다.",
   });
   emptyState.className = "empty-state hotel-detail-empty-state";
   return emptyState;
@@ -919,7 +919,7 @@ function createAppEmptyState(hotelHomeState) {
     dataset: { state: "empty" },
   });
   state.append(createElement("p", {
-    textContent: hasActiveReservationFilters(hotelHomeState) ? "조건과 일치하는 결과가 없습니다." : "등록된 예약이 없습니다.",
+    textContent: "등록된 예약이 없습니다.",
   }));
   return state;
 }

@@ -1830,7 +1830,7 @@ function createTagMultiSelectMenu(memberHomeState) {
   }
 
   if (visibleMemberTags.length === 0) {
-    list.append(createTagEmptyState("조건과 일치하는 결과가 없습니다"));
+    list.append(createTagEmptyState("검색 결과가 없습니다."));
     menu.append(list);
     return menu;
   }
@@ -1863,7 +1863,7 @@ function createTagSearchControl(memberHomeState, options = {}) {
     className: options.inputClassName || "member-tag-search-input",
     type: "text",
     value: memberHomeState.tagFilterQuery || "",
-    placeholder: "태그 입력 또는 조회",
+    placeholder: "태그 조회",
     dataset: { field: "memberTagSearch" },
   });
   input.addEventListener("compositionstart", () => {
@@ -1944,7 +1944,7 @@ function populateMemberTagFilterDataList(list, memberHomeState) {
   }
 
   if (visibleMemberTags.length === 0) {
-    list.append(createTagEmptyState("조건과 일치하는 결과가 없습니다"));
+    list.append(createTagEmptyState("검색 결과가 없습니다."));
     return;
   }
 
@@ -2128,11 +2128,7 @@ function getSelectedTagSummary(memberHomeState) {
     return "태그";
   }
 
-  if (memberHomeState.selectedMemberTagNames.length === 1) {
-    return memberHomeState.selectedMemberTagNames[0];
-  }
-
-  return `${memberHomeState.selectedMemberTagNames[0]} +${memberHomeState.selectedMemberTagNames.length - 1}`;
+  return `태그(${memberHomeState.selectedMemberTagNames.length})`;
 }
 
 function createFoldIcon(isOpen) {
@@ -2432,7 +2428,7 @@ function createMemberTagManagementSearch(memberHomeState) {
     className: "member-tag-management-search-input",
     type: "search",
     value: memberHomeState.memberTagManagementQuery || "",
-    placeholder: "태그 입력 또는 조회",
+    placeholder: "태그 조회",
     dataset: { field: "memberTagSearch" },
   });
   input.addEventListener("compositionstart", () => {

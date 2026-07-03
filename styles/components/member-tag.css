@@ -79,6 +79,10 @@
   overflow: auto;
 }
 
+.reservation-search-menu[data-state="empty"] {
+  pointer-events: none;
+}
+
 .member-search-option {
   min-height: 46px;
   display: flex;
@@ -513,6 +517,8 @@
 
 .member-tag-management-search {
   display: block;
+  flex: 1;
+  min-width: 0;
 }
 
 .member-tag-management-search-input {
@@ -555,6 +561,19 @@
   overflow: auto;
 }
 
+.member-tag-management-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.member-tag-management-register-button,
+.member-tag-management-edit-button {
+  min-width: 72px;
+  height: 36px;
+  flex: 0 0 auto;
+}
+
 .member-tag-management-row {
   position: relative;
   min-height: 44px;
@@ -590,10 +609,37 @@
   padding: 0 var(--space-3);
 }
 
-.member-tag-management-input:disabled {
-  background: var(--color-page-subtle);
+.member-tag-management-read {
+  flex: 1;
+  min-width: 0;
+  min-height: 38px;
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-2);
+  gap: var(--space-2);
+  padding: 0 var(--space-3);
+}
+
+.member-tag-management-read-name {
+  flex: 0 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  color: var(--color-text);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.member-tag-management-read-count {
+  flex: 0 0 auto;
+  margin-left: auto;
   color: var(--color-text-muted);
-  opacity: 1;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.member-tag-management-input:disabled {
+  background: var(--color-surface);
 }
 
 .member-tag-management-row[data-state="deleted"] .member-tag-management-input {
@@ -604,15 +650,17 @@
   color: var(--color-text);
 }
 
+.member-tag-management-row[data-state="editing"] .member-tag-management-input,
+.member-tag-management-row[data-state="creating"] .member-tag-management-input {
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
 .member-tag-management-delete-button {
   min-width: 64px;
   height: 36px;
   flex: 0 0 auto;
   color: #ed6060;
-}
-
-.member-tag-management-delete-button.is-restore {
-  color: var(--color-primary);
 }
 
 .member-tag-management-name {

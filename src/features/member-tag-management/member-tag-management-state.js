@@ -11,6 +11,8 @@ export function createMemberTagManagementState(options = {}) {
     memberTagDrafts: [],
     deletedDraftMemberTagNames: [],
     memberTagManagementQuery: "",
+    editingMemberTagName: "",
+    isCreatingMemberTag: false,
     openMemberTagMenuTagName: "",
     activeMemberTagSheetTagName: "",
     memberTagSheetDraftName: "",
