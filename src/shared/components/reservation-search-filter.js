@@ -105,7 +105,7 @@ function createReservationSearchMenu(state, options) {
   });
 
   if (!visibleMembers.length) {
-    menu.append(createTagEmptyState("조건과 일치하는 결과가 없습니다"));
+    menu.append(createTagEmptyState("등록된 예약이 없습니다."));
     return menu;
   }
 
@@ -313,7 +313,7 @@ function createReservationTagMenu(state, options, menuOptions = {}) {
   });
 
   if (!list.childNodes.length) {
-    list.append(createTagEmptyState("조건과 일치하는 결과가 없습니다"));
+    list.append(createTagEmptyState("검색 결과가 없습니다."));
   }
 
   menu.append(list);
@@ -340,7 +340,7 @@ function createTagSearchControl(state, options) {
     className: "member-tag-search-input",
     type: "text",
     value: state.tagFilterQuery || "",
-    placeholder: "태그 입력 또는 조회",
+    placeholder: "태그 조회",
   });
   input.addEventListener("compositionstart", () => {
     isComposing = true;
@@ -401,7 +401,7 @@ function syncReservationTagDataList(control, state, options) {
   });
 
   if (!list.childNodes.length) {
-    list.append(createTagEmptyState("조건과 일치하는 결과가 없습니다"));
+    list.append(createTagEmptyState("검색 결과가 없습니다."));
   }
 }
 
@@ -491,10 +491,7 @@ function getSelectedTagSummary(state) {
   if (!state.selectedMemberTagNames.length) {
     return "태그";
   }
-  if (state.selectedMemberTagNames.length === 1) {
-    return state.selectedMemberTagNames[0];
-  }
-  return `${state.selectedMemberTagNames[0]} +${state.selectedMemberTagNames.length - 1}`;
+  return `태그(${state.selectedMemberTagNames.length})`;
 }
 
 function createTagEmptyState(title) {

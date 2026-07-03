@@ -344,6 +344,7 @@ function createCalendarDateButton(schoolHomeState, cell, platform) {
   button.addEventListener("click", () => {
     schoolHomeState.currentMonth = `${cell.dateKey.slice(0, 7)}`;
     schoolHomeState.selectedDate = cell.dateKey;
+    resetReservationFilters(schoolHomeState);
     schoolHomeState.selectedReservationIds = [];
     rerender(schoolHomeState);
   });
@@ -480,7 +481,7 @@ function createWebReservationBody(schoolHomeState, summary) {
 
   if (summary.reservations.length === 0 && hasActiveReservationFilters(schoolHomeState)) {
     return createEmptyStateElement({
-      title: "조건과 일치하는 결과가 없습니다.",
+      title: "등록된 예약이 없습니다.",
     });
   }
 
@@ -523,7 +524,7 @@ function createWebReservationPlaceholderRow(isFilteredEmpty = false) {
   });
   row.append(createElement("span", {
     className: "school-reservation-table-placeholder",
-    textContent: isFilteredEmpty ? "조건과 일치하는 결과가 없습니다." : "등록된 예약이 없습니다.",
+    textContent: "등록된 예약이 없습니다.",
   }));
   return row;
 }
@@ -558,7 +559,7 @@ function createAppReservationBody(schoolHomeState, summary) {
 
   if (summary.reservations.length === 0) {
     return createEmptyStateElement({
-      title: hasActiveReservationFilters(schoolHomeState) ? "조건과 일치하는 결과가 없습니다." : "등록된 예약이 없습니다.",
+      title: "등록된 예약이 없습니다.",
     });
   }
 
@@ -662,7 +663,7 @@ function createReservationSearchResultList(reservations, featureName) {
   });
 
   if (!reservations.length) {
-    list.append(createEmptyStateElement({ title: "조건과 일치하는 결과가 없습니다." }));
+    list.append(createEmptyStateElement({ title: "등록된 예약이 없습니다." }));
     return list;
   }
 
@@ -759,8 +760,18 @@ function resetToInitialView(schoolHomeState) {
   const initialView = getSchoolHomeInitialView();
   schoolHomeState.currentMonth = initialView.currentMonth;
   schoolHomeState.selectedDate = initialView.selectedDate;
+  resetReservationFilters(schoolHomeState);
   schoolHomeState.selectedReservationIds = [];
   rerender(schoolHomeState);
+}
+
+function resetReservationFilters(schoolHomeState) {
+  schoolHomeState.searchTerm = "";
+  schoolHomeState.selectedReservationMember = null;
+  schoolHomeState.selectedMemberTagNames = [];
+  schoolHomeState.tagFilterQuery = "";
+  schoolHomeState.isReservationSearchMenuOpen = false;
+  schoolHomeState.isTagMenuOpen = false;
 }
 
 function getSchoolCapacityCount() {

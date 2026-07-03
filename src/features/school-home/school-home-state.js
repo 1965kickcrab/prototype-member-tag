@@ -13,6 +13,7 @@ export function createSchoolHomeState() {
     selectedDate: initialView.selectedDate,
     selectedReservationIds: [],
     searchTerm: "",
+    selectedReservationMember: null,
     isReservationSearchMenuOpen: false,
     isReservationSearchScreenOpen: false,
     members: getStoredMembers(),
