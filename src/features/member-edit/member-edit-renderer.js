@@ -240,21 +240,30 @@ function createPetForm(memberEditState, draft, options = {}) {
   leftColumn.append(createPetPhotoArea());
   leftColumn.append(createPetTextField(memberEditState, draft, "반려견 이름", "petName", "한글, 영문, 숫자 입력 가능 (12자 이내)", true));
   leftColumn.append(createPetTextField(memberEditState, draft, "견종", "breed", "견종을 검색해 주세요.", true, "input", "search"));
+  leftColumn.append(createPetTagField(memberEditState, draft, { useTagTrigger: options.useTagTrigger }));
   leftColumn.append(createPetTextField(memberEditState, draft, "메모", "memo", "성격, 알러지 등 필요한 내용을 입력해 주세요. (최대 500자)", false, "textarea", "text", "mobile-main-only"));
-  leftColumn.append(createWeightField(memberEditState, draft));
 
+  rightColumn.append(createOptionalInfoDivider());
+  rightColumn.append(createWeightField(memberEditState, draft));
   rightColumn.append(createPetTextField(memberEditState, draft, "동물등록번호", "animalRegistrationNumber", "410XXXXXXXXXXXX"));
   rightColumn.append(createPetTextField(memberEditState, draft, "모색", "coatColor", "20자 이내 입력"));
   rightColumn.append(createBirthDateField(memberEditState, draft));
   rightColumn.append(createChoiceField(memberEditState, draft, "성별", "gender", ["선택 안함", "남아", "여아"]));
   rightColumn.append(createChoiceField(memberEditState, draft, "중성화 여부", "neuteredStatus", ["선택안함", "완료", "미완료"]));
-  rightColumn.append(createPetTagField(memberEditState, draft, { useTagTrigger: options.useTagTrigger }));
 
   formBody.append(leftColumn);
   formBody.append(rightColumn);
   section.append(formBody);
   section.append(createPetTextField(memberEditState, draft, "메모", "memo", "성격, 알러지 등 필요한 내용을 입력해 주세요. (최대 500자)", false, "textarea", "text", "web-memo-field"));
   return section;
+}
+
+function createOptionalInfoDivider() {
+  return createElement("div", {
+    className: "pet-optional-info-divider",
+    textContent: "선택 정보",
+    dataset: { area: "optionalPetInfoDivider" },
+  });
 }
 
 function createPetPhotoArea() {

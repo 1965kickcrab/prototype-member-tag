@@ -544,19 +544,19 @@
 }
 
 .bottom-sheet-actions {
-  width: calc(100% - 32px);
-  height: 52px;
-  justify-self: center;
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   align-items: center;
+  gap: var(--space-3);
+  padding: 0 var(--space-4);
 }
 
 .bottom-sheet-actions.has-delete {
   grid-template-columns: 112px minmax(0, 1fr);
-  gap: var(--space-3);
 }
 
 .bottom-sheet-delete-button {
+  width: 100%;
   height: 52px;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-3);
@@ -572,7 +572,6 @@
 
 .member-edit-guardian-submit {
   width: calc(100% - 32px);
-  height: 52px;
   justify-self: center;
 }
 
@@ -597,6 +596,7 @@
   display: grid;
   grid-template-rows: 56px minmax(0, 1fr) 52px;
   border-radius: 24px 24px 0 0;
+  padding-bottom: var(--space-4);
   background: var(--color-surface);
 }
 
@@ -633,7 +633,7 @@
 }
 
 .bottom-sheet-submit-button {
-  width: 100%;
+  width: calc(100% - 32px);
   height: 52px;
   justify-self: center;
 }
@@ -743,8 +743,7 @@
     padding-left: 0;
   }
 
-  .mobile-pet-form-section .pet-form-right::before {
-    content: "선택 정보";
+  .mobile-pet-form-section .pet-optional-info-divider {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
     align-items: center;
@@ -755,9 +754,11 @@
     text-align: center;
   }
 
-  .mobile-pet-form-section .pet-form-right::before {
-    border-top: 1px solid var(--color-border-light);
-    padding-top: var(--space-3);
+  .mobile-pet-form-section .pet-optional-info-divider::before,
+  .mobile-pet-form-section .pet-optional-info-divider::after {
+    height: 1px;
+    background: var(--color-border-light);
+    content: "";
   }
 
   .mobile-pet-form-section .web-memo-field {
@@ -911,7 +912,6 @@
     display: block;
     grid-column: auto;
     width: calc(100% - 32px);
-    height: 52px;
     justify-self: center;
     font-size: 17px;
   }

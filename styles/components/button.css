@@ -138,3 +138,11 @@
 .large-disabled-button[data-state="disabled"] {
   cursor: not-allowed;
 }
+
+.bottom-sheet-actions .large-disabled-button,
+.pet-detail-bottom-sheet-actions .large-disabled-button,
+.member-tag-search-footer .large-disabled-button {
+  width: 100%;
+  height: 52px;
+  justify-self: stretch;
+}

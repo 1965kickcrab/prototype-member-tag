@@ -329,9 +329,17 @@ function createPetForm(petForm, layoutMode, memberRegistrationState) {
   leftColumn.append(createPetPhotoArea());
   leftColumn.append(createPetTextField("반려견 이름", "한글, 영문, 숫자 입력 가능 (12자 이내)", true, petForm, "petName", layoutMode, memberRegistrationState));
   leftColumn.append(createPetTextField("견종", "견종을 검색해 주세요.", true, petForm, "breed", layoutMode, memberRegistrationState, "input", "search"));
+  if (layoutMode === "mobile") {
+    leftColumn.append(createPetTagField(petForm, memberRegistrationState));
+  }
   leftColumn.append(createPetTextField("메모", "성격, 알러지 등 필요한 내용을 입력해 주세요. (최대 500자)", false, petForm, "memo", layoutMode, memberRegistrationState, "textarea", "text", "mobile-main-only"));
-  leftColumn.append(createWeightField(petForm.weight));
 
+  if (layoutMode === "mobile") {
+    rightColumn.append(createOptionalInfoDivider());
+    rightColumn.append(createWeightField(petForm.weight));
+  } else {
+    leftColumn.append(createWeightField(petForm.weight));
+  }
   rightColumn.append(createPetTextField("동물등록번호", "410XXXXXXXXXXXX", false, petForm, "animalRegistrationNumber", layoutMode, memberRegistrationState));
   rightColumn.append(createPetTextField("모색", "20자 이내 입력", false, petForm, "coatColor", layoutMode, memberRegistrationState));
   rightColumn.append(createBirthDateField(petForm));
@@ -341,13 +349,23 @@ function createPetForm(petForm, layoutMode, memberRegistrationState) {
   rightColumn.append(createChoiceField("중성화 여부", ["선택안함", "완료", "미완료"], petForm.neuteredStatus, (value) => {
     petForm.neuteredStatus = value;
   }));
-  rightColumn.append(createPetTagField(petForm, memberRegistrationState));
+  if (layoutMode !== "mobile") {
+    rightColumn.append(createPetTagField(petForm, memberRegistrationState));
+  }
 
   formBody.append(leftColumn);
   formBody.append(rightColumn);
   section.append(formBody);
   section.append(createPetTextField("메모", "성격, 알러지 등 필요한 내용을 입력해 주세요. (최대 500자)", false, petForm, "memo", layoutMode, memberRegistrationState, "textarea", "text", "web-memo-field"));
   return section;
+}
+
+function createOptionalInfoDivider() {
+  return createElement("div", {
+    className: "pet-optional-info-divider",
+    textContent: "선택 정보",
+    dataset: { area: "optionalPetInfoDivider" },
+  });
 }
 
 function createPetTagField(petForm, memberRegistrationState) {

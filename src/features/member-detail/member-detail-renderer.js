@@ -229,6 +229,7 @@ function createAppMemberDetailScreen(memberDetailState) {
     dataset: { area: "detailContent" },
   });
   content.append(createAppMemberProfileSection(member));
+  content.append(createProfileMemberTags(member.petTags));
   content.append(createAppAccordionSection(memberDetailState, "detailInfo", "상세 정보", createAppDetailInfoBody(member)));
   content.append(createAppAccordionSection(memberDetailState, "memo", "메모", createAppMemoBody(memberDetailState, member)));
   content.append(createAppTicketSection(member));
@@ -406,7 +407,6 @@ function createAppMemberProfileSection(member) {
   const text = createElement("div", { className: "member-detail-app-profile-text" });
   text.append(createElement("strong", { textContent: getMemberPetName(member) }));
   text.append(createElement("p", { textContent: formatText(member.breed) }));
-  appendInlineMemberTags(text, member.petTags);
 
   const guardian = createElement("p", { className: "member-detail-app-guardian-line" });
   guardian.append(createElement("span", { textContent: `${formatText(member.guardianName)} 보호자` }));
@@ -597,6 +597,20 @@ function appendInlineMemberTags(parent, tags) {
   });
   renderMemberTagChips(chipList, memberTags);
   parent.append(chipList);
+}
+
+function createProfileMemberTags(tags) {
+  const memberTags = sanitizeTagList(tags);
+  if (memberTags.length === 0) {
+    return document.createDocumentFragment();
+  }
+
+  const chipList = createElement("div", {
+    className: "member-tag-chip-list member-detail-profile-tags",
+    dataset: { area: "memberTagChips", state: "list" },
+  });
+  renderMemberTagChips(chipList, memberTags);
+  return chipList;
 }
 
 function createInfoList(items, className = "member-detail-info-list") {
@@ -919,21 +933,38 @@ function createPetDetailColumnLeft(memberDetailState, draft, isMobile = false) {
   column.append(createPetDetailTextField(memberDetailState, "이름", "petName", "한글, 영문, 숫자 입력 가능 (12자 이내)", true, draft));
   column.append(createPetDetailSearchField(memberDetailState, "견종", "breed", "견종을 검색해 주세요.", true, draft));
   if (isMobile) {
+    column.append(createPetDetailTagField(memberDetailState, draft, { showRemoveControls: false }));
     column.append(createPetDetailTextArea(memberDetailState, "메모", "memo", "성격, 알러지 등 필요한 내용을 입력해 주세요. (최대 500자)", draft));
   }
-  column.append(createPetDetailTextField(memberDetailState, "몸무게", "weight", "0~999 사이 숫자만 입력", false, draft, { suffix: "kg" }));
+  if (!isMobile) {
+    column.append(createPetDetailTextField(memberDetailState, "몸무게", "weight", "0~999 사이 숫자만 입력", false, draft, { suffix: "kg" }));
+  }
   return column;
 }
 
 function createPetDetailColumnRight(memberDetailState, draft, isMobile = false) {
   const column = createElement("div", { className: isMobile ? "pet-detail-column mobile" : "pet-detail-column" });
+  if (isMobile) {
+    column.append(createPetDetailOptionalInfoDivider());
+    column.append(createPetDetailTextField(memberDetailState, "몸무게", "weight", "0~999 사이 숫자만 입력", false, draft, { suffix: "kg" }));
+  }
   column.append(createPetDetailTextField(memberDetailState, "동물등록번호", "animalRegistrationNumber", "410XXXXXXXXXXXX", false, draft));
   column.append(createPetDetailTextField(memberDetailState, "모색", "coatColor", "20자 이내 입력", false, draft));
   column.append(createPetDetailBirthDateField(memberDetailState, draft));
   column.append(createPetDetailRadioGroup(memberDetailState, "성별", "gender", ["선택 안함", "남아", "여아"], draft));
   column.append(createPetDetailRadioGroup(memberDetailState, "중성화 여부", "neuteredStatus", ["선택안함", "완료", "미완료"], draft));
-  column.append(createPetDetailTagField(memberDetailState, draft, { showRemoveControls: !isMobile }));
+  if (!isMobile) {
+    column.append(createPetDetailTagField(memberDetailState, draft, { showRemoveControls: true }));
+  }
   return column;
+}
+
+function createPetDetailOptionalInfoDivider() {
+  return createElement("div", {
+    className: "pet-detail-optional-info-divider",
+    textContent: "선택 정보",
+    dataset: { area: "optionalPetInfoDivider" },
+  });
 }
 
 function createPetDetailPhotoArea() {

@@ -27,6 +27,7 @@ export function initTagInput({
   let isSuggestionOpen = false;
   let isComposing = false;
   let isMobileSearchOpen = false;
+  let mobileSearchInitialTagCount = 0;
   let toastMessage = "";
   let toastDismissTimer = null;
   const inputId = `member-tag-input-${Math.random().toString(36).slice(2)}`;
@@ -141,6 +142,19 @@ export function initTagInput({
     input.setSelectionRange(input.value.length, input.value.length);
   }
 
+  function openMobileTagSearch() {
+    if (!isMobileSearchOpen) {
+      mobileSearchInitialTagCount = selectedTags.length;
+    }
+    isMobileSearchOpen = true;
+    isSuggestionOpen = true;
+  }
+
+  function closeMobileTagSearch() {
+    isMobileSearchOpen = false;
+    isSuggestionOpen = false;
+  }
+
   function render(options = {}) {
     const { shouldFocusInput = false, shouldFocusSearchInput = false } = options;
     container.innerHTML = "";
@@ -173,8 +187,7 @@ export function initTagInput({
           alt: "",
         }));
         selectedList.addEventListener("click", () => {
-          isMobileSearchOpen = true;
-          isSuggestionOpen = true;
+          openMobileTagSearch();
           render({ shouldFocusSearchInput: true });
         });
       }
@@ -277,8 +290,7 @@ export function initTagInput({
     });
     input.addEventListener("focus", () => {
       if (isMobileLayout() && !isMobileSearchOpen) {
-        isMobileSearchOpen = true;
-        isSuggestionOpen = true;
+        openMobileTagSearch();
         render({ shouldFocusSearchInput: true });
         return;
       }
@@ -347,30 +359,56 @@ export function initTagInput({
   }
 
   function createMobileTagSearchScreen() {
-    const screen = createElement("section", {
-      className: "member-tag-search-screen",
-      dataset: { area: "memberTagSearch", state: "open" },
+    const overlay = createElement("section", {
+      className: "member-tag-search-screen tag-bottom-sheet-overlay member-tag-input-sheet-overlay",
+      dataset: { area: "memberTagSearch", modal: "memberTagSearch", state: "open" },
     });
-    const header = createElement("header", { className: "member-tag-search-header" });
-    const backButton = createHeaderIconButton({
+    const sheet = createElement("div", { className: "tag-bottom-sheet member-tag-input-sheet" });
+    const header = createElement("header", { className: "tag-bottom-sheet-header member-tag-search-header" });
+    const closeButton = createHeaderIconButton({
       className: "back-button",
-      icon: "back",
-      ariaLabel: "태그 입력으로 돌아가기",
+      icon: "close",
+      ariaLabel: "태그 선택 닫기",
       dataset: { action: "closeMemberTagSearch" },
     });
-    backButton.addEventListener("click", () => {
-      isMobileSearchOpen = false;
-      isSuggestionOpen = false;
+    closeButton.addEventListener("click", () => {
+      closeMobileTagSearch();
       render();
     });
-    header.append(backButton);
-    header.append(createElement("h2", { textContent: "태그" }));
-    header.append(createElement("span", { className: "member-tag-search-header-spacer" }));
+    header.append(closeButton);
+    header.append(createElement("h3", { textContent: "태그" }));
+    header.append(createElement("span", { className: "tag-bottom-sheet-header-spacer member-tag-search-header-spacer" }));
 
-    screen.append(header);
-    screen.append(createMobileTagSearchControl());
-    screen.append(createMobileTagDataList());
-    return screen;
+    sheet.append(header);
+    sheet.append(createMobileTagSearchControl());
+    sheet.append(createMobileTagDataList());
+    sheet.append(createMobileTagSearchFooter());
+    overlay.append(sheet);
+    return overlay;
+  }
+
+  function createMobileTagSearchFooter() {
+    const isSelectionChanged = selectedTags.length !== mobileSearchInitialTagCount;
+    const footer = createElement("div", {
+      className: "member-tag-search-footer",
+      dataset: { area: "memberTagSearchFooter" },
+    });
+    const selectButton = createElement("button", {
+      className: "large-disabled-button member-tag-select-button",
+      type: "button",
+      textContent: `선택 (${selectedTags.length}/${MAX_MEMBER_TAGS_PER_MEMBER})`,
+      dataset: { action: "confirmMemberTagSelection", state: isSelectionChanged ? "enabled" : "disabled" },
+    });
+    selectButton.disabled = !isSelectionChanged;
+    selectButton.addEventListener("click", () => {
+      if (!isSelectionChanged) {
+        return;
+      }
+      closeMobileTagSearch();
+      render();
+    });
+    footer.append(selectButton);
+    return footer;
   }
 
   function createMobileTagSearchControl() {
@@ -378,15 +416,6 @@ export function initTagInput({
       className: "member-tag-search-stack",
       dataset: { area: "memberTagSearchControl", state: selectedTags.length ? "selected" : "empty" },
     });
-
-    if (selectedTags.length) {
-      const selectedList = createElement("div", {
-        className: "member-tag-selected-list",
-        dataset: { area: "selectedMemberTags", state: "list", presentation: "editable" },
-      });
-      appendSelectedTagChips(selectedList, { chipClassName: "member-tag-removable-chip" });
-      wrapper.append(selectedList);
-    }
 
     const control = createElement("div", {
       className: "member-tag-search-control member-tag-search-filter-control",
@@ -524,18 +553,12 @@ export function initTagInput({
 
   function getTagSearchResults() {
     const catalog = sortMemberTagNames(getCatalog ? getCatalog() : []);
-    const selectedTagNames = new Set(selectedTags.map((memberTagName) => {
-      return normalizeMemberTagName(memberTagName);
-    }));
-    const availableCatalog = catalog.filter((memberTagName) => {
-      return !selectedTagNames.has(normalizeMemberTagName(memberTagName));
-    });
     const normalizedQuery = normalizeMemberTagName(query);
     if (!normalizedQuery) {
-      return availableCatalog;
+      return catalog;
     }
 
-    return availableCatalog.filter((memberTagName) => {
+    return catalog.filter((memberTagName) => {
       return normalizeMemberTagName(memberTagName).includes(normalizedQuery);
     });
   }
@@ -548,16 +571,21 @@ export function initTagInput({
 
   function createTagOption(labelText, options) {
     const entityId = options.entityId || labelText;
-    const option = createElement("button", {
+    const option = createElement("label", {
       className: "member-tag-option",
-      type: "button",
       dataset: {
         action: options.action,
         entityId,
         state: options.isSelected ? "selected" : "idle",
       },
     });
-    option.addEventListener("click", options.onChange);
+    const checkbox = createElement("input", {
+      type: "checkbox",
+      dataset: { field: "memberTagOption" },
+    });
+    checkbox.checked = options.isSelected;
+    checkbox.addEventListener("change", options.onChange);
+    option.append(checkbox);
     option.append(createElement("span", { textContent: labelText }));
     return option;
   }

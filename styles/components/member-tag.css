@@ -292,6 +292,21 @@
   padding: var(--space-4);
 }
 
+.member-tag-input-sheet-overlay {
+  z-index: 60;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 0;
+  padding: 0;
+  background: rgba(0, 0, 0, 0.24);
+}
+
+.member-tag-input-sheet {
+  height: min(72vh, 560px);
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+}
+
 .member-tag-search-header {
   display: grid;
   grid-template-columns: 72px minmax(0, 1fr) 72px;
@@ -321,6 +336,16 @@
 
 .member-tag-search-header .button-icon {
   margin: 0;
+}
+
+.member-tag-input-sheet .member-tag-search-header {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr) 40px;
+}
+
+.member-tag-input-sheet .member-tag-search-header .back-button {
+  width: 40px;
+  justify-content: flex-start;
 }
 
 .member-tag-search-list-title {
@@ -380,6 +405,16 @@
   overflow: auto;
 }
 
+.member-tag-input-sheet .member-tag-data-list {
+  padding-bottom: var(--space-2);
+}
+
+.member-tag-search-footer {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  background: var(--color-surface);
+}
+
 .member-tag-empty-state {
   min-height: 96px;
   border: 1px dashed var(--color-border);
@@ -404,6 +439,13 @@
   text-align: left;
   padding: 0 var(--space-3);
   cursor: pointer;
+}
+
+.member-tag-option input[type="checkbox"] {
+  flex: 0 0 auto;
+  width: 16px;
+  height: 16px;
+  margin: 0;
 }
 
 .member-tag-option span {

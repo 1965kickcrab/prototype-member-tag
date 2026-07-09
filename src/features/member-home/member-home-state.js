@@ -20,11 +20,6 @@ export function createMemberHomeState() {
     memberTagSheetDraftName: "",
     isGuardianLookupModalOpen: false,
     isMemberRegistrationPageOpen: false,
-    activeScreen: "memberHome",
-    selectedMember: null,
-    activeMemberDetailTab: "memberInfo",
-    isDetailInfoExpanded: false,
-    isDetailMemoExpanded: false,
     toastMessage: queryParams.get("toast") === "memberRegistered" ? "회원을 등록했습니다." : "",
     guardianLookup: {
       guardianName: "",
