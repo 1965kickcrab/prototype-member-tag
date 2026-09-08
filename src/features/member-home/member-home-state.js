@@ -8,6 +8,7 @@ export function createMemberHomeState() {
     memberTagCatalog: getStoredMemberTagCatalog(),
     searchTerm: "",
     selectedMemberTagNames: [],
+    mobileMemberTagDraftNames: [],
     tagFilterQuery: "",
     memberTagManagementQuery: "",
     currentPage: 1,

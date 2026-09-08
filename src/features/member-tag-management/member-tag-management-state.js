@@ -1,5 +1,9 @@
 import { loadMemberTagCatalog } from "../../shared/storage/member-storage.js";
-import { normalizeMemberTagName, sortMemberTagNames } from "../../shared/services/member-tag-service.js";
+import {
+  buildTagSuggestions,
+  normalizeMemberTagName,
+  sortMemberTagNames,
+} from "../../shared/services/member-tag-service.js";
 
 export function createMemberTagManagementState(options = {}) {
   const memberTagCatalog = loadMemberTagCatalog();
@@ -21,11 +25,15 @@ export function createMemberTagManagementState(options = {}) {
     activeMemberTagSheetTagName: "",
     isMemberTagCreateSheetOpen: false,
     memberTagSheetDraftName: "",
+    memberTagSheetErrorMessage: "",
     pendingDeleteMemberTagName: "",
     deleteReplacementTagName: "",
     deleteReplacementQuery: "",
     isDeleteReplacementListOpen: false,
     isDeleteReplacementModalOpen: false,
+    isDeleteConfirmationAlertOpen: false,
+    isDeleteReplacementScreenOpen: false,
+    isDataConflictAlertOpen: false,
     isDiscardAlertOpen: false,
     pendingNavigationHref: "",
     toastMessage: "",
@@ -53,9 +61,7 @@ export function getVisibleMemberTags(state) {
     return memberTags;
   }
 
-  return memberTags.filter((memberTagName) => {
-    return normalizeMemberTagName(memberTagName).includes(query);
-  });
+  return buildTagSuggestions(memberTags, query, [], memberTags.length);
 }
 
 function areCatalogsEqual(firstCatalog, secondCatalog) {

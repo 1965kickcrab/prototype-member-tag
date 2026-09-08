@@ -21,6 +21,8 @@ export function initTagInput({
   onChange,
   showRemoveControls = true,
   useSelectedListTrigger = false,
+  layout = "default",
+  placeholder = "태그 입력",
 }) {
   let selectedTags = sanitizeTagList(initialTags);
   let query = "";
@@ -58,12 +60,12 @@ export function initTagInput({
     }
 
     if (selectedTags.length >= MAX_MEMBER_TAGS_PER_MEMBER) {
-      showTagLimitToast("한 회원당 최대 10개까지만 태그를 붙일 수 있습니다.", { keepSearchOpen });
+      showTagLimitToast("회원 당 최대 10개까지 태그를 등록할 수 있습니다.", { keepSearchOpen });
       return;
     }
 
     if (!hasMemberTagName(catalog, trimmedTagName) && sanitizeTagList(catalog).length >= MAX_MEMBER_TAG_CATALOG_SIZE) {
-      showTagLimitToast("태그는 최대 20개까지 등록할 수 있습니다.", { keepSearchOpen });
+      showTagLimitToast("태그는 최대 20개까지 생성할 수 있습니다.", { keepSearchOpen });
       return;
     }
 
@@ -158,9 +160,11 @@ export function initTagInput({
   function render(options = {}) {
     const { shouldFocusInput = false, shouldFocusSearchInput = false } = options;
     container.innerHTML = "";
-    container.className = "member-tag-input";
+    container.className = layout === "expanded" ? "member-tag-input is-expanded" : "member-tag-input";
     container.dataset.area = "memberTagInput";
+    container.dataset.state = selectedTags.length ? "selected" : "empty";
 
+    let selectedList = null;
     if (selectedTags.length || useSelectedListTrigger) {
       const selectedListDataset = {
         area: "selectedMemberTags",
@@ -170,7 +174,7 @@ export function initTagInput({
       if (useSelectedListTrigger) {
         selectedListDataset.action = "openMemberTagSearch";
       }
-      const selectedList = createElement(useSelectedListTrigger ? "button" : "div", {
+      selectedList = createElement(useSelectedListTrigger ? "button" : "div", {
         className: getSelectedListClassName(),
         type: useSelectedListTrigger ? "button" : undefined,
         dataset: selectedListDataset,
@@ -191,7 +195,9 @@ export function initTagInput({
           render({ shouldFocusSearchInput: true });
         });
       }
-      container.append(selectedList);
+      if (useSelectedListTrigger) {
+        container.append(selectedList);
+      }
     }
 
     if (useSelectedListTrigger) {
@@ -213,14 +219,21 @@ export function initTagInput({
       className: "member-tag-input-field",
       type: "text",
       value: query,
-      placeholder: "태그 입력",
+      placeholder,
       dataset: { field: "memberTag" },
     });
     input.id = inputId;
     input.name = "memberTag";
     bindTagInputEvents(input, { searchInputSelector: ".member-tag-input-field" });
-    chips.append(input);
+    if (selectedList) {
+      chips.append(selectedList);
+    }
     container.append(chips);
+    if (layout === "expanded") {
+      container.append(input);
+    } else {
+      chips.append(input);
+    }
 
     if (!isMobileSearchOpen) {
       appendSuggestionMenu(container);
@@ -537,7 +550,7 @@ export function initTagInput({
     }
 
     if (!list.childElementCount) {
-      list.append(createTagEmptyState(hasQuery ? "검색 결과가 없습니다" : "등록된 태그가 없습니다"));
+      list.append(createTagEmptyState(hasQuery ? "검색 결과가 없습니다" : "선택할 수 있는 태그가 없습니다."));
     }
   }
 

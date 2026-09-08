@@ -239,6 +239,67 @@
   grid-column: 1 / -1;
 }
 
+.member-tag-registration-field {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 0 8px;
+}
+
+.member-tag-registration-field .member-tag-input[data-state="empty"] .member-tag-input-chips {
+  height: 42px;
+  min-height: 42px;
+  border-color: #c4c4c4;
+  border-radius: 6px;
+  padding: 0 15px;
+}
+
+.member-tag-registration-field .member-tag-input-field {
+  height: 28px;
+  color: var(--color-text);
+  font-size: 15px;
+}
+
+.member-tag-registration-field .member-tag-input-field::placeholder {
+  color: #c4c4c4;
+  opacity: 1;
+}
+
+.member-tag-registration-field .member-tag-input[data-state="selected"] .member-tag-input-chips {
+  min-height: 0;
+  border-color: #c4c4c4;
+  border-radius: 6px;
+  gap: 8px;
+  padding: 11px;
+}
+
+.member-tag-registration-field .member-tag-input[data-state="selected"] .member-tag-selected-list {
+  gap: 4px;
+}
+
+.member-tag-registration-field .member-tag-input[data-state="selected"] .member-tag-removable-chip {
+  min-height: 34px;
+  gap: 4px;
+  border-color: #f1f1f2;
+  border-radius: 999px;
+  padding: 8px 12px;
+  background: #fafafb;
+  color: var(--color-text-muted);
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.member-tag-registration-field .member-tag-input[data-state="selected"] .member-tag-chip-remove {
+  width: 16px;
+  height: 16px;
+  color: var(--color-text-muted);
+  font-size: 18px;
+}
+
+.member-tag-registration-field .member-tag-input[data-state="selected"] .member-tag-input-field {
+  padding: 0 4px;
+}
+
 .is-readonly .registration-input {
   border-color: transparent;
   background: var(--color-page);

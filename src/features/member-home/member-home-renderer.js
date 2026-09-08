@@ -1,5 +1,6 @@
 ﻿import { createEmptyStateElement } from "../../shared/components/empty-state.js";
 import { createHeaderIconButton } from "../../shared/components/header-icon-button.js";
+import { createMemberTagFilterChips } from "../../shared/components/member-tag-filter-chips.js";
 import { createBusinessNavigation, createDefaultAppBottomNavigation } from "../../shared/components/navigation.js";
 import { createToast, TOAST_AUTO_DISMISS_MS } from "../../shared/components/toast.js";
 import { ACTION_BUTTON_STATE } from "../../shared/constants/ui-state.js";
@@ -627,6 +628,8 @@ function createMobileTagFilterButton(memberHomeState) {
   });
 
   button.addEventListener("click", () => {
+    memberHomeState.mobileMemberTagDraftNames = [...memberHomeState.selectedMemberTagNames];
+    memberHomeState.tagFilterQuery = "";
     memberHomeState.isTagMenuOpen = true;
     renderMemberHome(document.querySelector("#app"), memberHomeState);
   });
@@ -639,26 +642,23 @@ function createMobileTagBottomSheet(memberHomeState) {
     className: "tag-bottom-sheet-overlay",
     dataset: { area: "memberTagBottomSheet", modal: "memberTagBottomSheet", state: "open" },
   });
-  const sheet = createElement("div", { className: "tag-bottom-sheet" });
-  const header = createElement("div", { className: "tag-bottom-sheet-header" });
-  header.append(createTagBottomSheetResetButton(memberHomeState));
-  header.append(createElement("h3", { textContent: "태그" }));
+  overlay.addEventListener("click", (event) => {
+    if (event.target !== overlay) {
+      return;
+    }
 
-  const closeButton = createElement("button", {
-    className: "text-button",
-    type: "button",
-    textContent: "닫기",
-    dataset: { action: "closeMemberTagBottomSheet" },
+    closeMobileTagBottomSheet(memberHomeState);
   });
-  closeButton.addEventListener("click", () => {
-    memberHomeState.isTagMenuOpen = false;
-    renderMemberHome(document.querySelector("#app"), memberHomeState);
-  });
-  header.append(closeButton);
 
-  sheet.append(header);
+  const sheet = createElement("div", { className: "tag-bottom-sheet member-tag-filter-bottom-sheet" });
+  sheet.append(createElement("span", { className: "tag-bottom-sheet-handle", ariaHidden: "true" }));
+
+  const tabHeader = createElement("div", { className: "member-tag-filter-tab-header" });
+  tabHeader.append(createElement("h3", { textContent: "회원 태그" }));
+  sheet.append(tabHeader);
   sheet.append(createTagBottomSheetSearchControl(memberHomeState));
   sheet.append(createTagMultiSelectMenu(memberHomeState));
+  sheet.append(createTagBottomSheetActions(memberHomeState));
   overlay.append(sheet);
 
   return overlay;
@@ -666,17 +666,66 @@ function createMobileTagBottomSheet(memberHomeState) {
 
 function createTagBottomSheetResetButton(memberHomeState) {
   const button = createElement("button", {
-    className: "reset-filter-button",
+    className: "member-tag-filter-reset-button",
     type: "button",
-    textContent: "초기화",
     dataset: { action: "resetMemberTagSelection" },
+    childNodes: [
+      createElement("span", { className: "member-tag-filter-reset-icon", textContent: "↻", ariaHidden: "true" }),
+      createElement("span", { textContent: "초기화" }),
+    ],
   });
   button.addEventListener("click", () => {
-    memberHomeState.selectedMemberTagNames = [];
-    memberHomeState.currentPage = 1;
+    memberHomeState.mobileMemberTagDraftNames = [];
+    memberHomeState.tagFilterQuery = "";
     renderMemberHome(document.querySelector("#app"), memberHomeState);
   });
   return button;
+}
+
+function createTagBottomSheetActions(memberHomeState) {
+  const actions = createElement("div", {
+    className: "member-tag-filter-actions",
+    dataset: { area: "memberTagFilterActions" },
+  });
+  actions.append(createTagBottomSheetResetButton(memberHomeState));
+
+  const isDirty = hasMobileTagFilterChanges(memberHomeState);
+  const applyButton = createElement("button", {
+    className: "large-disabled-button member-tag-filter-apply-button",
+    type: "button",
+    textContent: "적용",
+    dataset: {
+      action: "applyMemberTagSelection",
+      state: isDirty ? ACTION_BUTTON_STATE.enabled : ACTION_BUTTON_STATE.disabled,
+    },
+  });
+  applyButton.disabled = !isDirty;
+  applyButton.addEventListener("click", () => {
+    if (!hasMobileTagFilterChanges(memberHomeState)) {
+      return;
+    }
+
+    memberHomeState.selectedMemberTagNames = [...memberHomeState.mobileMemberTagDraftNames];
+    memberHomeState.currentPage = 1;
+    closeMobileTagBottomSheet(memberHomeState);
+  });
+  actions.append(applyButton);
+
+  return actions;
+}
+
+function closeMobileTagBottomSheet(memberHomeState) {
+  memberHomeState.mobileMemberTagDraftNames = [...memberHomeState.selectedMemberTagNames];
+  memberHomeState.tagFilterQuery = "";
+  memberHomeState.isTagMenuOpen = false;
+  renderMemberHome(document.querySelector("#app"), memberHomeState);
+}
+
+function hasMobileTagFilterChanges(memberHomeState) {
+  const appliedNames = [...memberHomeState.selectedMemberTagNames].sort();
+  const draftNames = [...memberHomeState.mobileMemberTagDraftNames].sort();
+  return appliedNames.length !== draftNames.length
+    || appliedNames.some((memberTagName, index) => memberTagName !== draftNames[index]);
 }
 
 function createTagBottomSheetSearchControl(memberHomeState) {
@@ -685,26 +734,40 @@ function createTagBottomSheetSearchControl(memberHomeState) {
     inputClassName: "member-tag-search-input",
     refocusSelector: ".member-tag-search-filter-control .member-tag-search-input",
     clearMode: "selection",
+    placeholder: "태그 검색",
   });
 }
 
 function createTagMultiSelectMenu(memberHomeState) {
   const visibleMemberTags = getVisibleMemberTags(memberHomeState);
+  const isWebTagFilter = !isMobileLayout();
+  const hasQuery = Boolean(normalizeLookupText(memberHomeState.tagFilterQuery));
   const menu = createElement("div", {
-    className: "tag-multi-select-menu",
+    className: isWebTagFilter ? "tag-multi-select-menu is-web-tag-filter-menu" : "tag-multi-select-menu",
     dataset: {
       area: "memberTagMenu",
-      state: visibleMemberTags.length ? "list" : memberHomeState.memberTagCatalog.length ? "searchEmpty" : "empty",
+      state: visibleMemberTags.length ? "list" : hasQuery ? "searchEmpty" : "empty",
     },
   });
 
-  if (!isMobileLayout()) {
+  if (isWebTagFilter) {
     menu.append(createTagSearchControl(memberHomeState, {
       className: "member-tag-search-control tag-menu-search-control",
       inputClassName: "member-tag-search-input",
       refocusSelector: ".tag-menu-search-control .member-tag-search-input",
       clearMode: "query",
+      placeholder: "태그 검색",
     }));
+    if (memberHomeState.selectedMemberTagNames.length) {
+      menu.append(createMemberTagFilterChips({
+        selectedTags: memberHomeState.selectedMemberTagNames,
+        onRemove: (memberTagName) => {
+          toggleSelectedMemberTag(memberHomeState, memberTagName);
+          memberHomeState.currentPage = 1;
+          renderMemberHome(document.querySelector("#app"), memberHomeState);
+        },
+      }));
+    }
   }
 
   const list = createElement("div", {
@@ -713,13 +776,13 @@ function createTagMultiSelectMenu(memberHomeState) {
   });
 
   if (memberHomeState.memberTagCatalog.length === 0) {
-    list.append(createTagEmptyState("등록된 태그가 없습니다"));
+    list.append(createTagEmptyState("선택할 수 있는 태그가 없습니다."));
     menu.append(list);
     return menu;
   }
 
   if (visibleMemberTags.length === 0) {
-    list.append(createTagEmptyState("검색 결과가 없습니다."));
+    list.append(createTagEmptyState(hasQuery ? "검색 결과가 없습니다." : "선택할 수 있는 태그가 없습니다."));
     menu.append(list);
     return menu;
   }
@@ -736,7 +799,7 @@ function createTagSearchControl(memberHomeState, options = {}) {
   let isComposing = false;
   const wrapper = createElement("div", {
     className: "member-tag-search-stack",
-    dataset: { area: "memberTagFilterSearchControl", state: memberHomeState.selectedMemberTagNames.length ? "selected" : "empty" },
+    dataset: { area: "memberTagFilterSearchControl", state: getActiveMemberTagSelection(memberHomeState).length ? "selected" : "empty" },
   });
 
   const control = createElement("div", {
@@ -748,7 +811,7 @@ function createTagSearchControl(memberHomeState, options = {}) {
     className: options.inputClassName || "member-tag-search-input",
     type: "text",
     value: memberHomeState.tagFilterQuery || "",
-    placeholder: "태그 조회",
+    placeholder: options.placeholder || "태그 조회",
     dataset: { field: "memberTagSearch" },
   });
   input.addEventListener("compositionstart", () => {
@@ -824,12 +887,12 @@ function populateMemberTagFilterDataList(list, memberHomeState) {
   list.dataset.query = normalizeLookupText(memberHomeState.tagFilterQuery);
 
   if (memberHomeState.memberTagCatalog.length === 0) {
-    list.append(createTagEmptyState("등록된 태그가 없습니다"));
+    list.append(createTagEmptyState("선택할 수 있는 태그가 없습니다."));
     return;
   }
 
   if (visibleMemberTags.length === 0) {
-    list.append(createTagEmptyState("검색 결과가 없습니다."));
+    list.append(createTagEmptyState(hasQuery ? "검색 결과가 없습니다." : "선택할 수 있는 태그가 없습니다."));
     return;
   }
 
@@ -908,7 +971,7 @@ function focusMemberSearchInput() {
 }
 
 function createTagOptionButton(memberHomeState, memberTagName) {
-  const isSelected = memberHomeState.selectedMemberTagNames.includes(memberTagName);
+  const isSelected = getActiveMemberTagSelection(memberHomeState).includes(memberTagName);
   const option = createElement("label", {
     className: "member-tag-option",
     dataset: {
@@ -938,12 +1001,11 @@ function getVisibleMemberTags(memberHomeState) {
   const query = normalizeLookupText(memberHomeState.tagFilterQuery).toLowerCase();
   const memberTags = memberHomeState.memberTagCatalog || [];
 
-  if (!query) {
-    return memberTags;
-  }
-
   return memberTags.filter((memberTagName) => {
-    return String(memberTagName || "").toLowerCase().includes(query);
+    const matchesQuery = !query || String(memberTagName || "").toLowerCase().includes(query);
+    const isSelectedOnWeb = !isMobileLayout()
+      && memberHomeState.selectedMemberTagNames.includes(memberTagName);
+    return matchesQuery && !isSelectedOnWeb;
   });
 }
 
@@ -967,14 +1029,26 @@ function createResetFilterButton(memberHomeState) {
 }
 
 function toggleSelectedMemberTag(memberHomeState, memberTagName) {
-  if (memberHomeState.selectedMemberTagNames.includes(memberTagName)) {
-    memberHomeState.selectedMemberTagNames = memberHomeState.selectedMemberTagNames.filter((selectedTagName) => {
+  const isMobileDraft = isMobileLayout() && memberHomeState.isTagMenuOpen;
+  const selectionKey = isMobileDraft ? "mobileMemberTagDraftNames" : "selectedMemberTagNames";
+  const selectedMemberTagNames = memberHomeState[selectionKey] || [];
+
+  if (selectedMemberTagNames.includes(memberTagName)) {
+    memberHomeState[selectionKey] = selectedMemberTagNames.filter((selectedTagName) => {
       return selectedTagName !== memberTagName;
     });
     return;
   }
 
-  memberHomeState.selectedMemberTagNames = [...memberHomeState.selectedMemberTagNames, memberTagName];
+  memberHomeState[selectionKey] = [...selectedMemberTagNames, memberTagName];
+}
+
+function getActiveMemberTagSelection(memberHomeState) {
+  if (isMobileLayout() && memberHomeState.isTagMenuOpen) {
+    return memberHomeState.mobileMemberTagDraftNames || [];
+  }
+
+  return memberHomeState.selectedMemberTagNames || [];
 }
 
 function getSelectedTagSummary(memberHomeState) {
@@ -1348,7 +1422,7 @@ function createMemberTagManagementList(memberHomeState) {
   });
 
   if (!memberHomeState.memberTagCatalog.length && !canCreateTag) {
-    list.append(createElement("p", { className: "empty-inline", textContent: "등록된 태그가 없습니다" }));
+    list.append(createElement("p", { className: "empty-inline", textContent: "선택할 수 있는 태그가 없습니다." }));
     return list;
   }
 

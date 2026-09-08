@@ -1,5 +1,5 @@
 .settings-member-tag-management-screen {
-  --settings-sidebar-width: 200px;
+  --settings-sidebar-width: 160px;
 
   min-height: 100vh;
   background: var(--color-page);
@@ -45,7 +45,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
-  padding: var(--space-5) var(--space-3);
+  padding: 20px 12px;
   background: var(--color-surface);
   border-right: 1px solid var(--color-border-light);
 }
@@ -108,20 +108,21 @@
 }
 
 .settings-content {
-  padding: var(--space-4) var(--space-4) 88px;
+  padding: 16px 110px 88px 20px;
 }
 
 .settings-content-card {
   display: grid;
-  gap: var(--space-5);
-  max-width: 1040px;
-  padding: var(--space-4);
+  gap: 0;
+  max-width: 990px;
+  padding: 0 24px 16px;
   background: var(--color-surface);
   border: 1px solid var(--color-border-light);
   border-radius: var(--radius-3);
 }
 
 .settings-content-heading {
+  min-height: 92px;
   display: flex;
   align-items: center;
   gap: var(--space-3);
@@ -132,7 +133,7 @@
   place-items: center;
   width: 44px;
   height: 44px;
-  border-radius: var(--radius-3);
+  border-radius: 8px;
   background: var(--color-primary-soft);
   color: var(--color-primary);
 }
@@ -149,7 +150,7 @@
 
 .settings-title-group h2 {
   margin: 0;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 700;
 }
 
@@ -157,22 +158,53 @@
   margin: 0;
   color: var(--color-text-muted);
   font-size: 14px;
+  font-weight: 500;
 }
 
 .settings-section-card {
   display: grid;
-  gap: var(--space-4);
-  padding: var(--space-4);
+  gap: 16px;
+  padding: 20px;
   border: 1px solid var(--color-border-light);
-  border-radius: var(--radius-3);
+  border-radius: 12px;
 }
 
 .settings-section-card .member-tag-management-page-body {
   display: grid;
-  grid-template-rows: auto minmax(0, 1fr);
-  gap: var(--space-3);
-  max-width: 480px;
+  grid-template-rows: auto auto minmax(0, 1fr);
+  gap: 16px;
+  max-width: none;
   padding: 0;
+}
+
+.settings-section-card .member-tag-management-controls {
+  width: 480px;
+}
+
+.settings-section-card .member-tag-management-list {
+  width: 600px;
+}
+
+.settings-section-card .member-tag-management-row {
+  min-height: 48px;
+  border: 1px solid var(--color-border-light);
+  border-radius: 12px;
+  gap: 4px;
+  padding: 0 12px 0 16px;
+}
+
+.settings-member-tag-management-screen .member-tag-delete-replacement-dialog {
+  width: min(470px, calc(100vw - 48px));
+}
+
+.settings-section-card .member-tag-management-row[data-state="editing"],
+.settings-section-card .member-tag-management-row[data-state="creating"] {
+  min-height: 72px;
+}
+
+.settings-section-card .member-tag-management-read-name {
+  font-size: 18px;
+  font-weight: 700;
 }
 
 .settings-save-bar {
@@ -184,13 +216,21 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  height: 74px;
   gap: var(--space-4);
-  padding: var(--space-3) var(--space-4);
+  padding: 16px 110px;
   background: var(--color-surface);
-  border: 1px solid var(--color-border-light);
-  border-radius: var(--radius-3);
-  box-shadow: 0 -6px 18px rgba(0, 0, 0, 0.08);
+  border: 0;
+  border-top: 1px solid var(--color-border-light);
+  border-radius: 0;
+  box-shadow: none;
 }
 .settings-save-button {
   min-width: 96px;
+  height: 42px;
+}
+
+.settings-save-button:disabled {
+  border-color: #d7d7d9;
+  background: #d7d7d9;
 }

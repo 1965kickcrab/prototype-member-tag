@@ -2,3 +2,8 @@
 .codegraph/
 .docs/
 .outputs/
+.walkthrough-deps/
+.agents/rules/
+case-inventory-output/
+docs/
+outputs/

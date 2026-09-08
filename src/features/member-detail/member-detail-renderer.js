@@ -4,9 +4,11 @@ import { renderMemberTagChips } from "../../shared/components/member-tag-chips.j
 import { initTagInput } from "../../shared/components/member-tag-input.js";
 import { createBusinessNavigation } from "../../shared/components/navigation.js";
 import { createToast, TOAST_AUTO_DISMISS_MS } from "../../shared/components/toast.js";
-import { sanitizeTagList } from "../../shared/services/member-tag-service.js";
+import { MAX_MEMBER_TAGS_PER_MEMBER, sanitizeTagList } from "../../shared/services/member-tag-service.js";
 import {
   deleteStoredMember,
+  getStoredMembers,
+  loadMemberTagCatalog,
   mergeMemberTagCatalog,
   saveRegisteredMembers,
   saveStoredMembers,
@@ -55,6 +57,9 @@ function createMemberDetailScreen(memberDetailState) {
 
   if (memberDetailState.toastMessage) {
     screen.append(createToast(memberDetailState.toastMessage));
+  }
+  if (memberDetailState.isPetDetailRefreshAlertOpen) {
+    screen.append(createPetDetailRefreshAlert(memberDetailState));
   }
   return screen;
 }
@@ -359,6 +364,7 @@ function createWebPetDetailSection(memberDetailState, member) {
   if (actionButton) {
     actionButton.addEventListener("click", () => {
       memberDetailState.petDetailDraft = createPetDetailDraft(memberDetailState.selectedPet);
+      memberDetailState.petDetailBaseline = createPetDetailDraft(memberDetailState.selectedPet);
       memberDetailState.isPetDetailModalOpen = true;
       rerender(memberDetailState);
     });
@@ -484,7 +490,8 @@ function createAppMemoBody(memberDetailState, member) {
     dataset: { action: "openMemberEdit", target: "memo" },
   });
   editButton.addEventListener("click", () => {
-      memberDetailState.petDetailDraft = createPetDetailDraft(memberDetailState.selectedPet);
+    memberDetailState.petDetailDraft = createPetDetailDraft(memberDetailState.selectedPet);
+    memberDetailState.petDetailBaseline = createPetDetailDraft(memberDetailState.selectedPet);
     memberDetailState.isPetDetailBottomSheetOpen = true;
     rerender(memberDetailState);
   });
@@ -918,6 +925,7 @@ function createPetDetailEditor(memberDetailState, layoutMode) {
     columns.append(createPetDetailColumnLeft(memberDetailState, draft));
     columns.append(createPetDetailColumnRight(memberDetailState, draft));
     wrapper.append(columns);
+    wrapper.append(createPetDetailTagField(memberDetailState, draft, { layout: "web" }));
     wrapper.append(createPetDetailWebSubmit(memberDetailState));
     return wrapper;
   }
@@ -953,9 +961,6 @@ function createPetDetailColumnRight(memberDetailState, draft, isMobile = false) 
   column.append(createPetDetailBirthDateField(memberDetailState, draft));
   column.append(createPetDetailRadioGroup(memberDetailState, "성별", "gender", ["선택 안함", "남아", "여아"], draft));
   column.append(createPetDetailRadioGroup(memberDetailState, "중성화 여부", "neuteredStatus", ["선택안함", "완료", "미완료"], draft));
-  if (!isMobile) {
-    column.append(createPetDetailTagField(memberDetailState, draft, { showRemoveControls: true }));
-  }
   return column;
 }
 
@@ -1087,17 +1092,39 @@ function createPetDetailRadioGroup(memberDetailState, labelText, fieldName, opti
 }
 
 function createPetDetailTagField(memberDetailState, draft, options = {}) {
-  const field = createElement("section", { className: "pet-detail-field", dataset: { field: "petTags" } });
-  field.append(createElement("span", { className: "pet-detail-label", textContent: "태그" }));
-  const container = createElement("div", { dataset: { area: "petTagInput" } });
+  const isWebLayout = options.layout === "web";
+  const field = createElement("section", {
+    className: isWebLayout ? "pet-detail-field member-tag-expanded-field" : "pet-detail-field",
+    dataset: { field: "petTags", layout: isWebLayout ? "web" : "mobile" },
+  });
+  const title = createElement("div", { className: "member-tag-expanded-title" });
+  title.append(createElement("span", { className: "pet-detail-label", textContent: "태그" }));
+  const count = isWebLayout
+    ? createElement("span", {
+      className: "member-tag-expanded-count",
+      textContent: `(${draft.petTags.length}/${MAX_MEMBER_TAGS_PER_MEMBER})`,
+    })
+    : null;
+  if (count) {
+    title.append(count);
+  }
+  field.append(title);
+  const container = createElement("div", {
+    className: isWebLayout ? "pet-detail-tag-input" : "",
+    dataset: { area: "petTagInput" },
+  });
   initTagInput({
     container,
     initialTags: draft.petTags,
     getCatalog: () => memberDetailState.memberTagCatalog || [],
     showRemoveControls: options.showRemoveControls !== false,
     useSelectedListTrigger: options.showRemoveControls === false,
+    layout: isWebLayout ? "expanded" : "default",
     onChange: (nextTags) => {
       draft.petTags = nextTags;
+      if (count) {
+        count.textContent = `(${nextTags.length}/${MAX_MEMBER_TAGS_PER_MEMBER})`;
+      }
       syncPetDetailSubmitState(memberDetailState);
     },
   });
@@ -1192,12 +1219,76 @@ function submitPetDetailDraft(memberDetailState) {
     return;
   }
 
+  if (hasPetDetailStorageConflict(memberDetailState)) {
+    memberDetailState.isPetDetailRefreshAlertOpen = true;
+    rerender(memberDetailState);
+    return;
+  }
+
   applyPetDetailDraft(memberDetailState.selectedPet, memberDetailState.petDetailDraft);
   memberDetailState.memberTagCatalog = mergeMemberTagCatalog(memberDetailState.petDetailDraft.petTags);
   memberDetailState.members = saveRegisteredMembers([memberDetailState.selectedMember]);
   memberDetailState.isPetDetailModalOpen = false;
   memberDetailState.isPetDetailBottomSheetOpen = false;
   memberDetailState.toastMessage = "정보를 수정했습니다.";
+  rerender(memberDetailState);
+}
+
+function hasPetDetailStorageConflict(memberDetailState) {
+  const latestMember = getStoredMembers().find((member) => member.id === memberDetailState.selectedMember?.id);
+  const latestPet = latestMember?.pets?.find((pet) => pet.id === memberDetailState.selectedPet?.id);
+
+  if (!latestMember || !latestPet) {
+    return true;
+  }
+
+  return JSON.stringify(createPetDetailDraft(latestPet)) !== JSON.stringify(memberDetailState.petDetailBaseline);
+}
+
+function createPetDetailRefreshAlert(memberDetailState) {
+  const overlay = createElement("section", {
+    className: "alert-overlay pet-detail-refresh-alert",
+    dataset: { area: "petDetailRefreshAlert", modal: "petDetailRefreshAlert", state: "open" },
+  });
+  const alert = createElement("div", { className: "alert-dialog" });
+  const message = createElement("p", {
+    className: "pet-detail-refresh-alert-message",
+    textContent: "변경된 정보가 있습니다.\n최신 정보를 불러온 후 다시 시도해 주세요.",
+  });
+  const reloadButton = createElement("button", {
+    className: "pet-detail-refresh-alert-button",
+    type: "button",
+    textContent: "불러오기",
+    dataset: { action: "reloadPetDetail" },
+  });
+  reloadButton.addEventListener("click", () => {
+    reloadPetDetailFromStorage(memberDetailState);
+  });
+  alert.append(message);
+  alert.append(reloadButton);
+  overlay.append(alert);
+  return overlay;
+}
+
+function reloadPetDetailFromStorage(memberDetailState) {
+  const latestMembers = getStoredMembers();
+  const latestMember = latestMembers.find((member) => member.id === memberDetailState.selectedMember?.id);
+  const latestPet = latestMember?.pets?.find((pet) => pet.id === memberDetailState.selectedPet?.id);
+
+  memberDetailState.isPetDetailRefreshAlertOpen = false;
+  if (!latestMember || !latestPet) {
+    memberDetailState.isPetDetailModalOpen = false;
+    memberDetailState.isPetDetailBottomSheetOpen = false;
+    rerender(memberDetailState);
+    return;
+  }
+
+  memberDetailState.members = latestMembers;
+  memberDetailState.memberTagCatalog = loadMemberTagCatalog();
+  memberDetailState.selectedMember = latestMember;
+  memberDetailState.selectedPet = latestPet;
+  memberDetailState.petDetailDraft = createPetDetailDraft(latestPet);
+  memberDetailState.petDetailBaseline = createPetDetailDraft(latestPet);
   rerender(memberDetailState);
 }
 

@@ -1,4 +1,5 @@
 import { createEmptyStateElement } from "./empty-state.js";
+import { createMemberTagFilterChips } from "./member-tag-filter-chips.js";
 import { sortMemberTagNames } from "../services/member-tag-service.js";
 import { createElement } from "../utils/dom.js";
 
@@ -289,13 +290,27 @@ function createReservationTagBottomSheet(state, options) {
 
 function createReservationTagMenu(state, options, menuOptions = {}) {
   const { includeSearch = true } = menuOptions;
+  const hasQuery = Boolean(String(state.tagFilterQuery || "").trim());
   const menu = createElement("div", {
-    className: "tag-multi-select-menu",
+    className: includeSearch ? "tag-multi-select-menu is-web-tag-filter-menu" : "tag-multi-select-menu",
     dataset: { area: "reservationTagMenu", state: state.memberTagCatalog.length ? "list" : "empty" },
   });
 
   if (includeSearch) {
-    menu.append(createTagSearchControl(state, options));
+    menu.append(createTagSearchControl(state, { ...options, tagSearchPlaceholder: "태그 검색" }));
+    if (state.selectedMemberTagNames?.length) {
+      menu.append(createMemberTagFilterChips({
+        selectedTags: state.selectedMemberTagNames,
+        onRemove: (memberTagName) => {
+          state.selectedMemberTagNames = state.selectedMemberTagNames.filter((selectedTagName) => {
+            return selectedTagName !== memberTagName;
+          });
+          clearReservationMemberSearch(state);
+          options.onTagSelect?.(state, memberTagName);
+          options.rerender(state);
+        },
+      }));
+    }
   }
   const list = createElement("div", {
     className: "member-tag-data-list",
@@ -303,17 +318,17 @@ function createReservationTagMenu(state, options, menuOptions = {}) {
   });
 
   if (state.memberTagCatalog.length === 0) {
-    list.append(createTagEmptyState("등록된 태그가 없습니다"));
+    list.append(createTagEmptyState("선택할 수 있는 태그가 없습니다."));
     menu.append(list);
     return menu;
   }
 
-  getVisibleReservationTags(state).forEach((memberTagName) => {
+  getVisibleReservationTags(state, { excludeSelected: includeSearch }).forEach((memberTagName) => {
     list.append(createReservationTagOption(state, options, memberTagName));
   });
 
   if (!list.childNodes.length) {
-    list.append(createTagEmptyState("검색 결과가 없습니다."));
+    list.append(createTagEmptyState(hasQuery ? "검색 결과가 없습니다." : "선택할 수 있는 태그가 없습니다."));
   }
 
   menu.append(list);
@@ -336,7 +351,7 @@ function createTagSearchControl(state, options) {
     className: "member-tag-search-input",
     type: "text",
     value: state.tagFilterQuery || "",
-    placeholder: "태그 조회",
+    placeholder: options.tagSearchPlaceholder || "태그 조회",
   });
   input.addEventListener("compositionstart", () => {
     isComposing = true;
@@ -380,7 +395,9 @@ function syncReservationTagDataList(control, state, options) {
     return;
   }
 
-  const visibleMemberTags = getVisibleReservationTags(state);
+  const visibleMemberTags = getVisibleReservationTags(state, {
+    excludeSelected: Boolean(control.closest(".is-web-tag-filter-menu")),
+  });
   const hasQuery = Boolean(String(state.tagFilterQuery || "").trim());
 
   list.innerHTML = "";
@@ -388,7 +405,7 @@ function syncReservationTagDataList(control, state, options) {
   list.dataset.query = String(state.tagFilterQuery || "").trim();
 
   if (state.memberTagCatalog.length === 0) {
-    list.append(createTagEmptyState("등록된 태그가 없습니다"));
+    list.append(createTagEmptyState("선택할 수 있는 태그가 없습니다."));
     return;
   }
 
@@ -437,16 +454,14 @@ function focusReservationTagSearchInput(options = {}) {
   }, 0);
 }
 
-function getVisibleReservationTags(state) {
+function getVisibleReservationTags(state, options = {}) {
   const query = String(state.tagFilterQuery || "").trim().toLowerCase();
   const memberTags = sortMemberTagNames(state.memberTagCatalog || []);
 
-  if (!query) {
-    return memberTags;
-  }
-
   return memberTags.filter((memberTagName) => {
-    return String(memberTagName || "").toLowerCase().includes(query);
+    const matchesQuery = !query || String(memberTagName || "").toLowerCase().includes(query);
+    const isSelected = options.excludeSelected && state.selectedMemberTagNames?.includes(memberTagName);
+    return matchesQuery && !isSelected;
   });
 }
 

@@ -5,7 +5,7 @@ import { createBusinessNavigation } from "../../shared/components/navigation.js"
 import { createToast, TOAST_AUTO_DISMISS_MS } from "../../shared/components/toast.js";
 import { createHeaderIconButton } from "../../shared/components/header-icon-button.js";
 import { mergeMemberTagCatalog, saveRegisteredMembers } from "../../shared/storage/member-storage.js";
-import { sanitizeTagList } from "../../shared/services/member-tag-service.js";
+import { MAX_MEMBER_TAGS_PER_MEMBER, sanitizeTagList } from "../../shared/services/member-tag-service.js";
 import { createElement } from "../../shared/utils/dom.js";
 import { formatText } from "../../shared/utils/format.js";
 import { getAgeOutputText, normalizeBirthDateParts } from "../../shared/utils/member-date.js";
@@ -330,7 +330,7 @@ function createPetForm(petForm, layoutMode, memberRegistrationState) {
   leftColumn.append(createPetTextField("반려견 이름", "한글, 영문, 숫자 입력 가능 (12자 이내)", true, petForm, "petName", layoutMode, memberRegistrationState));
   leftColumn.append(createPetTextField("견종", "견종을 검색해 주세요.", true, petForm, "breed", layoutMode, memberRegistrationState, "input", "search"));
   if (layoutMode === "mobile") {
-    leftColumn.append(createPetTagField(petForm, memberRegistrationState));
+    leftColumn.append(createPetTagField(petForm, memberRegistrationState, layoutMode));
   }
   leftColumn.append(createPetTextField("메모", "성격, 알러지 등 필요한 내용을 입력해 주세요. (최대 500자)", false, petForm, "memo", layoutMode, memberRegistrationState, "textarea", "text", "mobile-main-only"));
 
@@ -349,13 +349,12 @@ function createPetForm(petForm, layoutMode, memberRegistrationState) {
   rightColumn.append(createChoiceField("중성화 여부", ["선택안함", "완료", "미완료"], petForm.neuteredStatus, (value) => {
     petForm.neuteredStatus = value;
   }));
-  if (layoutMode !== "mobile") {
-    rightColumn.append(createPetTagField(petForm, memberRegistrationState));
-  }
-
   formBody.append(leftColumn);
   formBody.append(rightColumn);
   section.append(formBody);
+  if (layoutMode !== "mobile") {
+    section.append(createPetTagField(petForm, memberRegistrationState, layoutMode));
+  }
   section.append(createPetTextField("메모", "성격, 알러지 등 필요한 내용을 입력해 주세요. (최대 500자)", false, petForm, "memo", layoutMode, memberRegistrationState, "textarea", "text", "web-memo-field"));
   return section;
 }
@@ -368,16 +367,35 @@ function createOptionalInfoDivider() {
   });
 }
 
-function createPetTagField(petForm, memberRegistrationState) {
-  const field = createElement("section", { className: "registration-field", dataset: { field: "petTags" } });
-  field.append(createElement("span", { className: "registration-label", textContent: "태그" }));
+function createPetTagField(petForm, memberRegistrationState, layoutMode) {
+  const isWebLayout = layoutMode === "web";
+  const field = createElement("section", {
+    className: isWebLayout ? "registration-field member-tag-registration-field" : "registration-field",
+    dataset: { field: "petTags", layout: isWebLayout ? "web" : "mobile" },
+  });
+  const title = createElement("div", { className: "member-tag-expanded-title" });
+  title.append(createElement("span", { className: "registration-label", textContent: "태그" }));
+  const count = isWebLayout
+    ? createElement("span", {
+      className: "member-tag-expanded-count",
+      textContent: `(${petForm.petTags.length}/${MAX_MEMBER_TAGS_PER_MEMBER})`,
+    })
+    : null;
+  if (count) {
+    title.append(count);
+  }
+  field.append(title);
   const container = createElement("div", { dataset: { area: "petTagInput" } });
   initTagInput({
     container,
     initialTags: petForm.petTags,
     getCatalog: () => memberRegistrationState.memberTagCatalog || [],
+    placeholder: isWebLayout ? "태그 선택 및 추가" : "태그 입력",
     onChange: (nextTags) => {
       petForm.petTags = nextTags;
+      if (count) {
+        count.textContent = `(${nextTags.length}/${MAX_MEMBER_TAGS_PER_MEMBER})`;
+      }
     },
   });
   field.append(container);
