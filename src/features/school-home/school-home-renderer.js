@@ -18,8 +18,8 @@ const SETTING_ICON_PATH = "../assets/menuIcon_setting.svg";
 const ALARM_ICON_PATH = "../assets/iconTime.svg";
 const PROFILE_ICON_PATH = "../assets/menuIcon_profile.svg";
 const SEARCH_ICON_PATH = "../assets/searchIcon.svg";
-const CHEVRON_LEFT_ICON_PATH = "../assets/iconChevronLeft.svg";
-const CHEVRON_RIGHT_ICON_PATH = "../assets/iconChevronRight.svg";
+const CHEVRON_LEFT_ICON_PATH = new URL("../../../assets/iconChevronLeft.svg", import.meta.url).href;
+const CHEVRON_RIGHT_ICON_PATH = new URL("../../../assets/iconChevronRight.svg", import.meta.url).href;
 const DAYOFF_ICON_PATH = "../assets/iconDayoff.svg";
 const CALENDAR_ICON_PATH = "../assets/iconCalendar.svg";
 const HEADER_ICON_ACTIONS = {
@@ -34,8 +34,17 @@ export function renderSchoolHome(rootElement, schoolHomeState) {
   rootElement.append(createSchoolHomeScreen(schoolHomeState));
 }
 
+export function renderSchoolReservationSearch(rootElement, schoolHomeState) {
+  rootElement.innerHTML = "";
+  rootElement.append(createReservationSearchAppScreen(schoolHomeState));
+}
+
 function rerender(schoolHomeState) {
   renderSchoolHome(document.querySelector("#app"), schoolHomeState);
+}
+
+function rerenderReservationSearch(schoolHomeState) {
+  renderSchoolReservationSearch(document.querySelector("#app"), schoolHomeState);
 }
 
 function createSchoolHomeScreen(schoolHomeState) {
@@ -44,9 +53,7 @@ function createSchoolHomeScreen(schoolHomeState) {
     dataset: { screen: "schoolHome" },
   });
   screen.append(createSchoolHomeWebShell(schoolHomeState));
-  screen.append(schoolHomeState.isReservationSearchScreenOpen
-    ? createReservationSearchAppScreen(schoolHomeState)
-    : createSchoolHomeAppShell(schoolHomeState));
+  screen.append(createSchoolHomeAppShell(schoolHomeState));
   return screen;
 }
 
@@ -217,9 +224,7 @@ function createAppHeader(schoolHomeState) {
 
   const searchButton = createHeaderIconButton(SEARCH_ICON_PATH, "검색");
   searchButton.addEventListener("click", () => {
-    schoolHomeState.isReservationSearchScreenOpen = true;
-    schoolHomeState.isReservationSearchMenuOpen = false;
-    rerender(schoolHomeState);
+    window.location.href = "./school/reservation-search.html";
   });
   const appHeaderRow = createElement("div", { className: "school-app-header-row" });
   const left = createElement("div", { className: "school-app-nav-left" });
@@ -629,9 +634,9 @@ function createReservationSearchAppScreen(schoolHomeState) {
     tagFilterPresentation: "bottomSheet",
     tagSearchInputSelector: ".reservation-tag-bottom-sheet .member-tag-search-input",
     placeholder: "예약자 / 반려견 검색",
-    rerender,
+    rerender: rerenderReservationSearch,
     onSearchInput: (state) => {
-      rerender(state);
+      rerenderReservationSearch(state);
     },
   }));
   screen.append(createReservationSearchResultList(
@@ -645,10 +650,7 @@ function createReservationSearchAppHeader(schoolHomeState, titleText) {
   const header = createElement("header", { className: "app-reservation-search-header" });
   const backButton = createHeaderIconButton(CHEVRON_LEFT_ICON_PATH, "뒤로");
   backButton.addEventListener("click", () => {
-    schoolHomeState.isReservationSearchScreenOpen = false;
-    schoolHomeState.isReservationSearchMenuOpen = false;
-    schoolHomeState.isTagMenuOpen = false;
-    rerender(schoolHomeState);
+    window.location.href = "../index.html";
   });
   header.append(backButton);
   header.append(createElement("h1", { textContent: titleText }));

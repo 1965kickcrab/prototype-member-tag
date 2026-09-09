@@ -124,6 +124,24 @@
   gap: var(--space-2);
 }
 
+.member-tag-overflow-button {
+  min-height: 24px;
+  border: 1px solid #e0ecff;
+  border-radius: 100px;
+  padding: 0 10px;
+  background: #f6f9ff;
+  color: #1e78f0;
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.member-tag-overflow-button:hover,
+.member-tag-overflow-button:focus-visible {
+  border-color: #1e78f0;
+  outline: none;
+}
+
 .member-tag-input-chips {
   min-height: 42px;
   display: flex;

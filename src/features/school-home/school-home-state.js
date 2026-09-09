@@ -15,7 +15,6 @@ export function createSchoolHomeState() {
     searchTerm: "",
     selectedReservationMember: null,
     isReservationSearchMenuOpen: false,
-    isReservationSearchScreenOpen: false,
     members: getStoredMembers(),
     reservations: attachMemberTagsToReservations(getSchoolHomeReservations(), getStoredMembers()),
     memberTagCatalog: loadMemberTagCatalog(),

@@ -588,7 +588,7 @@ function appendHeaderMemberTags(header, tags) {
     className: "member-tag-chip-list member-detail-header-tags",
     dataset: { area: "memberTagChips", state: "list" },
   });
-  renderMemberTagChips(chipList, memberTags);
+  renderMemberTagChips(chipList, memberTags, { maxHeight: 70 });
   header.append(chipList);
 }
 
@@ -602,7 +602,7 @@ function appendInlineMemberTags(parent, tags) {
     className: "member-tag-chip-list member-detail-profile-tags",
     dataset: { area: "memberTagChips", state: "list" },
   });
-  renderMemberTagChips(chipList, memberTags);
+  renderMemberTagChips(chipList, memberTags, { maxHeight: 70 });
   parent.append(chipList);
 }
 
@@ -616,7 +616,7 @@ function createProfileMemberTags(tags) {
     className: "member-tag-chip-list member-detail-profile-tags",
     dataset: { area: "memberTagChips", state: "list" },
   });
-  renderMemberTagChips(chipList, memberTags);
+  renderMemberTagChips(chipList, memberTags, { maxHeight: 70 });
   return chipList;
 }
 
@@ -643,7 +643,7 @@ function createMemberTagDisplaySection(title, tags) {
   });
   section.append(createElement("strong", { className: "member-tag-section-title", textContent: title }));
   const chipList = createElement("div", { className: "member-tag-chip-list", dataset: { area: "memberTagChips" } });
-  renderMemberTagChips(chipList, memberTags);
+  renderMemberTagChips(chipList, memberTags, { maxHeight: 70 });
   section.append(chipList);
   return section;
 }

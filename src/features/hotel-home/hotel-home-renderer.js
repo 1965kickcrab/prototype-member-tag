@@ -25,8 +25,8 @@ const SETTING_ICON_PATH = "../assets/menuIcon_setting.svg";
 const ALARM_ICON_PATH = "../assets/iconTime.svg";
 const PROFILE_ICON_PATH = "../assets/menuIcon_profile.svg";
 const SEARCH_ICON_PATH = "../assets/searchIcon.svg";
-const CHEVRON_LEFT_ICON_PATH = "../assets/iconChevronLeft.svg";
-const CHEVRON_RIGHT_ICON_PATH = "../assets/iconChevronRight.svg";
+const CHEVRON_LEFT_ICON_PATH = new URL("../../../assets/iconChevronLeft.svg", import.meta.url).href;
+const CHEVRON_RIGHT_ICON_PATH = new URL("../../../assets/iconChevronRight.svg", import.meta.url).href;
 const CHECKIN_ICON_PATH = "../assets/iconCheckin.svg";
 const CHECKOUT_ICON_PATH = "../assets/iconCheckout.svg";
 
@@ -47,8 +47,17 @@ export function renderHotelHome(rootElement, hotelHomeState) {
   rootElement.append(createHotelHomeScreen(hotelHomeState));
 }
 
+export function renderHotelReservationSearch(rootElement, hotelHomeState) {
+  rootElement.innerHTML = "";
+  rootElement.append(createReservationSearchAppScreen(hotelHomeState));
+}
+
 function rerender(hotelHomeState) {
   renderHotelHome(document.querySelector("#app"), hotelHomeState);
+}
+
+function rerenderReservationSearch(hotelHomeState) {
+  renderHotelReservationSearch(document.querySelector("#app"), hotelHomeState);
 }
 
 function createHotelHomeScreen(hotelHomeState) {
@@ -58,9 +67,7 @@ function createHotelHomeScreen(hotelHomeState) {
   });
 
   screen.append(createHotelHomeWebShell(hotelHomeState));
-  screen.append(hotelHomeState.isReservationSearchScreenOpen
-    ? createReservationSearchAppScreen(hotelHomeState)
-    : createHotelHomeAppShell(hotelHomeState));
+  screen.append(createHotelHomeAppShell(hotelHomeState));
 
   return screen;
 }
@@ -173,9 +180,7 @@ function createAppHeader(hotelHomeState) {
   }));
   const searchButton = createHeaderIconButton(SEARCH_ICON_PATH, "검색");
   searchButton.addEventListener("click", () => {
-    hotelHomeState.isReservationSearchScreenOpen = true;
-    hotelHomeState.isReservationSearchMenuOpen = false;
-    rerender(hotelHomeState);
+    window.location.href = "./hotel/reservation-search.html";
   });
   actions.append(searchButton);
 
@@ -760,9 +765,9 @@ function createReservationSearchAppScreen(hotelHomeState) {
     tagFilterPresentation: "bottomSheet",
     tagSearchInputSelector: ".reservation-tag-bottom-sheet .member-tag-search-input",
     placeholder: "예약자 / 반려견 검색",
-    rerender,
+    rerender: rerenderReservationSearch,
     onSearchInput: (state) => {
-      rerender(state);
+      rerenderReservationSearch(state);
     },
   }));
   screen.append(createReservationSearchResultList(
@@ -777,10 +782,7 @@ function createReservationSearchAppHeader(hotelHomeState, titleText) {
   const header = createElement("header", { className: "app-reservation-search-header" });
   const backButton = createHeaderIconButton(CHEVRON_LEFT_ICON_PATH, "뒤로");
   backButton.addEventListener("click", () => {
-    hotelHomeState.isReservationSearchScreenOpen = false;
-    hotelHomeState.isReservationSearchMenuOpen = false;
-    hotelHomeState.isTagMenuOpen = false;
-    rerender(hotelHomeState);
+    window.location.href = "../hotel-home.html";
   });
   header.append(backButton);
   header.append(createElement("h1", { textContent: titleText }));

@@ -565,7 +565,10 @@ export function initTagInput({
   }
 
   function getTagSearchResults() {
-    const catalog = sortMemberTagNames(getCatalog ? getCatalog() : []);
+    const catalog = sortMemberTagNames([
+      ...(getCatalog ? getCatalog() : []),
+      ...selectedTags,
+    ]);
     const normalizedQuery = normalizeMemberTagName(query);
     if (!normalizedQuery) {
       return catalog;

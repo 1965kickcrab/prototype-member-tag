@@ -12,7 +12,6 @@ export function createHotelHomeState() {
     searchTerm: "",
     selectedReservationMember: null,
     isReservationSearchMenuOpen: false,
-    isReservationSearchScreenOpen: false,
     members: getStoredMembers(),
     reservations: attachMemberTagsToReservations(getHotelHomeReservations(), getStoredMembers()),
     memberTagCatalog: loadMemberTagCatalog(),
